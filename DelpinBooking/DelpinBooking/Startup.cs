@@ -29,6 +29,9 @@ namespace DelpinBooking
         {
             services.AddControllersWithViews();
 
+            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                .AddEntityFrameworkStores<DelpinBookingContext>();
+
             services.AddDbContext<DelpinBookingContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DelpinBookingContext")));
             services.AddRazorPages();
