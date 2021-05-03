@@ -30,7 +30,11 @@ namespace DelpinBooking
             services.AddControllersWithViews();
 
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<DelpinBookingContext>();
+                .AddRoles<IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            services.AddDbContext<ApplicationDbContext>(options =>
+               options.UseSqlServer(Configuration.GetConnectionString("DelpinBookingContext")));
 
             services.AddDbContext<DelpinBookingContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DelpinBookingContext")));
