@@ -1,21 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\majak\\DelpinSemesterProjekt\\DelpinBooking\\DelpinBooking\\DelpinBooking.csproj": {}
+    "C:\\Users\\Bess\\Documents\\Delpinprojekt\\DelpinSemesterProjekt\\DelpinBooking\\DelpinBooking\\DelpinBooking.csproj": {}
   },
   "projects": {
-    "C:\\Users\\majak\\DelpinSemesterProjekt\\DelpinBooking\\DelpinBooking\\DelpinBooking.csproj": {
+    "C:\\Users\\Bess\\Documents\\Delpinprojekt\\DelpinSemesterProjekt\\DelpinBooking\\DelpinBooking\\DelpinBooking.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\majak\\DelpinSemesterProjekt\\DelpinBooking\\DelpinBooking\\DelpinBooking.csproj",
+        "projectUniqueName": "C:\\Users\\Bess\\Documents\\Delpinprojekt\\DelpinSemesterProjekt\\DelpinBooking\\DelpinBooking\\DelpinBooking.csproj",
         "projectName": "DelpinBooking",
-        "projectPath": "C:\\Users\\majak\\DelpinSemesterProjekt\\DelpinBooking\\DelpinBooking\\DelpinBooking.csproj",
-        "packagesPath": "C:\\Users\\majak\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\majak\\DelpinSemesterProjekt\\DelpinBooking\\DelpinBooking\\obj\\",
+        "projectPath": "C:\\Users\\Bess\\Documents\\Delpinprojekt\\DelpinSemesterProjekt\\DelpinBooking\\DelpinBooking\\DelpinBooking.csproj",
+        "packagesPath": "C:\\Users\\Bess\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Bess\\Documents\\Delpinprojekt\\DelpinSemesterProjekt\\DelpinBooking\\DelpinBooking\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
+        ],
         "configFilePaths": [
-          "C:\\Users\\majak\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\Bess\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net5.0"
