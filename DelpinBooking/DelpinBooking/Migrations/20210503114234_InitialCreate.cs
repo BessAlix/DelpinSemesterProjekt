@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DelpinBooking.Migrations
 {
@@ -13,8 +14,8 @@ namespace DelpinBooking.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PickUpDate = table.Column<int>(type: "int", nullable: false),
-                    ReturnDate = table.Column<int>(type: "int", nullable: false),
+                    PickUpDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ReturnDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     RentType = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DepartmentStore = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PricePrDay = table.Column<decimal>(type: "decimal(18,2)", nullable: false),

@@ -13,8 +13,9 @@ namespace DelpinBooking.Models
         public string Name { get; set; }
 
         [DataType(DataType.Date)]
-        public int PickUpDate { get; set; }
-        public int ReturnDate { get; set; }
+        public DateTime PickUpDate { get; set; }
+        [DataType(DataType.Date)]
+        public DateTime ReturnDate { get; set; }
         public string RentType { get; set; }
         public string DepartmentStore { get; set; }
         public decimal PricePrDay { get; set; }
