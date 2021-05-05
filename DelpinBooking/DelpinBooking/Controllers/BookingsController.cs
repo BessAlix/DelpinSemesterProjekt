@@ -43,6 +43,19 @@ namespace DelpinBooking.Controllers
             return View(booking);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetBooking(string department)
+        {
+            var booking = await _context.Booking
+                .FirstOrDefaultAsync(m => m.DepartmentStore == department);
+            if (booking == null)
+            {
+                return NotFound();
+            }
+
+            return View(booking);
+        }
+
         // GET: Bookings/Create
         public IActionResult Create()
         {
