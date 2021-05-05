@@ -64,8 +64,32 @@ namespace DelpinBooking.Areas.Identity.Pages.Account
             public string ConfirmPassword { get; set; }
 
             [Required]
-            [Display(Name = "Full Name")]
-            public string FullName { get; set; }
+            [Display(Name = "Fist Name")]
+            public string FirstName { get; set; }
+
+            [Required]
+            [Display(Name = "Last Name")]
+            public string LastName { get; set; }
+
+            [Required]
+            [Display(Name = "CPR")]
+            public string CPR { get; set; }
+
+            [Required]
+            [Display(Name = "Phone Number")]
+            public string PhoneNumber { get; set; }
+
+            [Required]
+            [Display(Name = "Address")]
+            public string Address { get; set; }
+
+            [Required]
+            [Display(Name = "Post Code")]
+            public int PostCode { get; set; }
+
+            [Required]
+            [Display(Name = "City")]
+            public string City { get; set; }
         }
 
         public async Task OnGetAsync(string returnUrl = null)
@@ -80,7 +104,15 @@ namespace DelpinBooking.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email};
+                var user = new ApplicationUser {UserName = Input.Email, 
+                                                Email = Input.Email, 
+                                                FirstName = Input.FirstName,
+                                                LastName = Input.LastName,
+                                                CPR = Input.CPR,
+                                                Address = Input.Address,
+                                                PhoneNumber = Input.PhoneNumber,
+                                                PostCode = Input.PostCode,
+                                                City = Input.City};
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {

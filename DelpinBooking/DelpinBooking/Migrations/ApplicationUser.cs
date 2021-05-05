@@ -8,7 +8,7 @@ namespace DelpinBooking.Migrations
 {
     public class ApplicationUser : IdentityUser
     { 
-        public string FisrtName { get; set; }
+        public string FirstName { get; set; }
         public string LastName { get; set; }
         public string CPR { get; set; }
         public string Address { get; set; }
