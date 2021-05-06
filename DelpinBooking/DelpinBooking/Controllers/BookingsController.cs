@@ -28,6 +28,11 @@ namespace DelpinBooking.Controllers
             return View(await _context.Booking.ToListAsync());
         }
 
+        public async Task<IActionResult> GetCurrentCustomerBooking()
+        {
+            var booking = await _context.Booking.ToListAsync();
+            return View(booking);
+        }
         // GET: Bookings/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -45,20 +50,7 @@ namespace DelpinBooking.Controllers
 
             return View(booking);
         }
-
-        [HttpGet]
-        public async Task<IActionResult> GetBooking(string department)
-        {
-            var booking = await _context.Booking
-                .FirstOrDefaultAsync(m => m.DepartmentStore == department);
-            if (booking == null)
-            {
-                return NotFound();
-            }
-
-            return View(booking);
-        }
-
+        
         // GET: Bookings/Create
         public IActionResult Create()
         {
