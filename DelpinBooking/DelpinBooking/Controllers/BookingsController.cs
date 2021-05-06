@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using DelpinBooking.Data;
 using DelpinBooking.Models;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace DelpinBooking.Controllers
 {
@@ -28,9 +29,11 @@ namespace DelpinBooking.Controllers
             return View(await _context.Booking.ToListAsync());
         }
 
-        public async Task<IActionResult> GetCurrentCustomerBooking()
-        {
-            var booking = await _context.Booking.ToListAsync();
+        public async Task<IActionResult> CurrentCustomerBooking()
+        { var  UserID = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var booking = await _context.Booking.Where(e => e.CustomerID == UserID).ToListAsync();
+
+
             return View(booking);
         }
         // GET: Bookings/Details/5
