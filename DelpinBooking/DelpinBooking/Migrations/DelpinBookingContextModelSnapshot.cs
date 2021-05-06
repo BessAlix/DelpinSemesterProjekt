@@ -53,9 +53,6 @@ namespace DelpinBooking.Migrations
                     b.Property<DateTime>("PickUpDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<decimal>("PricePrDay")
-                        .HasColumnType("decimal(18,2)");
-
                     b.Property<string>("RentType")
                         .HasColumnType("nvarchar(max)");
 
@@ -65,6 +62,56 @@ namespace DelpinBooking.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Booking");
+                });
+
+            modelBuilder.Entity("DelpinBooking.Models.Machine", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Type")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("WarehouseId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("WarehouseId");
+
+                    b.ToTable("Machine");
+                });
+
+            modelBuilder.Entity("DelpinBooking.Models.Warehouse", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("City")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PostCode")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Warehouse");
+                });
+
+            modelBuilder.Entity("DelpinBooking.Models.Machine", b =>
+                {
+                    b.HasOne("DelpinBooking.Models.Warehouse", "Warehouse")
+                        .WithMany()
+                        .HasForeignKey("WarehouseId");
+
+                    b.Navigation("Warehouse");
                 });
 #pragma warning restore 612, 618
         }
