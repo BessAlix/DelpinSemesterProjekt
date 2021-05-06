@@ -7,18 +7,21 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DelpinBooking.Data;
 using DelpinBooking.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DelpinBooking.Controllers
 {
+    [Authorize]
     public class BookingsController : Controller
     {
+
         private readonly DelpinBookingContext _context;
 
         public BookingsController(DelpinBookingContext context)
         {
             _context = context;
         }
-
+        
         // GET: Bookings
         public async Task<IActionResult> Index()
         {
@@ -78,6 +81,9 @@ namespace DelpinBooking.Controllers
             return View(booking);
         }
 
+
+        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Employee")]
         // GET: Bookings/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {

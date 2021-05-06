@@ -7,9 +7,12 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using DelpinBooking.Data;
 using DelpinBooking.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace DelpinBooking.Controllers
 {
+    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Employee")]
     public class MachinesController : Controller
     {
         private readonly DelpinBookingContext _context;
@@ -64,6 +67,7 @@ namespace DelpinBooking.Controllers
             }
             return View(machine);
         }
+
 
         // GET: Machines/Edit/5
         public async Task<IActionResult> Edit(int? id)
