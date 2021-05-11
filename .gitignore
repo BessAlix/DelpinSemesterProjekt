@@ -362,3 +362,6 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 *.cache
+DelpinBooking/.vs/DelpinBooking/DesignTimeBuild/.dtbcache.v2
+DelpinBooking/.vs/DelpinBooking/v16/.suo
+DelpinBooking/.vs/DelpinBooking/v16/.suo
