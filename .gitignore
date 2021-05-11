@@ -375,3 +375,10 @@ DelpinBooking/DelpinBooking/obj/project.assets.json
 DelpinBooking/DelpinBooking/obj/project.nuget.cache
 *.v2
 DelpinBooking/.vs/DelpinBooking/v16/.suo
+*.cache
+*.cache
+DelpinBooking/DelpinBooking/obj/project.assets.json
+*.props
+DelpinBooking/DelpinBooking/obj/DelpinBooking.csproj.nuget.dgspec.json
+*.cache
+*.cache
