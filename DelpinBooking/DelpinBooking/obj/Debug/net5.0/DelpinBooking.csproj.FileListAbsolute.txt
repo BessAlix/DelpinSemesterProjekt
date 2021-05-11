@@ -693,7 +693,3 @@ C:\Users\Bess\Documents\delpin\DelpinSemesterProjekt\DelpinBooking\DelpinBooking
 C:\Users\Bess\Documents\delpin\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\bin\Debug\net5.0\Swashbuckle.AspNetCore.SwaggerGen.dll
 C:\Users\Bess\Documents\delpin\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\bin\Debug\net5.0\Swashbuckle.AspNetCore.SwaggerUI.dll
 C:\Users\Bess\Documents\delpin\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\obj\Debug\net5.0\DelpinBooking.csprojAssemblyReference.cache
-C:\Users\majak\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\bin\Debug\net5.0\Microsoft.OpenApi.dll
-C:\Users\majak\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\bin\Debug\net5.0\Swashbuckle.AspNetCore.Swagger.dll
-C:\Users\majak\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\bin\Debug\net5.0\Swashbuckle.AspNetCore.SwaggerGen.dll
-C:\Users\majak\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\bin\Debug\net5.0\Swashbuckle.AspNetCore.SwaggerUI.dll
