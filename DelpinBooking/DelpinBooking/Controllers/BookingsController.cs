@@ -9,6 +9,9 @@ using DelpinBooking.Data;
 using DelpinBooking.Models;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using Newtonsoft.Json;
+using DelpinBooking.Migrations;
+using System.Net.Http;
 
 namespace DelpinBooking.Controllers
 {
@@ -38,7 +41,6 @@ namespace DelpinBooking.Controllers
         { var  UserID = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var booking = await _context.Booking.Where(e => e.CustomerID == UserID).ToListAsync();
 
-
             return View(booking);
         }
         // GET: Bookings/Details/5
@@ -64,9 +66,28 @@ namespace DelpinBooking.Controllers
         // GET: Bookings/Create
         [HttpGet]
         [Route("[controller]/[action]")]
-        public IActionResult Create()
+        public async Task<IActionResult> CreateAsync()
         {
-            return View();
+            Booking model;
+            var UserID = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync("https://localhost:44379/applicationusers/getuser/" + UserID))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    ApplicationUser user = JsonConvert.DeserializeObject<ApplicationUser>(
+                        apiResponse.Substring(1, apiResponse.Length - 2)); // substring to remove array brackets from response
+                    model = new Booking
+                    {
+                        CustomerID = user.Id,
+                        PhoneNumber = user.PhoneNumber,
+                        CustomerName = user.FirstName + " " + user.LastName
+                        
+                    };
+                }
+            }
+              
+            return View(model);
         }
 
         // POST: Bookings/Create

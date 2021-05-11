@@ -693,3 +693,13 @@ C:\Users\Bess\Documents\delpin\DelpinSemesterProjekt\DelpinBooking\DelpinBooking
 C:\Users\Bess\Documents\delpin\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\bin\Debug\net5.0\Swashbuckle.AspNetCore.SwaggerGen.dll
 C:\Users\Bess\Documents\delpin\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\bin\Debug\net5.0\Swashbuckle.AspNetCore.SwaggerUI.dll
 C:\Users\Bess\Documents\delpin\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\obj\Debug\net5.0\DelpinBooking.csprojAssemblyReference.cache
+C:\Users\sigur\source\repos\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\bin\Debug\net5.0\Microsoft.OpenApi.dll
+C:\Users\sigur\source\repos\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\bin\Debug\net5.0\Swashbuckle.AspNetCore.Swagger.dll
+C:\Users\sigur\source\repos\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\bin\Debug\net5.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\Users\sigur\source\repos\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\bin\Debug\net5.0\Swashbuckle.AspNetCore.SwaggerUI.dll
+C:\Users\sigur\source\repos\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\obj\Debug\net5.0\Razor\Views\Bookings\CurrentCustomerBooking.cshtml.g.cs
+C:\Users\sigur\source\repos\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\obj\Debug\net5.0\Razor\Views\Machines\Create.cshtml.g.cs
+C:\Users\sigur\source\repos\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\obj\Debug\net5.0\Razor\Views\Machines\Delete.cshtml.g.cs
+C:\Users\sigur\source\repos\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\obj\Debug\net5.0\Razor\Views\Machines\Details.cshtml.g.cs
+C:\Users\sigur\source\repos\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\obj\Debug\net5.0\Razor\Views\Machines\Edit.cshtml.g.cs
+C:\Users\sigur\source\repos\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\obj\Debug\net5.0\Razor\Views\Machines\Index.cshtml.g.cs

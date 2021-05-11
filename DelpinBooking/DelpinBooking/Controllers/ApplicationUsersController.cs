@@ -24,10 +24,10 @@ namespace DelpinBooking.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetUser()
+        [Route("[action]/{id?}")]
+        public async Task<IActionResult> GetUser(string? id)
         {
-            var UserID = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var users = await _context.Users.Where(u=> u.Id == UserID).ToListAsync();
+            var users = await _context.Users.Where(u=> u.Id == id).ToListAsync();
             return Ok(users);
         }
     }

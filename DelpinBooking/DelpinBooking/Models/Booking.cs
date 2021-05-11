@@ -26,7 +26,7 @@ namespace DelpinBooking.Models
         [Display(Name = "Customer ID")]
         public string CustomerID { get; set; }
         [Display(Name = "Phone number")]
-        public int PhoneNumber { get; set; }
+        public string PhoneNumber { get; set; }
         [Display(Name = "Customer name")]
         public string CustomerName { get; set; }
         [Display(Name = "Company name")]
