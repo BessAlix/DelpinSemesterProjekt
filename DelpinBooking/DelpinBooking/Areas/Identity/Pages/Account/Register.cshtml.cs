@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using DelpinBooking.Migrations;
 using DelpinBooking.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
@@ -20,14 +21,14 @@ namespace DelpinBooking.Areas.Identity.Pages.Account
     [AllowAnonymous]
     public class RegisterModel : PageModel
     {
-        private readonly SignInManager<IdentityUser> _signInManager;
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
 
         public RegisterModel(
-            UserManager<IdentityUser> userManager,
-            SignInManager<IdentityUser> signInManager,
+            UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender)
         {
@@ -63,8 +64,32 @@ namespace DelpinBooking.Areas.Identity.Pages.Account
             public string ConfirmPassword { get; set; }
 
             [Required]
-            [Display(Name = "Full Name")]
-            public string FullName { get; set; }
+            [Display(Name = "Fist Name")]
+            public string FirstName { get; set; }
+
+            [Required]
+            [Display(Name = "Last Name")]
+            public string LastName { get; set; }
+
+            [Required]
+            [Display(Name = "CPR")]
+            public string CPR { get; set; }
+
+            [Required]
+            [Display(Name = "Phone Number")]
+            public string PhoneNumber { get; set; }
+
+            [Required]
+            [Display(Name = "Address")]
+            public string Address { get; set; }
+
+            [Required]
+            [Display(Name = "Post Code")]
+            public int PostCode { get; set; }
+
+            [Required]
+            [Display(Name = "City")]
+            public string City { get; set; }
         }
 
         public async Task OnGetAsync(string returnUrl = null)
@@ -79,7 +104,15 @@ namespace DelpinBooking.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new BookingUser { UserName = Input.Email, Email = Input.Email, FullName = Input.FullName};
+                var user = new ApplicationUser {UserName = Input.Email, 
+                                                Email = Input.Email, 
+                                                FirstName = Input.FirstName,
+                                                LastName = Input.LastName,
+                                                CPR = Input.CPR,
+                                                Address = Input.Address,
+                                                PhoneNumber = Input.PhoneNumber,
+                                                PostCode = Input.PostCode,
+                                                City = Input.City};
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
