@@ -703,3 +703,7 @@ C:\Users\sigur\source\repos\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\ob
 C:\Users\sigur\source\repos\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\obj\Debug\net5.0\Razor\Views\Machines\Details.cshtml.g.cs
 C:\Users\sigur\source\repos\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\obj\Debug\net5.0\Razor\Views\Machines\Edit.cshtml.g.cs
 C:\Users\sigur\source\repos\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\obj\Debug\net5.0\Razor\Views\Machines\Index.cshtml.g.cs
+C:\Users\majak\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\bin\Debug\net5.0\Microsoft.OpenApi.dll
+C:\Users\majak\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\bin\Debug\net5.0\Swashbuckle.AspNetCore.Swagger.dll
+C:\Users\majak\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\bin\Debug\net5.0\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\Users\majak\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\bin\Debug\net5.0\Swashbuckle.AspNetCore.SwaggerUI.dll
