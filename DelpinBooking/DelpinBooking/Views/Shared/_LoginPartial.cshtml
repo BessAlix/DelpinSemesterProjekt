@@ -38,8 +38,14 @@ else
     }
     else
     {
-        <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Registrer
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                <a asp-area="Identity" asp-page="/Account/RegisterCustomer" class="dropdown-item">Privat kunde</a>
+                <a asp-area="Identity" asp-page="/Account/RegisterCompany" class="dropdown-item">Erhvervs kunde</a>
+            </div>
         </li>
         <li class="nav-item">
             <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
