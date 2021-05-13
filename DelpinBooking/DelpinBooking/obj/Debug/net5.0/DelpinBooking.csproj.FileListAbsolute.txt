@@ -164,8 +164,6 @@ C:\Users\majak\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\obj\Debug\net5.
 C:\Users\majak\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\obj\Debug\net5.0\Razor\Views\Bookings\Details.cshtml.g.cs
 C:\Users\majak\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\obj\Debug\net5.0\Razor\Views\Bookings\Edit.cshtml.g.cs
 C:\Users\majak\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\obj\Debug\net5.0\Razor\Views\Bookings\Index.cshtml.g.cs
-<<<<<<< HEAD
-=======
 C:\Users\Bess\Documents\Delpinprojekt\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\bin\Debug\net5.0\appsettings.Development.json
 C:\Users\Bess\Documents\Delpinprojekt\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\bin\Debug\net5.0\appsettings.json
 C:\Users\Bess\Documents\Delpinprojekt\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\bin\Debug\net5.0\DelpinBooking.StaticWebAssets.xml
@@ -709,9 +707,5 @@ C:\Users\majak\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\bin\Debug\net5.
 C:\Users\majak\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\bin\Debug\net5.0\Swashbuckle.AspNetCore.Swagger.dll
 C:\Users\majak\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\bin\Debug\net5.0\Swashbuckle.AspNetCore.SwaggerGen.dll
 C:\Users\majak\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\bin\Debug\net5.0\Swashbuckle.AspNetCore.SwaggerUI.dll
-<<<<<<< HEAD
->>>>>>> parent of c4895f2 (Drop down stuff)
-=======
 C:\Users\sigur\source\repos\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\obj\Debug\net5.0\Razor\Areas\Identity\Pages\Account\RegisterCompany.cshtml.g.cs
 C:\Users\sigur\source\repos\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\obj\Debug\net5.0\Razor\Areas\Identity\Pages\Account\RegisterCustomer.cshtml.g.cs
->>>>>>> c4895f2 (Drop down stuff)
