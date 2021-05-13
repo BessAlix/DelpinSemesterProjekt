@@ -88,15 +88,32 @@ namespace DelpinBooking.Controllers
         [HttpPost]
         [Route("[controller]/[action]")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,PickUpDate,ReturnDate,RentType,DepartmentStore,PricePrDay,CustomerID,PhoneNumber,CustomerName,CompanyName,Address,City")] Booking booking)
+        public async Task<IActionResult> Create([Bind("Id,Name,PickUpDate,ReturnDate,RentType,DepartmentStore")] [FromForm] Booking booking)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(booking);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                var UserID = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+                using (var httpClient = new HttpClient())
+                {
+                    using (var response =
+                        await httpClient.GetAsync("https://localhost:44379/applicationusers/getuser/" + UserID))
+                    {
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+                        ApplicationUser user = JsonConvert.DeserializeObject<ApplicationUser>(
+                            apiResponse.Substring(1, apiResponse.Length - 2));
+                        booking.Customer = user;
+                        _context.Add(booking);
+                        await _context.SaveChangesAsync();
+                        return RedirectToAction(nameof(Index));
+                    }
+                }
+
+                
             }
+
             return View(booking);
+            
         }
 
 
