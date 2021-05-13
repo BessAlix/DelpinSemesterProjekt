@@ -20,7 +20,7 @@ namespace DelpinBooking.Models
         [DataType(DataType.Date)]
         [Display(Name = "Afleveringsdato")]
         public DateTime ReturnDate { get; set; }
-        public ApplicationUser Customer { get; set; } // der skal laves API
+        public string Customer { get; set; } // der skal laves API
 
 
 

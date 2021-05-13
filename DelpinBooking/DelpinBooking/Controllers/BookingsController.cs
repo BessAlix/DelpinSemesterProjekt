@@ -33,7 +33,7 @@ namespace DelpinBooking.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var Bookings = await _context.Booking.Include(c => c.Customer).ToListAsync();
+            var Bookings = await _context.Booking.ToListAsync();
             return View(Bookings);
         }
         
@@ -73,7 +73,7 @@ namespace DelpinBooking.Controllers
                         apiResponse.Substring(1, apiResponse.Length - 2)); // substring to remove array brackets from response
                     model = new Booking
                     {
-                       Customer = user
+                       Customer = user.Id
                         
                     };
                 }
@@ -102,7 +102,7 @@ namespace DelpinBooking.Controllers
                         string apiResponse = await response.Content.ReadAsStringAsync();
                         ApplicationUser user = JsonConvert.DeserializeObject<ApplicationUser>(
                             apiResponse.Substring(1, apiResponse.Length - 2));
-                        booking.Customer = user;
+                        booking.Customer = user.Id;
                         _context.Add(booking);
                         await _context.SaveChangesAsync();
                         return RedirectToAction(nameof(Index));
@@ -197,12 +197,31 @@ namespace DelpinBooking.Controllers
         [HttpPost, ActionName("Delete")]
         [Route("[controller]/[action]")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(int bookingId)
         {
-            var booking = await _context.Booking.FindAsync(id);
+            var booking = await _context.Booking.FindAsync(bookingId);
             _context.Booking.Remove(booking);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
+        }
+        [HttpGet]
+        [Route("[controller]/[action]")]
+        public async Task<IActionResult> GetCustomer(string customerId)
+        {
+            using (var httpClient = new HttpClient())
+            {
+                using (var response =
+                    await httpClient.GetAsync("https://localhost:44379/applicationusers/getuser/" + customerId))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    Console.WriteLine("*************" + apiResponse);
+                    ApplicationUser user = JsonConvert.DeserializeObject<ApplicationUser>(
+                        apiResponse.Substring(1,
+                            apiResponse.Length - 2)); // substring to remove array brackets from response
+                    return View(user);
+                }
+            }
+
         }
 
         private bool BookingExists(int id)

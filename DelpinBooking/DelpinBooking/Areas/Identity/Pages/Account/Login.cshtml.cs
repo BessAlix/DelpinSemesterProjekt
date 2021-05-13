@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using DelpinBooking.Migrations;
+using DelpinBooking.Models;
 
 namespace DelpinBooking.Areas.Identity.Pages.Account
 {

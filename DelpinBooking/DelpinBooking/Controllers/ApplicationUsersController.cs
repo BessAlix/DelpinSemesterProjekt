@@ -6,6 +6,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using DelpinBooking.Data;
 using DelpinBooking.Migrations;
+using DelpinBooking.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 

@@ -18,39 +18,6 @@
             <th>
                 @Html.DisplayNameFor(model => model.ReturnDate)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Customer.Id)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Customer.PhoneNumber)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Customer.FirstName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Customer.LastName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Customer.CompanyForm)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Customer.CompanyName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Customer.LeaderName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Customer.CPR)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Customer.CVR)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Customer.Address)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Customer.City)
-            </th>
             <th></th>
         </tr>
     </thead>
@@ -64,39 +31,10 @@
                 @Html.DisplayFor(modelItem => item.ReturnDate)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Customer.Id)
-                <a asp-action="Details" asp-route-id="@item.Customer.Id">Id</a> |
+                @Html.DisplayFor(modelItem => item.Customer)
+                <a asp-action="GetCustomer" asp-route-customerid="@item.Customer">Id</a> |
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Customer.PhoneNumber)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Customer.FirstName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Customer.LastName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Customer.CompanyForm)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Customer.CompanyName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Customer.LeaderName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Customer.CPR)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Customer.CVR)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Customer.Address)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Customer.City)
-            </td>
+            
             <td>
             <td>
                 @if (User.IsInRole("Admin") || User.IsInRole("Employee"))
