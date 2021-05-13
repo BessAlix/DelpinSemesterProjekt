@@ -13,7 +13,6 @@ namespace DelpinBooking.Migrations
         public string CompanyName { get; set; }
         public string Usertype { get; set; }
         public string CPR { get; set; }
-        public string CompanyForm { get; set; }
         public string CVR { get; set; }
         public string LeaderName { get; set; }
         public string Address { get; set; }

@@ -57,14 +57,8 @@ namespace DelpinBooking.Data.Migrations
                     b.Property<string>("ClaimType")
                         .HasColumnType("nvarchar(max)");
 
-<<<<<<< HEAD
                     b.Property<string>("ClaimValue")
 =======
-=======
-                    b.Property<string>("CompanyForm")
-                        .HasColumnType("nvarchar(max)");
-
->>>>>>> c4895f2 (Drop down stuff)
                     b.Property<string>("CompanyName")
 >>>>>>> parent of c4895f2 (Drop down stuff)
                         .HasColumnType("nvarchar(max)");
@@ -136,9 +130,6 @@ namespace DelpinBooking.Data.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 >>>>>>> parent of c4895f2 (Drop down stuff)
-
-                    b.Property<string>("Usertype")
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
