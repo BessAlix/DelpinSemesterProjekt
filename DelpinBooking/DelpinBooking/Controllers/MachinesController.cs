@@ -37,7 +37,7 @@ namespace DelpinBooking.Controllers
             }
 
             var machine = await _context.Machine
-                .FirstOrDefaultAsync(m => m.ID == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (machine == null)
             {
                 return NotFound();
@@ -92,7 +92,7 @@ namespace DelpinBooking.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ID,Name,Type")] Machine machine)
         {
-            if (id != machine.ID)
+            if (id != machine.Id)
             {
                 return NotFound();
             }
@@ -106,7 +106,7 @@ namespace DelpinBooking.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!MachineExists(machine.ID))
+                    if (!MachineExists(machine.Id))
                     {
                         return NotFound();
                     }
@@ -129,7 +129,7 @@ namespace DelpinBooking.Controllers
             }
 
             var machine = await _context.Machine
-                .FirstOrDefaultAsync(m => m.ID == id);
+                .FirstOrDefaultAsync(m => m.Id == id);
             if (machine == null)
             {
                 return NotFound();
@@ -151,7 +151,7 @@ namespace DelpinBooking.Controllers
 
         private bool MachineExists(int id)
         {
-            return _context.Machine.Any(e => e.ID == id);
+            return _context.Machine.Any(e => e.Id == id);
         }
     }
 }

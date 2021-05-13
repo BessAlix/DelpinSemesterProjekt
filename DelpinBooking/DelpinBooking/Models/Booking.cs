@@ -12,31 +12,15 @@ namespace DelpinBooking.Models
     {
 
         public int Id { get; set; }
-        public string Name { get; set; }
-
+        [Display(Name = "Varenummer")]
+        public Machine Machine { get; set; }
         [DataType(DataType.Date)]
-        [Display(Name = "Pick-up date")]
+        [Display(Name = "Afhentningsdato")]
         public DateTime PickUpDate { get; set; }
         [DataType(DataType.Date)]
-        [Display(Name = "Return date")]
+        [Display(Name = "Afleveringsdato")]
         public DateTime ReturnDate { get; set; }
-        [Display(Name = "Machine type")]
-        public string RentType { get; set; }
-        [Display(Name = "Warehouse")]
-        public string DepartmentStore { get; set; }
-        [Display(Name = "Customer ID")]
         public ApplicationUser Customer { get; set; } // der skal laves API
-
-        /*
-        [Display(Name = "Phone number")]
-        public string PhoneNumber { get; set; }
-        [Display(Name = "Customer name")]
-        public string CustomerName { get; set; }
-        [Display(Name = "Company name")]
-        public string CompanyName { get; set; }
-        public string Address { get; set; }
-        public string City { get; set; }
-        */
 
 
 

@@ -24,8 +24,8 @@ namespace DelpinBooking.Controllers
         }
 
         [HttpGet]
-        [Route("[action]/{id?}")]
-        public async Task<IActionResult> GetUser(string? id)
+        [Route("[action]/{id}")]
+        public async Task<IActionResult> GetUser(string id)
         {
             var users = await _context.Users.Where(u=> u.Id == id).ToListAsync();
             return Ok(users);
