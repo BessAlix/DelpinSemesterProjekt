@@ -53,10 +53,14 @@ namespace DelpinBooking.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+<<<<<<< HEAD
                     b.Property<string>("ClaimType")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ClaimValue")
+=======
+                    b.Property<string>("CompanyName")
+>>>>>>> parent of c4895f2 (Drop down stuff)
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("RoleId")
@@ -119,8 +123,13 @@ namespace DelpinBooking.Data.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("UserName")
+<<<<<<< HEAD
                         .HasColumnType("nvarchar(256)")
                         .HasMaxLength(256);
+=======
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+>>>>>>> parent of c4895f2 (Drop down stuff)
 
                     b.HasKey("Id");
 
