@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using DelpinBooking.Migrations;
 
 namespace DelpinBooking.Models
 {
@@ -24,7 +25,9 @@ namespace DelpinBooking.Models
         [Display(Name = "Warehouse")]
         public string DepartmentStore { get; set; }
         [Display(Name = "Customer ID")]
-        public string CustomerID { get; set; }
+        public ApplicationUser Customer { get; set; } // der skal laves API
+
+        /*
         [Display(Name = "Phone number")]
         public string PhoneNumber { get; set; }
         [Display(Name = "Customer name")]
@@ -33,6 +36,7 @@ namespace DelpinBooking.Models
         public string CompanyName { get; set; }
         public string Address { get; set; }
         public string City { get; set; }
+        */
 
 
 

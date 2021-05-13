@@ -27,7 +27,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.DepartmentStore)
             </th>
-            <th>
+            @*<th>
                 @Html.DisplayNameFor(model => model.CustomerID)
             </th>
             <th>
@@ -44,7 +44,7 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.City)
-            </th>
+            </th>*@
             <th></th>
         </tr>
     </thead>
@@ -67,7 +67,7 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.DepartmentStore)
                 </td>
-                <td>
+                @*<td>
                     @Html.DisplayFor(modelItem => item.CustomerID)
                 </td>
                 <td>
@@ -84,7 +84,7 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.City)
-                </td>
+                </td>*@
                 <td>
                 <td>
                     @if (User.IsInRole("Admin") || User.IsInRole("Employee"))

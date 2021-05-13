@@ -33,16 +33,10 @@ namespace DelpinBooking.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Booking.ToListAsync());
+            var Bookings = await _context.Booking.Include(c => c.Customer).ToListAsync();
+            return View(Bookings);
         }
-        [HttpGet]
-        [Route("[controller]/[action]")]
-        public async Task<IActionResult> CurrentCustomerBooking()
-        { var  UserID = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var booking = await _context.Booking.Where(e => e.CustomerID == UserID).ToListAsync();
-
-            return View(booking);
-        }
+        
         // GET: Bookings/Details/5
         [HttpGet]
         [Route("[controller]/[action]")]
@@ -79,9 +73,7 @@ namespace DelpinBooking.Controllers
                         apiResponse.Substring(1, apiResponse.Length - 2)); // substring to remove array brackets from response
                     model = new Booking
                     {
-                        CustomerID = user.Id,
-                        PhoneNumber = user.PhoneNumber,
-                        CustomerName = user.FirstName + " " + user.LastName
+                       Customer = user
                         
                     };
                 }

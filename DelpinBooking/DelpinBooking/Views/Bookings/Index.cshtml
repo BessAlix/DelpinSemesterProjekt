@@ -28,22 +28,37 @@
                 @Html.DisplayNameFor(model => model.DepartmentStore)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CustomerID)
+                @Html.DisplayNameFor(model => model.Customer.Id)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PhoneNumber)
+                @Html.DisplayNameFor(model => model.Customer.PhoneNumber)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CustomerName)
+                @Html.DisplayNameFor(model => model.Customer.FirstName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CompanyName)
+                @Html.DisplayNameFor(model => model.Customer.LastName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Address)
+                @Html.DisplayNameFor(model => model.Customer.CompanyForm)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.City)
+                @Html.DisplayNameFor(model => model.Customer.CompanyName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Customer.LeaderName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Customer.CPR)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Customer.CVR)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Customer.Address)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Customer.City)
             </th>
             <th></th>
         </tr>
@@ -67,32 +82,47 @@
                 @Html.DisplayFor(modelItem => item.DepartmentStore)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.CustomerID)
+                @Html.DisplayFor(modelItem => item.Customer.Id)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.PhoneNumber)
+                @Html.DisplayFor(modelItem => item.Customer.PhoneNumber)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.CustomerName)
+                @Html.DisplayFor(modelItem => item.Customer.FirstName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.CompanyName)
+                @Html.DisplayFor(modelItem => item.Customer.LastName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Address)
+                @Html.DisplayFor(modelItem => item.Customer.CompanyForm)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.City)
+                @Html.DisplayFor(modelItem => item.Customer.CompanyName)
             </td>
             <td>
-                <td>
-                    @if (User.IsInRole("Admin") || User.IsInRole("Employee"))
-                    {
-                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> 
-                    }
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                </td>
+                @Html.DisplayFor(modelItem => item.Customer.LeaderName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Customer.CPR)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Customer.CVR)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Customer.Address)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Customer.City)
+            </td>
+            <td>
+            <td>
+                @if (User.IsInRole("Admin") || User.IsInRole("Employee"))
+                {
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                }
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
         </tr>
 }
     </tbody>
