@@ -11,6 +11,9 @@
         <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
             <h4>Opret en ny bruger.</h4>
             <hr />
+            <p>
+                <a asp-area="Identity" asp-page="./RegisterCompany">Ikke privatkunde? Klik her!</a>
+            </p>
             <div asp-validation-summary="All" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Input.Email"></label>
