@@ -31,16 +31,22 @@ namespace DelpinAPI
         {
 
             services.AddControllers();
-            services.AddCors(options => 
-            { options.AddDefaultPolicy(builder =>
-            { builder.WithOrigins("http://localhost:49369").AllowAnyHeader().AllowAnyMethod(); }); }
-            );
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "DelpinAPI", Version = "v1" });
             });
             services.AddDbContext<DelpinContext>(options =>
                options.UseSqlServer(Configuration.GetConnectionString("DelpinContext")));
+
+            services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(builder =>
+                {
+                    builder.WithOrigins("http://localhost:49369")
+                            .AllowAnyHeader()
+                            .AllowAnyMethod();
+                });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
