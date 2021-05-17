@@ -197,21 +197,24 @@ namespace DelpinBooking.Controllers
         [HttpPost, ActionName("Delete")]
         [Route("[controller]/[action]")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int bookingId)
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var booking = await _context.Booking.FindAsync(bookingId);
+            Console.WriteLine("*************" + id);
+            var booking = await _context.Booking
+               // .Include(b => b.Machine)
+                .SingleAsync(b => b.Id == id);
             _context.Booking.Remove(booking);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
         [HttpGet]
         [Route("[controller]/[action]")]
-        public async Task<IActionResult> GetCustomer(string customerId)
+        public async Task<IActionResult> GetCustomer(string id)
         {
             using (var httpClient = new HttpClient())
             {
                 using (var response =
-                    await httpClient.GetAsync("https://localhost:44379/applicationusers/getuser/" + customerId))
+                    await httpClient.GetAsync("https://localhost:44379/applicationusers/getuser/" + id))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     Console.WriteLine("*************" + apiResponse);
