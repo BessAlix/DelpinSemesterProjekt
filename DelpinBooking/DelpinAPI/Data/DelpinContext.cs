@@ -16,6 +16,7 @@ namespace DelpinAPI.Data
         }
         public DbSet<Booking> Booking { get; set; }
         public DbSet<Machine> Machine { get; set; }
+        public DbSet <Warehouse> Warehouse { get; set; }
     }
   
 }
