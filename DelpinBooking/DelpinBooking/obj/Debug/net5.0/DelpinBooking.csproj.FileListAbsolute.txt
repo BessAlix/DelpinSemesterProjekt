@@ -711,6 +711,3 @@ C:\Users\majak\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\obj\Debug\net5.
 C:\Users\majak\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\obj\Debug\net5.0\Razor\Areas\Identity\Pages\Account\RegisterCustomer.cshtml.g.cs
 C:\Users\majak\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\obj\Debug\net5.0\DelpinBooking.csprojAssemblyReference.cache
 C:\Users\majak\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\obj\Debug\net5.0\Razor\Views\Bookings\GetCustomer.cshtml.g.cs
-C:\Users\majak\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\obj\Debug\net5.0\Razor\Areas\Identity\Pages\Account\Manage\_Layout.cshtml.g.cs
-C:\Users\majak\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\obj\Debug\net5.0\Razor\Areas\Identity\Pages\Account\Manage\_ManageNav.cshtml.g.cs
-C:\Users\majak\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\obj\Debug\net5.0\Razor\Areas\Identity\Pages\Account\Manage\_ViewImports.cshtml.g.cs
