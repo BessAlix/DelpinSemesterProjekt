@@ -13,12 +13,11 @@ using Newtonsoft.Json;
 
 namespace DelpinBooking.Controllers
 {
-    [Authorize(Roles = "Admin")]
-    [Authorize(Roles = "Employee")]
+    [Authorize(Roles = "Admin,Employee")]
     public class MachinesController : Controller
     {
         private readonly DelpinBookingContext _context;
-        private readonly string ApiUrl = "https://localhost:5001/api/BookingAPI/";
+        private readonly string ApiUrl = "https://localhost:5001/api/MachineAPI/";
 
         public MachinesController(DelpinBookingContext context)
         {
@@ -27,24 +26,20 @@ namespace DelpinBooking.Controllers
 
         // GET: Machines
         public async Task<IActionResult> Index()
-
         {
-          
-               List<Machine> Machines;
-                using (var httpClient = new HttpClient())
+            List<Machine> Machines;
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync(ApiUrl + "GetAllMachines"))
                 {
-                    using (var response = await httpClient.GetAsync(ApiUrl + "GetAllMachines"))
-                    {
-                        string apiResponse = await response.Content.ReadAsStringAsync();
-                        Machines = JsonConvert.DeserializeObject<List<Machine>>(
-                            apiResponse); // substring to remove array brackets from response
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    Machines = JsonConvert.DeserializeObject<List<Machine>>(apiResponse);
 
-                    }
                 }
-                return View(Machines);
             }
-       
-        
+                
+            return View(Machines);
+        }
 
         // GET: Machines/Details/5
         public async Task<IActionResult> Details(int? id)
