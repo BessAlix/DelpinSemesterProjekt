@@ -22,6 +22,7 @@ namespace DelpinBooking.Controllers
     {
 
         private readonly DelpinBookingContext _context;
+        private readonly string ApiUrl = "https://localhost:5001/api/BookingAPI/";
 
         public BookingsController(DelpinBookingContext context)
         {
@@ -33,7 +34,18 @@ namespace DelpinBooking.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var Bookings = await _context.Booking.ToListAsync();
+
+            List<Booking> Bookings;
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync(ApiUrl + "GetAllBookings"))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    Bookings = JsonConvert.DeserializeObject<List<Booking>>(
+                        apiResponse); // substring to remove array brackets from response
+                    
+                }
+            }
             return View(Bookings);
         }
         
