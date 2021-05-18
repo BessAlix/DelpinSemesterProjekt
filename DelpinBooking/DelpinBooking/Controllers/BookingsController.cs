@@ -12,7 +12,6 @@ using System.Security.Claims;
 using Newtonsoft.Json;
 using DelpinBooking.Migrations;
 using System.Net.Http;
-using System.Net.Http.Json;
 
 namespace DelpinBooking.Controllers
 {
@@ -75,7 +74,7 @@ namespace DelpinBooking.Controllers
         [Route("[controller]/[action]")]
         public async Task<IActionResult> CreateAsync()
         {
-            Booking booking;
+            Booking model;
             var UserID = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             using (var httpClient = new HttpClient())
             {
@@ -84,14 +83,15 @@ namespace DelpinBooking.Controllers
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     ApplicationUser user = JsonConvert.DeserializeObject<ApplicationUser>(
                         apiResponse.Substring(1, apiResponse.Length - 2)); // substring to remove array brackets from response
-                    booking = new Booking
+                    model = new Booking
                     {
-                       Customer = user.Id  
+                       Customer = user.Id
+                        
                     };
                 }
             }
               
-            return View(booking);
+            return View(model);
         }
 
         // POST: Bookings/Create
@@ -100,23 +100,32 @@ namespace DelpinBooking.Controllers
         [HttpPost]
         [Route("[controller]/[action]")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,PickUpDate,ReturnDate,Customer")] [FromForm] Booking booking)
+        public async Task<IActionResult> Create([Bind("Id,Name,PickUpDate,ReturnDate,RentType,DepartmentStore")] [FromForm] Booking booking)
         {
-            Console.WriteLine("**********" + booking.Customer);
             if (ModelState.IsValid)
             {
+                var UserID = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
                 using (var httpClient = new HttpClient())
                 {
-                    var postTask = httpClient.PostAsJsonAsync<Booking>(ApiUrl + "Create", booking);
-                    postTask.Wait();
-
-                    var result = postTask.Result;
-                    if (result.IsSuccessStatusCode)
-                        return RedirectToAction(nameof(Index)); 
+                    using (var response =
+                        await httpClient.GetAsync("https://localhost:44379/applicationusers/getuser/" + UserID))
+                    {
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+                        ApplicationUser user = JsonConvert.DeserializeObject<ApplicationUser>(
+                            apiResponse.Substring(1, apiResponse.Length - 2));
+                        booking.Customer = user.Id;
+                        _context.Add(booking);
+                        await _context.SaveChangesAsync();
+                        return RedirectToAction(nameof(Index));
+                    }
                 }
+
+                
             }
 
             return View(booking);
+            
         }
 
 
