@@ -48,6 +48,11 @@ namespace DelpinBooking
             services.AddDbContext<DelpinBookingContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DelpinBookingContext")));
             services.AddRazorPages();
+
+            services.AddSwaggerGen(options =>
+            {
+                options.CustomSchemaIds(type => type.ToString());
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

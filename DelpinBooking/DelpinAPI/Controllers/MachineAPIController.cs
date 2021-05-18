@@ -19,7 +19,10 @@ namespace DelpinAPI.Controllers
         [Route("[action]")]
         public async Task<IActionResult> GetAllMachines()
         {
-            var machines = await _context.Machine.ToListAsync();
+            var machines = await _context.Machine
+                .AsNoTracking()
+                .Include(p => p.Warehouse)
+                .ToListAsync();
             return Ok(machines);
         }
 
