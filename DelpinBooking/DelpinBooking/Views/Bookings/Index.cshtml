@@ -15,6 +15,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.PickUpDate)
             </th>
+            <td>
+                @Html.DisplayNameFor(model => model.SoftDeleted)
+            </td>
             <th>
                 @Html.DisplayNameFor(model => model.ReturnDate)
             </th>
@@ -28,13 +31,16 @@
                 @Html.DisplayFor(modelItem => item.PickUpDate)
             </td>
             <td>
+                @Html.DisplayFor(modelItem => item.SoftDeleted)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.ReturnDate)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Customer)
                 <a asp-action="GetCustomer" asp-route-id="@item.Customer">Id</a> |
             </td>
-            
+
             <td>
             <td>
                 @if (User.IsInRole("Admin") || User.IsInRole("Employee"))

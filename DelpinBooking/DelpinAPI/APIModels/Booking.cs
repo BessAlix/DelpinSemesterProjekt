@@ -16,5 +16,6 @@ namespace DelpinAPI.APIModels
         [DataType(DataType.Date)]
         public DateTime ReturnDate { get; set; }
         public string Customer { get; set; }
+        public bool SoftDeleted { get; set; }
     }
 }

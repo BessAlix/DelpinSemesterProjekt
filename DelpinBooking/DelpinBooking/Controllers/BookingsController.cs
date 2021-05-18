@@ -13,12 +13,11 @@ using Newtonsoft.Json;
 using DelpinBooking.Migrations;
 using System.Net.Http;
 using System.Net.Http.Json;
+using System.Text;
 
 namespace DelpinBooking.Controllers
 {
     [Authorize]
-    [Route("[controller]")]
-    [ApiController]
     public class BookingsController : Controller
     {
 
@@ -31,6 +30,7 @@ namespace DelpinBooking.Controllers
         }
 
         // GET: Bookings
+        [Authorize(Roles = "Admin, Employee")]
         [Route("[controller]/[action]")]
         [HttpGet]
         public async Task<IActionResult> Index()
@@ -49,7 +49,29 @@ namespace DelpinBooking.Controllers
             }
             return View(Bookings);
         }
-        
+        // GET: Bookings for a customer 
+        [Route("[controller]/[action]")]
+        [HttpGet]
+        public async Task<IActionResult> BookingsForCustomer(string id)
+        {
+            
+            List<Booking> Bookings;
+            var UserID = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync(ApiUrl + "GetBookingsForCustomer/" + UserID))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    Bookings = JsonConvert.DeserializeObject<List<Booking>>(
+                        apiResponse); // substring to remove array brackets from response
+
+                }
+            }
+            return View("Index", Bookings);
+        }
+
+
         // GET: Bookings/Details/5
         [HttpGet]
         [Route("[controller]/[action]")]
@@ -86,7 +108,8 @@ namespace DelpinBooking.Controllers
                         apiResponse.Substring(1, apiResponse.Length - 2)); // substring to remove array brackets from response
                     booking = new Booking
                     {
-                       Customer = user.Id  
+                       Customer = user.Id,
+                       SoftDeleted = false
                     };
                 }
             }
@@ -102,7 +125,6 @@ namespace DelpinBooking.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,PickUpDate,ReturnDate,Customer")] [FromForm] Booking booking)
         {
-            Console.WriteLine("**********" + booking.Customer);
             if (ModelState.IsValid)
             {
                 using (var httpClient = new HttpClient())
@@ -112,7 +134,16 @@ namespace DelpinBooking.Controllers
 
                     var result = postTask.Result;
                     if (result.IsSuccessStatusCode)
-                        return RedirectToAction(nameof(Index)); 
+                    {
+                        if (User.IsInRole("Admin") || User.IsInRole("Employee"))
+                        {
+                            return RedirectToAction(nameof(Index));
+                        }
+                        else
+                        {
+                            return RedirectToAction(nameof(BookingsForCustomer));
+                        }
+                    }
                 }
             }
 
@@ -120,8 +151,7 @@ namespace DelpinBooking.Controllers
         }
 
 
-        [Authorize(Roles = "Admin")]
-        [Authorize(Roles = "Employee")]
+        [Authorize(Roles = "Admin, Employee")]
         // GET: Bookings/Edit/5
         [HttpGet]
         [Route("[controller]/[action]")]
@@ -193,24 +223,38 @@ namespace DelpinBooking.Controllers
                 return NotFound();
             }
 
-            return View(booking);
+            var UserID = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (User.IsInRole("Admin") || UserID == booking.Customer)
+            {
+                return View(booking);
+            }
+            else
+            {
+                return View("NotAuthorized");
+            }
         }
 
         // POST: Bookings/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [Route("[controller]/[action]")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        [HttpPut, ActionName("DeleteConfirmed")]
+        [Route("[action]")]
+        //   [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed([Bind("Id,PickUpDate,ReturnDate")] Booking booking)
         {
-            Console.WriteLine("*************" + id);
-            var booking = await _context.Booking
-               // .Include(b => b.Machine)
-                .SingleAsync(b => b.Id == id);
-            _context.Booking.Remove(booking);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+
+            using (var httpClient = new HttpClient())
+            {
+                var stringContent = new StringContent(JsonConvert.SerializeObject(booking));
+
+                var endPoint = $"Delete/{booking.Id}";
+                httpClient.BaseAddress = new Uri(ApiUrl);
+
+                var respone = await httpClient.PutAsync(endPoint, stringContent);
+            }
+            return Content("YAY");
         }
-        [HttpGet]
+
+        // Opens new window with Customer information in Bookings
+            [HttpGet]
         [Route("[controller]/[action]")]
         public async Task<IActionResult> GetCustomer(string id)
         {
@@ -220,7 +264,6 @@ namespace DelpinBooking.Controllers
                     await httpClient.GetAsync("https://localhost:44379/applicationusers/getuser/" + id))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
-                    Console.WriteLine("*************" + apiResponse);
                     ApplicationUser user = JsonConvert.DeserializeObject<ApplicationUser>(
                         apiResponse.Substring(1,
                             apiResponse.Length - 2)); // substring to remove array brackets from response

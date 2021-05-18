@@ -17,6 +17,12 @@ namespace DelpinAPI.Data
         public DbSet<Booking> Booking { get; set; }
         public DbSet<Machine> Machine { get; set; }
         public DbSet <Warehouse> Warehouse { get; set; }
+
+        // Bookings that are not SoftDeleted is returned
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Booking>().HasQueryFilter(b =>! b.SoftDeleted);
+        }
     }
   
 }

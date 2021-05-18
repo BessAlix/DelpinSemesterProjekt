@@ -20,6 +20,8 @@ namespace DelpinBooking.Models
         [DataType(DataType.Date)]
         [Display(Name = "Afleveringsdato")]
         public DateTime ReturnDate { get; set; }
+
+        public bool SoftDeleted { get; set; }
         public string Customer { get; set; } // der skal laves API
 
 

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using DelpinAPI.Data;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -30,6 +31,18 @@ namespace DelpinAPI.Controllers
         }
 
         [HttpGet]
+        [Route("[action]/{customerId}")]
+        public async Task<IActionResult> GetBookingsForCustomer(string customerId)
+        {
+            var bookings = await _context.Booking
+                .AsNoTracking()
+                .Where(b => b.Customer == customerId)
+                .ToListAsync();
+
+            return Ok(bookings);
+        }
+
+        [HttpGet]
         [Route("[action]/{bookingId}")]
         public async Task<IActionResult> GetBooking(int bookingId)
         {
@@ -50,16 +63,18 @@ namespace DelpinAPI.Controllers
             return CreatedAtAction("GetBooking", new { id = booking.Id }, booking);
         }
 
-        [HttpGet]
-        [Route("[action]/{customerId}")]
-        public async Task<IActionResult> GetBookingsForCustomer(string customerId)
-        {
-            var bookings = await _context.Booking
-                .AsNoTracking()
-                .Where(b => b.Customer == customerId)
-                .ToListAsync();
 
-            return Ok(bookings);
+        [HttpPut]
+        [Route("[action]/{bookingId}")]
+        public async Task<IActionResult> Delete(int bookingId)
+        {
+            var booking = await _context.Booking.FirstOrDefaultAsync(b => b.Id == bookingId);
+            booking.SoftDeleted = true;
+            await _context.SaveChangesAsync();
+            Console.WriteLine("XXXXXXXXXXXXXX" + bookingId);
+            return Ok(booking);
         }
+
+        
     }
 }
