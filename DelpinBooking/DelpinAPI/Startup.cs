@@ -47,11 +47,6 @@ namespace DelpinAPI
                             .AllowAnyMethod();
                 });
             });
-
-            services.AddSwaggerGen(options =>
-            {
-                options.CustomSchemaIds(type => type.ToString());
-            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

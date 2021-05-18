@@ -20,9 +20,7 @@ namespace DelpinAPI.Controllers
         [Route("[action]")]
         public async Task<IActionResult> GetAllWarehouses()
         {
-            var warehouses = await _context.Warehouse
-                .AsNoTracking()
-                .ToListAsync();
+            var warehouses = await _context.Warehouse.ToListAsync();
             return Ok(warehouses);
         }
     }

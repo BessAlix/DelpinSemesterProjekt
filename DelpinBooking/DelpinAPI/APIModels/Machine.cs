@@ -13,6 +13,6 @@ namespace DelpinAPI.APIModels
         
         public string Type { get; set; }
         
-        public Warehouse Warehouse { get; set; }
+        // public Warehouse Warehouse { get; set; }
     }
 }
