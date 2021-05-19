@@ -240,18 +240,13 @@ namespace DelpinBooking.Controllers
         {
             using (var httpClient = new HttpClient())
             {
-                //var endPoint = $"Delete/";
-                //httpClient.BaseAddress = new Uri(ApiUrl);
-                
-                //var jsonObject = JsonConvert.SerializeObject(bookingId);
-                //var stringContent = new StringContent(jsonObject.ToString(), System.Text.Encoding.UTF8, "application/json");
-                //var respone = await httpClient.PostAsync(endPoint, stringContent);
-                //respone.EnsureSuccessStatusCode();
+                var endPoint = $"Delete/";
+                httpClient.BaseAddress = new Uri(ApiUrl);
 
-                BookingIdDto booking = new BookingIdDto { Id = bookingId };
-                Console.WriteLine("************uhiuh***********" + booking.Id);
-                var postTask = httpClient.PostAsJsonAsync<BookingIdDto>(ApiUrl + "Delete", booking);
-                postTask.Wait();
+                var jsonObject = JsonConvert.SerializeObject(bookingId);
+                var stringContent = new StringContent(jsonObject.ToString(), System.Text.Encoding.UTF8, "application/json");
+                var respone = await httpClient.PostAsync(endPoint, stringContent);
+                respone.EnsureSuccessStatusCode();
 
                 if (User.IsInRole("Admin") || User.IsInRole("Employee"))
                 {
