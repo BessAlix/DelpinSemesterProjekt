@@ -25,6 +25,7 @@ namespace DelpinBooking.Controllers
         private readonly DelpinBookingContext _context;
         private readonly string ApiUrl = "https://localhost:5001/api/BookingAPI/";
 
+
         public BookingsController(DelpinBookingContext context)
         {
             _context = context;
@@ -72,16 +73,24 @@ namespace DelpinBooking.Controllers
 
         // GET: Bookings/Details/5
         [HttpGet]
-        [Route("[controller]/[action]")]
+        [Route("[action]")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
+             Booking booking;
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync(ApiUrl + "GetBooking/" + id))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    booking = JsonConvert.DeserializeObject<Booking>(apiResponse);
 
-            var booking = await _context.Booking
-                .FirstOrDefaultAsync(m => m.Id == id);
+                }
+            }
+
             if (booking == null)
             {
                 return NotFound();
@@ -95,6 +104,8 @@ namespace DelpinBooking.Controllers
         [Route("[controller]/[action]")]
         public async Task<IActionResult> CreateAsync()
         {
+     
+            List<string> warehouses = await new WarehousesController(_context).GetAllWarehouses();
             Booking booking;
             var UserID = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             using (var httpClient = new HttpClient())
@@ -104,15 +115,21 @@ namespace DelpinBooking.Controllers
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     ApplicationUser user = JsonConvert.DeserializeObject<ApplicationUser>(
                         apiResponse.Substring(1, apiResponse.Length - 2)); // substring to remove array brackets from response
+                    
                     booking = new Booking
                     {
                        Customer = user.Id,
                        SoftDeleted = false
+                       
                     };
+                    //warehouse = new Warehouse
+                    //{
+
+                    //}
                 }
             }
-              
-            return View(booking);
+
+            return View(new Tuple<Booking, List<string>>(booking, warehouses));
         }
 
         // POST: Bookings/Create
@@ -159,8 +176,16 @@ namespace DelpinBooking.Controllers
             {
                 return NotFound();
             }
+            Booking booking;
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync(ApiUrl + "GetBooking/" + id))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    booking = JsonConvert.DeserializeObject<Booking>(apiResponse);
 
-            var booking = await _context.Booking.FindAsync(id);
+                }
+            }
             if (booking == null)
             {
                 return NotFound();

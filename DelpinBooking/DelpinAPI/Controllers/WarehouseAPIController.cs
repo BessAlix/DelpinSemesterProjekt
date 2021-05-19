@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using DelpinAPI.Data;
+using System.Linq;
 
 namespace DelpinAPI.Controllers
 {
@@ -25,5 +26,17 @@ namespace DelpinAPI.Controllers
                 .ToListAsync();
             return Ok(warehouses);
         }
+        
+        [HttpGet]
+        [Route("[action]")]
+        public async Task<IActionResult> GetWarehouseCities()
+        {
+            var warehouses = await _context.Warehouse
+                .AsNoTracking()
+                .Select(w => w.City)
+                .ToListAsync();
+            return Ok(warehouses);
+        }
+
     }
 }
