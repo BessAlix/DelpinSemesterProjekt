@@ -233,7 +233,7 @@ namespace DelpinBooking.Controllers
         }
 
         // POST: Bookings/Delete/5
-        [HttpPost, ActionName("DeleteConfirmed")]
+        [HttpPost, ActionName("Delete")]
         [Route("[controller]/[action]")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int bookingId)

@@ -31,7 +31,7 @@
         </dd>
     </dl>
     
-    <form asp-action="DeleteConfirmed" asp-route-bookingId="@Model.Id">
+    <form asp-action="Delete" asp-route-bookingId="@Model.Id">
         <input type="submit" value="Delete" class="btn btn-danger" /> |h
         <a asp-action="Index">Back to List</a>
     </form>
