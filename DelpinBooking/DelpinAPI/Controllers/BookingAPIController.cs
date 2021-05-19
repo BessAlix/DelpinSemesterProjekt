@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using DelpinAPI.APIModels;
+using DelpinBooking.Models;
 
 namespace DelpinAPI.Controllers
 {
@@ -16,7 +17,7 @@ namespace DelpinAPI.Controllers
         public BookingAPIController(DelpinContext context)
         {
             _context = context;
-          
+
         }
 
         [HttpGet]
@@ -55,7 +56,7 @@ namespace DelpinAPI.Controllers
 
         [HttpPost]
         [Route("[action]")]
-        public async Task<IActionResult> Create(Booking booking)
+        public async Task<IActionResult> Create(APIModels.Booking booking)
         {
             _context.Add(booking);
             await _context.SaveChangesAsync();
@@ -64,14 +65,16 @@ namespace DelpinAPI.Controllers
         }
 
 
-        [HttpPut]
-        [Route("[action]/{bookingId}")]
-        public async Task<IActionResult> Delete(int bookingId)
+        [HttpPost]
+        [Route("[action]")]
+        public async Task<IActionResult> Delete([FromBody]BookingIdDto bookingDto)
         {
+            int bookingId = bookingDto.Id;
+            Console.WriteLine("***********" + bookingId);
             var booking = await _context.Booking.FirstOrDefaultAsync(b => b.Id == bookingId);
             booking.SoftDeleted = true;
             await _context.SaveChangesAsync();
-            Console.WriteLine("XXXXXXXXXXXXXX" + bookingId);
+
             return Ok(booking);
         }
 

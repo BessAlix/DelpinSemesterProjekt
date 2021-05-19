@@ -714,3 +714,4 @@ C:\Users\Bess\Documents\delpin\DelpinSemesterProjekt\DelpinBooking\DelpinBooking
 C:\Users\Bess\Documents\delpin\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\obj\Debug\net5.0\Razor\Views\Bookings\GetCustomer.cshtml.g.cs
 C:\Users\majak\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\obj\Debug\net5.0\DelpinBooking.csprojAssemblyReference.cache
 C:\Users\majak\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\obj\Debug\net5.0\Razor\Views\Shared\NotAuthorized.cshtml.g.cs
+C:\Users\sigur\source\repos\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\obj\Debug\net5.0\Razor\Views\Shared\NotAuthorized.cshtml.g.cs

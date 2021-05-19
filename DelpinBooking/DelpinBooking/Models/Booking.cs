@@ -10,7 +10,6 @@ namespace DelpinBooking.Models
 {
     public class Booking
     {
-
         public int Id { get; set; }
         [Display(Name = "Varenummer")]
         public Machine Machine { get; set; }
@@ -20,12 +19,7 @@ namespace DelpinBooking.Models
         [DataType(DataType.Date)]
         [Display(Name = "Afleveringsdato")]
         public DateTime ReturnDate { get; set; }
-
         public bool SoftDeleted { get; set; }
         public string Customer { get; set; } // der skal laves API
-
-
-
-
     }
 }

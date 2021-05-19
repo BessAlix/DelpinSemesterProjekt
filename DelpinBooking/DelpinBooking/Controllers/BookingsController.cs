@@ -18,6 +18,7 @@ using System.Text;
 namespace DelpinBooking.Controllers
 {
     [Authorize]
+    [Route("[controller]")]
     public class BookingsController : Controller
     {
 
@@ -35,15 +36,13 @@ namespace DelpinBooking.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-
             List<Booking> Bookings;
             using (var httpClient = new HttpClient())
             {
                 using (var response = await httpClient.GetAsync(ApiUrl + "GetAllBookings"))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
-                    Bookings = JsonConvert.DeserializeObject<List<Booking>>(
-                        apiResponse); // substring to remove array brackets from response
+                    Bookings = JsonConvert.DeserializeObject<List<Booking>>(apiResponse); 
                     
                 }
             }
@@ -54,7 +53,6 @@ namespace DelpinBooking.Controllers
         [HttpGet]
         public async Task<IActionResult> BookingsForCustomer(string id)
         {
-            
             List<Booking> Bookings;
             var UserID = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
@@ -235,26 +233,39 @@ namespace DelpinBooking.Controllers
         }
 
         // POST: Bookings/Delete/5
-        [HttpPut, ActionName("DeleteConfirmed")]
-        [Route("[action]")]
-        //   [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed([Bind("Id,PickUpDate,ReturnDate")] Booking booking)
+        [HttpPost, ActionName("DeleteConfirmed")]
+        [Route("[controller]/[action]")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int bookingId)
         {
-
             using (var httpClient = new HttpClient())
             {
-                var stringContent = new StringContent(JsonConvert.SerializeObject(booking));
+                //var endPoint = $"Delete/";
+                //httpClient.BaseAddress = new Uri(ApiUrl);
+                
+                //var jsonObject = JsonConvert.SerializeObject(bookingId);
+                //var stringContent = new StringContent(jsonObject.ToString(), System.Text.Encoding.UTF8, "application/json");
+                //var respone = await httpClient.PostAsync(endPoint, stringContent);
+                //respone.EnsureSuccessStatusCode();
 
-                var endPoint = $"Delete/{booking.Id}";
-                httpClient.BaseAddress = new Uri(ApiUrl);
+                BookingIdDto booking = new BookingIdDto { Id = bookingId };
+                Console.WriteLine("************uhiuh***********" + booking.Id);
+                var postTask = httpClient.PostAsJsonAsync<BookingIdDto>(ApiUrl + "Delete", booking);
+                postTask.Wait();
 
-                var respone = await httpClient.PutAsync(endPoint, stringContent);
+                if (User.IsInRole("Admin") || User.IsInRole("Employee"))
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    return RedirectToAction(nameof(BookingsForCustomer));
+                }
             }
-            return Content("YAY");
         }
 
         // Opens new window with Customer information in Bookings
-            [HttpGet]
+        [HttpGet]
         [Route("[controller]/[action]")]
         public async Task<IActionResult> GetCustomer(string id)
         {
