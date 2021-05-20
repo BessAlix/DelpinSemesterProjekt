@@ -1,25 +1,21 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Bess\\Documents\\Delpin Project\\DelpinSemesterProjekt\\DelpinBooking\\DelpinAPI\\DelpinAPI.csproj": {}
+    "C:\\Users\\majak\\DelpinSemesterProjekt\\DelpinBooking\\DelpinAPI\\DelpinAPI.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Bess\\Documents\\Delpin Project\\DelpinSemesterProjekt\\DelpinBooking\\DelpinAPI\\DelpinAPI.csproj": {
+    "C:\\Users\\majak\\DelpinSemesterProjekt\\DelpinBooking\\DelpinAPI\\DelpinAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Bess\\Documents\\Delpin Project\\DelpinSemesterProjekt\\DelpinBooking\\DelpinAPI\\DelpinAPI.csproj",
+        "projectUniqueName": "C:\\Users\\majak\\DelpinSemesterProjekt\\DelpinBooking\\DelpinAPI\\DelpinAPI.csproj",
         "projectName": "DelpinAPI",
-        "projectPath": "C:\\Users\\Bess\\Documents\\Delpin Project\\DelpinSemesterProjekt\\DelpinBooking\\DelpinAPI\\DelpinAPI.csproj",
-        "packagesPath": "C:\\Users\\Bess\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Bess\\Documents\\Delpin Project\\DelpinSemesterProjekt\\DelpinBooking\\DelpinAPI\\obj\\",
+        "projectPath": "C:\\Users\\majak\\DelpinSemesterProjekt\\DelpinBooking\\DelpinAPI\\DelpinAPI.csproj",
+        "packagesPath": "C:\\Users\\majak\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\majak\\DelpinSemesterProjekt\\DelpinBooking\\DelpinAPI\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Bess\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+          "C:\\Users\\majak\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net5.0"
@@ -32,8 +28,8 @@
           "net5.0": {
             "targetAlias": "net5.0",
             "projectReferences": {
-              "C:\\Users\\Bess\\Documents\\Delpin Project\\DelpinSemesterProjekt\\DelpinBooking\\DelpinBooking\\DelpinBooking.csproj": {
-                "projectPath": "C:\\Users\\Bess\\Documents\\Delpin Project\\DelpinSemesterProjekt\\DelpinBooking\\DelpinBooking\\DelpinBooking.csproj"
+              "C:\\Users\\majak\\DelpinSemesterProjekt\\DelpinBooking\\DelpinBooking\\DelpinBooking.csproj": {
+                "projectPath": "C:\\Users\\majak\\DelpinSemesterProjekt\\DelpinBooking\\DelpinBooking\\DelpinBooking.csproj"
               }
             }
           }
@@ -83,26 +79,22 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.203\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.202\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\Bess\\Documents\\Delpin Project\\DelpinSemesterProjekt\\DelpinBooking\\DelpinBooking\\DelpinBooking.csproj": {
+    "C:\\Users\\majak\\DelpinSemesterProjekt\\DelpinBooking\\DelpinBooking\\DelpinBooking.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Bess\\Documents\\Delpin Project\\DelpinSemesterProjekt\\DelpinBooking\\DelpinBooking\\DelpinBooking.csproj",
+        "projectUniqueName": "C:\\Users\\majak\\DelpinSemesterProjekt\\DelpinBooking\\DelpinBooking\\DelpinBooking.csproj",
         "projectName": "DelpinBooking",
-        "projectPath": "C:\\Users\\Bess\\Documents\\Delpin Project\\DelpinSemesterProjekt\\DelpinBooking\\DelpinBooking\\DelpinBooking.csproj",
-        "packagesPath": "C:\\Users\\Bess\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Bess\\Documents\\Delpin Project\\DelpinSemesterProjekt\\DelpinBooking\\DelpinBooking\\obj\\",
+        "projectPath": "C:\\Users\\majak\\DelpinSemesterProjekt\\DelpinBooking\\DelpinBooking\\DelpinBooking.csproj",
+        "packagesPath": "C:\\Users\\majak\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\majak\\DelpinSemesterProjekt\\DelpinBooking\\DelpinBooking\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Bess\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+          "C:\\Users\\majak\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net5.0"
@@ -151,7 +143,7 @@
             },
             "Microsoft.VisualStudio.Azure.Containers.Tools.Targets": {
               "target": "Package",
-              "version": "[1.10.9, )"
+              "version": "[1.10.13, )"
             },
             "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
               "target": "Package",
@@ -180,7 +172,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.203\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.202\\RuntimeIdentifierGraph.json"
         }
       }
     }
