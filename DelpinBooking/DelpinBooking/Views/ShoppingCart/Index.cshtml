@@ -1,0 +1,13 @@
+﻿@using DelpinBooking.Controllers
+@using Newtonsoft.Json
+@model List<DelpinBooking.Models.Machine>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Dine ønskede maskiner</h1>
+
+<a asp-controller="Bookings" asp-action="CreateBooking" asp-route-machinesstring=@JsonConvert.SerializeObject(Model)>Opret</a>
+
+            

@@ -102,10 +102,10 @@ namespace DelpinBooking.Controllers
 
         // GET: Bookings/Create
         [HttpGet]
-        [Route("[action]")]
-        public async Task<IActionResult> CreateAsync(List<Machine> machines)
+        [Route("[action]/{machinesstring}")]
+        public async Task<IActionResult> CreateBooking(string machinesstring)
         {
-            List<string> warehouses = await new WarehousesController(_context).GetAllWarehouses();
+            List<Machine> machines = JsonConvert.DeserializeObject<List<Machine>>(machinesstring);
             Booking booking;
             var UserID = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             using (var httpClient = new HttpClient())
@@ -119,18 +119,22 @@ namespace DelpinBooking.Controllers
                     booking = new Booking
                     {
                        Customer = user.Id,
-                       SoftDeleted = false
+                       SoftDeleted = false,
+                       Machines = machines
                        
                     };
-                    //warehouse = new Warehouse
-                    //{
-
-                    //}
+                    
                 }
             }
 
+            foreach (var VARIABLE in machines)
+            {
+                Console.WriteLine("XXXXXXXXX");
+                Console.WriteLine(VARIABLE.Name);
+            }
             return View(booking);
         }
+        
 
         // POST: Bookings/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.

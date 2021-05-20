@@ -20,7 +20,7 @@ namespace DelpinBooking.Controllers
         public IActionResult Index()
         {
             var cart = SessionHelper.GetObjectFromJson<List<Machine>>(HttpContext.Session, "cart");
-            return View("~/Views/Machines/Index.cshtml", cart);
+            return View(cart);
         }
 
         [Route("[action]")]

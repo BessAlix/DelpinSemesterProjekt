@@ -2,11 +2,15 @@
 @{
     ViewData["Title"] = "Opret";
 }
- 
+
 <h1>Opret</h1>
 
 <h4>Booking</h4>
-<hr />
+
+@foreach (var item in @Model.Machines)
+{
+    <li>@item.Name</li>
+}
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
@@ -22,15 +26,19 @@
                 <span asp-validation-for="ReturnDate" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input asp-for="Customer" class="form-control" type="hidden"/>
+                <input asp-for="Customer" class="form-control" type="hidden" />
             </div>
-
+            <div class="form-group">
+                <input asp-for="Machines" class="form-control" type="hidden" />
+            </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
+
         </form>
     </div>
 </div>
+
 
 @if (User.IsInRole("Admin") || User.IsInRole("Employee"))
 {
@@ -42,7 +50,7 @@ else
 {
     <div>
         <a asp-action="BookingsForCustomer">Back to List</a>
-    </div> 
+    </div>
 }
 
 
