@@ -55,7 +55,7 @@ namespace DelpinAPI.Controllers
 
         [HttpPost]
         [Route("[action]")]
-        public async Task<IActionResult> Create(Booking booking)
+        public async Task<IActionResult> Create([FromBody]Booking booking)
         {
             _context.Add(booking);
             await _context.SaveChangesAsync();
@@ -63,6 +63,15 @@ namespace DelpinAPI.Controllers
             return CreatedAtAction("GetBooking", new { id = booking.Id }, booking);
         }
 
+        [HttpPut]
+        [Route("[action]")]
+        public async Task<IActionResult> Update(Booking booking)
+        {
+            _context.Update(booking);
+            await _context.SaveChangesAsync();
+
+            return Ok(booking);
+        }
 
         [HttpPost]
         [Route("[action]")]

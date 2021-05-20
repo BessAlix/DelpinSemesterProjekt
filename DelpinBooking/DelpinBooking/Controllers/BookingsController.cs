@@ -28,12 +28,12 @@ namespace DelpinBooking.Controllers
 
         public BookingsController(DelpinBookingContext context)
         {
-            _context = context;
+            _context = context; 
         }
 
         // GET: Bookings
         [Authorize(Roles = "Admin, Employee")]
-        [Route("[controller]/[action]")]
+        [Route("[action]")]
         [HttpGet]
         public async Task<IActionResult> Index()
         {
@@ -49,8 +49,9 @@ namespace DelpinBooking.Controllers
             }
             return View(Bookings);
         }
+
         // GET: Bookings for a customer 
-        [Route("[controller]/[action]")]
+        [Route("[action]")]
         [HttpGet]
         public async Task<IActionResult> BookingsForCustomer(string id)
         {
@@ -69,7 +70,6 @@ namespace DelpinBooking.Controllers
             }
             return View("Index", Bookings);
         }
-
 
         // GET: Bookings/Details/5
         [HttpGet]
@@ -101,10 +101,9 @@ namespace DelpinBooking.Controllers
 
         // GET: Bookings/Create
         [HttpGet]
-        [Route("[controller]/[action]")]
+        [Route("[action]")]
         public async Task<IActionResult> CreateAsync()
         {
-     
             List<string> warehouses = await new WarehousesController(_context).GetAllWarehouses();
             Booking booking;
             var UserID = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -129,14 +128,14 @@ namespace DelpinBooking.Controllers
                 }
             }
 
-            return View(new Tuple<Booking, List<string>>(booking, warehouses));
+            return View(booking);
         }
 
         // POST: Bookings/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [Route("[controller]/[action]")]
+        [Route("[action]")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,PickUpDate,ReturnDate,Customer")] [FromForm] Booking booking)
         {
@@ -144,20 +143,15 @@ namespace DelpinBooking.Controllers
             {
                 using (var httpClient = new HttpClient())
                 {
-                    var postTask = httpClient.PostAsJsonAsync<Booking>(ApiUrl + "Create", booking);
-                    postTask.Wait();
-
-                    var result = postTask.Result;
-                    if (result.IsSuccessStatusCode)
+                    var postTask = await httpClient.PostAsJsonAsync<Booking>(ApiUrl + "Create", booking);
+                    
+                    if (User.IsInRole("Admin") || User.IsInRole("Employee"))
                     {
-                        if (User.IsInRole("Admin") || User.IsInRole("Employee"))
-                        {
-                            return RedirectToAction(nameof(Index));
-                        }
-                        else
-                        {
-                            return RedirectToAction(nameof(BookingsForCustomer));
-                        }
+                        return RedirectToAction(nameof(Index));
+                    }
+                    else
+                    {
+                        return RedirectToAction(nameof(BookingsForCustomer));
                     }
                 }
             }
@@ -165,11 +159,10 @@ namespace DelpinBooking.Controllers
             return View(booking);
         }
 
-
         [Authorize(Roles = "Admin, Employee")]
         // GET: Bookings/Edit/5
         [HttpGet]
-        [Route("[controller]/[action]")]
+        [Route("[action]")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -197,9 +190,9 @@ namespace DelpinBooking.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [Route("[controller]/[action]")]
+        [Route("[action]")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,PickUpDate,ReturnDate,RentType,DepartmentStore,PricePrDay,CustomerID,PhoneNumber,CustomerName,CompanyName,Address,City")] Booking booking)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,PickUpDate,ReturnDate,Customer")] Booking booking)
         {
             if (id != booking.Id)
             {
@@ -208,22 +201,12 @@ namespace DelpinBooking.Controllers
 
             if (ModelState.IsValid)
             {
-                try
+                using (var httpClient = new HttpClient())
                 {
-                    _context.Update(booking);
-                    await _context.SaveChangesAsync();
+                    var putTask = await httpClient.PutAsJsonAsync<Booking>(ApiUrl + "Update", booking);
+                    putTask.EnsureSuccessStatusCode();
                 }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!BookingExists(booking.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+
                 return RedirectToAction(nameof(Index));
             }
             return View(booking);
@@ -231,7 +214,7 @@ namespace DelpinBooking.Controllers
 
         // GET: Bookings/Delete/5
         [HttpGet]
-        [Route("[controller]/[action]")]
+        [Route("[action]")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -259,7 +242,7 @@ namespace DelpinBooking.Controllers
 
         // POST: Bookings/Delete/5
         [HttpPost, ActionName("Delete")]
-        [Route("[controller]/[action]")]
+        [Route("[action]")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int bookingId)
         {
@@ -286,7 +269,7 @@ namespace DelpinBooking.Controllers
 
         // Opens new window with Customer information in Bookings
         [HttpGet]
-        [Route("[controller]/[action]")]
+        [Route("[action]")]
         public async Task<IActionResult> GetCustomer(string id)
         {
             using (var httpClient = new HttpClient())

@@ -1,4 +1,4 @@
-﻿@model Tuple<Booking,List<string>>
+﻿@model DelpinBooking.Models.Booking
 @{
     ViewData["Title"] = "Opret";
 }
@@ -11,21 +11,19 @@
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            @Html.HiddenFor(model => model.Item1.Customer)
             <div class="form-group">
-                <label asp-for="Item1.PickUpDate" class="control-label"></label>
-                <input asp-for="Item1.PickUpDate" class="form-control" />
-                <span asp-validation-for="Item1.PickUpDate" class="text-danger"></span>
+                <label asp-for="PickUpDate" class="control-label"></label>
+                <input asp-for="PickUpDate" class="form-control" />
+                <span asp-validation-for="PickUpDate" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Item1.ReturnDate" class="control-label"></label>
-                <input asp-for="Item1.ReturnDate" class="form-control" />
-                <span asp-validation-for="Item1.ReturnDate" class="text-danger"></span>
+                <label asp-for="ReturnDate" class="control-label"></label>
+                <input asp-for="ReturnDate" class="form-control" />
+                <span asp-validation-for="ReturnDate" class="text-danger"></span>
             </div>
-
-            @Html.DropDownListFor(m => m.Item2, new SelectList(Model.Item2));
-       
-
+            <div class="form-group">
+                <input asp-for="Customer" class="form-control" type="hidden"/>
+            </div>
 
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
@@ -33,6 +31,7 @@
         </form>
     </div>
 </div>
+
 @if (User.IsInRole("Admin") || User.IsInRole("Employee"))
 {
     <div>

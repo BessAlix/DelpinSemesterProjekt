@@ -23,6 +23,9 @@
                 <input asp-for="ReturnDate" class="form-control" />
                 <span asp-validation-for="ReturnDate" class="text-danger"></span>
             </div>
+            <div class="form-group">
+                <input asp-for="Customer" class="form-control" type="hidden" />
+            </div>
 
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />

@@ -1,4 +1,5 @@
-﻿using DelpinAPI.Data;
+﻿using DelpinAPI.APIModels;
+using DelpinAPI.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
@@ -15,6 +16,7 @@ namespace DelpinAPI.Controllers
             _context = context;
 
         }
+
         [HttpGet]
         [Route("[action]")]
         public async Task<IActionResult> GetAllMachines()
@@ -24,6 +26,27 @@ namespace DelpinAPI.Controllers
                 .Include(p => p.Warehouse)
                 .ToListAsync();
             return Ok(machines);
+        }
+
+        [HttpGet]
+        [Route("[action]/{id}")]
+        public async Task<IActionResult> GetMachine(int id)
+        {
+            var machines = await _context.Machine
+                .AsNoTracking()
+                .Include(p => p.Warehouse)
+                .FirstOrDefaultAsync();
+            return Ok(machines);
+        }
+
+        [HttpPost]
+        [Route("[action]")]
+        public async Task<IActionResult> Create(Machine machine)
+        {
+            _context.Add(machine);
+            await _context.SaveChangesAsync();
+            
+            return CreatedAtAction("GetMachine", new { id = machine.Id }, machine);
         }
 
     }

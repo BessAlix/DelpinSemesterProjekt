@@ -909,3 +909,8 @@ C:\Users\majak\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\obj\Debug\net5.
 C:\Users\majak\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\obj\Debug\net5.0\Razor\Views\Warehouses\Details.cshtml.g.cs
 C:\Users\majak\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\obj\Debug\net5.0\Razor\Views\Warehouses\Edit.cshtml.g.cs
 C:\Users\majak\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\obj\Debug\net5.0\Razor\Views\Warehouses\Index.cshtml.g.cs
+C:\Users\sigur\source\repos\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\obj\Debug\net5.0\Razor\Views\Warehouses\Create.cshtml.g.cs
+C:\Users\sigur\source\repos\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\obj\Debug\net5.0\Razor\Views\Warehouses\Delete.cshtml.g.cs
+C:\Users\sigur\source\repos\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\obj\Debug\net5.0\Razor\Views\Warehouses\Details.cshtml.g.cs
+C:\Users\sigur\source\repos\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\obj\Debug\net5.0\Razor\Views\Warehouses\Edit.cshtml.g.cs
+C:\Users\sigur\source\repos\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\obj\Debug\net5.0\Razor\Views\Warehouses\Index.cshtml.g.cs

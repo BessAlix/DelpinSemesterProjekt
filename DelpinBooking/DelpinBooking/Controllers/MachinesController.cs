@@ -13,7 +13,7 @@ using Newtonsoft.Json;
 
 namespace DelpinBooking.Controllers
 {
-    [Authorize(Roles = "Admin,Employee")]
+    [Authorize]
     public class MachinesController : Controller
     {
         private readonly DelpinBookingContext _context;
@@ -60,6 +60,7 @@ namespace DelpinBooking.Controllers
         }
 
         // GET: Machines/Create
+        [Authorize(Roles ="Admin,Employee")]
         public IActionResult Create()
         {
             return View();
@@ -83,6 +84,7 @@ namespace DelpinBooking.Controllers
 
 
         // GET: Machines/Edit/5
+        [Authorize(Roles = "Admin,Employee")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -134,6 +136,7 @@ namespace DelpinBooking.Controllers
         }
 
         // GET: Machines/Delete/5
+        [Authorize(Roles = "Admin,Employee")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
