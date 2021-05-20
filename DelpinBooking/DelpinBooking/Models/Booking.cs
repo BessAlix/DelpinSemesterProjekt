@@ -11,8 +11,8 @@ namespace DelpinBooking.Models
     public class Booking
     {
         public int Id { get; set; }
-        [Display(Name = "Varenummer")]
-        public Machine Machine { get; set; }
+        [Display(Name = "Maskiner")]
+        public List<Machine> Machines { get; set; }
         [DataType(DataType.Date)]
         [Display(Name = "Afhentningsdato")]
         public DateTime PickUpDate { get; set; }
@@ -20,6 +20,6 @@ namespace DelpinBooking.Models
         [Display(Name = "Afleveringsdato")]
         public DateTime ReturnDate { get; set; }
         public bool SoftDeleted { get; set; }
-        public string Customer { get; set; } // der skal laves API
+        public string Customer { get; set; } 
     }
 }

@@ -1,4 +1,5 @@
-﻿@model IEnumerable<DelpinBooking.Models.Machine>
+﻿@using DelpinBooking.Controllers
+@model IEnumerable<DelpinBooking.Models.Machine>
 
 @{
     ViewData["Title"] = "Index";
@@ -38,6 +39,7 @@
                 }
 
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                @Html.ActionLink("Add to cart", "Add", "ShoppingCart", item)
 
             </td>
         </tr>

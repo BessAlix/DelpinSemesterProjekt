@@ -25,7 +25,7 @@ namespace DelpinAPI.Controllers
         {
             var bookings = await _context.Booking
                 .AsNoTracking()
-                .Include(p => p.Machine)
+                .Include(p => p.Machines)
                 .ToListAsync();
             return Ok(bookings);
         }

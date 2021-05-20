@@ -9,8 +9,8 @@ namespace DelpinAPI.APIModels
     public class Booking
     {
         public int Id { get; set; }
-       
-        public Machine Machine { get; set; }
+
+        public List<Machine> Machines { get; set; }
         [DataType(DataType.Date)]
         public DateTime PickUpDate { get; set; }
         [DataType(DataType.Date)]

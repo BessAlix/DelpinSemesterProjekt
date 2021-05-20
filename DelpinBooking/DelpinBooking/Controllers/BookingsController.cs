@@ -14,6 +14,7 @@ using DelpinBooking.Migrations;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Text;
+using Machine = DelpinBooking.Models.Machine;
 
 namespace DelpinBooking.Controllers
 {
@@ -102,7 +103,7 @@ namespace DelpinBooking.Controllers
         // GET: Bookings/Create
         [HttpGet]
         [Route("[action]")]
-        public async Task<IActionResult> CreateAsync()
+        public async Task<IActionResult> CreateAsync(List<Machine> machines)
         {
             List<string> warehouses = await new WarehousesController(_context).GetAllWarehouses();
             Booking booking;
