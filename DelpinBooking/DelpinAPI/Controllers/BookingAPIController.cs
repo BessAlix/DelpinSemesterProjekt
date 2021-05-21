@@ -56,7 +56,11 @@ namespace DelpinAPI.Controllers
         [HttpPost]
         [Route("[action]")]
         public async Task<IActionResult> Create([FromBody]Booking booking)
-        {
+        {    // We update within create
+            //For each booking we write a foreign key 
+            //Add method will make a new machine with a new ID
+            //Update every machines foreign key to booking
+            //Update checks if the machines ID already exists, if not, then create a new.
             _context.Update(booking);
             await _context.SaveChangesAsync();
             Console.WriteLine("Is this working?" +booking.Machines[0].Name);
