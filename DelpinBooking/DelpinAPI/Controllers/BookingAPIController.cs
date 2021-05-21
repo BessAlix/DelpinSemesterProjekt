@@ -59,9 +59,9 @@ namespace DelpinAPI.Controllers
         {
             _context.Add(booking);
             await _context.SaveChangesAsync();
-
+            Console.WriteLine("Is this working?" +booking.Machines[0].Name);
             return CreatedAtAction("GetBooking", new { id = booking.Id }, booking);
-        }
+        }  
 
         [HttpPut]
         [Route("[action]")]

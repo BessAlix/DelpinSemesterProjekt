@@ -127,11 +127,7 @@ namespace DelpinBooking.Controllers
                 }
             }
 
-            foreach (var VARIABLE in machines)
-            {
-                Console.WriteLine("XXXXXXXXX");
-                Console.WriteLine(VARIABLE.Name);
-            }
+            
             return View(booking);
         }
         
@@ -142,16 +138,21 @@ namespace DelpinBooking.Controllers
         [HttpPost]
         [Route("[action]")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,PickUpDate,ReturnDate,Customer")] [FromForm] Booking booking)
+        public async Task<IActionResult> Create(string machinesstring,[Bind("Id,PickUpDate,ReturnDate,Customer")] [FromForm] Booking booking)
         {
             if (ModelState.IsValid)
+
             {
-                using (var httpClient = new HttpClient())
+                List<Machine> Machines = JsonConvert.DeserializeObject<List<Machine>>(machinesstring);
+                using (var httpClient = new HttpClient()) 
                 {
+                    booking.Machines = Machines;
                     var postTask = await httpClient.PostAsJsonAsync<Booking>(ApiUrl + "Create", booking);
-                    
+                    Console.WriteLine("working?" + booking.Machines[0].Name);
+
                     if (User.IsInRole("Admin") || User.IsInRole("Employee"))
                     {
+                        Console.WriteLine("working?" + booking.Machines[0].Name);
                         return RedirectToAction(nameof(Index));
                     }
                     else
@@ -160,7 +161,7 @@ namespace DelpinBooking.Controllers
                     }
                 }
             }
-
+            
             return View(booking);
         }
 
