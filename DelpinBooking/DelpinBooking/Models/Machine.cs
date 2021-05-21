@@ -19,5 +19,6 @@ namespace DelpinBooking.Models
         public string Type { get; set; }
         [Display(Name = "Varehus")]
         public Warehouse Warehouse { get; set; }
+        public Booking Booking { get; set; }
     }
 }

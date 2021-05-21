@@ -2,6 +2,7 @@
 using DelpinAPI.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace DelpinAPI.Controllers
@@ -24,7 +25,10 @@ namespace DelpinAPI.Controllers
             var machines = await _context.Machine
                 .AsNoTracking()
                 .Include(p => p.Warehouse)
+                .Include(p => p.Booking)
+                .Where(m => m.Booking == null)
                 .ToListAsync();
+
             return Ok(machines);
         }
 
