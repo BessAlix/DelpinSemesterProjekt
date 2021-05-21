@@ -148,11 +148,10 @@ namespace DelpinBooking.Controllers
                 {
                     booking.Machines = Machines;
                     var postTask = await httpClient.PostAsJsonAsync<Booking>(ApiUrl + "Create", booking);
-                    Console.WriteLine("working?" + booking.Machines[0].Name);
-
+    
                     if (User.IsInRole("Admin") || User.IsInRole("Employee"))
                     {
-                        Console.WriteLine("working?" + booking.Machines[0].Name);
+                        
                         return RedirectToAction(nameof(Index));
                     }
                     else

@@ -63,7 +63,6 @@ namespace DelpinAPI.Controllers
             //Update checks if the machines ID already exists, if not, then create a new.
             _context.Update(booking);
             await _context.SaveChangesAsync();
-            Console.WriteLine("Is this working?" +booking.Machines[0].Name);
             return CreatedAtAction("GetBooking", new { id = booking.Id }, booking);
         }  
 
