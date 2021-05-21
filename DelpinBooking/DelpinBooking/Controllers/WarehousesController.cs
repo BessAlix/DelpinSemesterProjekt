@@ -101,7 +101,6 @@ namespace DelpinBooking.Controllers
         [Route("[controller]/[action]")]
         public async Task<IActionResult> CreateAsync()
         {
-            Warehouse warehouse;
             Warehouse Warehouse;
             var UserID = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             using (var httpClient = new HttpClient())

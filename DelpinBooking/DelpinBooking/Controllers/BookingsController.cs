@@ -33,7 +33,6 @@ namespace DelpinBooking.Controllers
         }
 
         // GET: Bookings
-        [Authorize(Roles = "Admin, Employee")]
         [Route("[action]")]
         [HttpGet]
         public async Task<IActionResult> Index()
@@ -41,35 +40,25 @@ namespace DelpinBooking.Controllers
             List<Booking> Bookings;
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync(ApiUrl + "GetAllBookings"))
+                if (User.IsInRole("Admin") || User.IsInRole("Employee"))
                 {
-                    string apiResponse = await response.Content.ReadAsStringAsync();
-                    Bookings = JsonConvert.DeserializeObject<List<Booking>>(apiResponse); 
-                    
+                    using (var response = await httpClient.GetAsync(ApiUrl + "GetAllBookings"))
+                    {
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+                        Bookings = JsonConvert.DeserializeObject<List<Booking>>(apiResponse);
+                    }
+                }
+                else
+                {
+                    var UserID = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+                    using (var response = await httpClient.GetAsync(ApiUrl + "GetBookingsForCustomer/" + UserID))
+                    {
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+                        Bookings = JsonConvert.DeserializeObject<List<Booking>>(apiResponse);
+                    }
                 }
             }
             return View(Bookings);
-        }
-
-        // GET: Bookings for a customer 
-        [Route("[action]")]
-        [HttpGet]
-        public async Task<IActionResult> BookingsForCustomer(string id)
-        {
-            List<Booking> Bookings;
-            var UserID = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-            using (var httpClient = new HttpClient())
-            {
-                using (var response = await httpClient.GetAsync(ApiUrl + "GetBookingsForCustomer/" + UserID))
-                {
-                    string apiResponse = await response.Content.ReadAsStringAsync();
-                    Bookings = JsonConvert.DeserializeObject<List<Booking>>(
-                        apiResponse); // substring to remove array brackets from response
-
-                }
-            }
-            return View("Index", Bookings);
         }
 
         // GET: Bookings/Details/5
@@ -148,16 +137,8 @@ namespace DelpinBooking.Controllers
                 {
                     booking.Machines = Machines;
                     var postTask = await httpClient.PostAsJsonAsync<Booking>(ApiUrl + "Create", booking);
-    
-                    if (User.IsInRole("Admin") || User.IsInRole("Employee"))
-                    {
-                        
-                        return RedirectToAction(nameof(Index));
-                    }
-                    else
-                    {
-                        return RedirectToAction(nameof(BookingsForCustomer));
-                    }
+                    
+                    return RedirectToAction(nameof(Index));
                 }
             }
             
@@ -260,15 +241,8 @@ namespace DelpinBooking.Controllers
                 var stringContent = new StringContent(jsonObject.ToString(), System.Text.Encoding.UTF8, "application/json");
                 var respone = await httpClient.PostAsync(endPoint, stringContent);
                 respone.EnsureSuccessStatusCode();
-
-                if (User.IsInRole("Admin") || User.IsInRole("Employee"))
-                {
-                    return RedirectToAction(nameof(Index));
-                }
-                else
-                {
-                    return RedirectToAction(nameof(BookingsForCustomer));
-                }
+    
+                return RedirectToAction(nameof(Index));
             }
         }
 

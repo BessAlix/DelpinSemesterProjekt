@@ -612,3 +612,4 @@ C:\Users\majak\DelpinSemesterProjekt\DelpinBooking\DelpinAPI\bin\Debug\net5.0\De
 C:\Users\Bess\Documents\Delpin Project\DelpinSemesterProjekt\DelpinBooking\DelpinAPI\bin\Debug\net5.0\Microsoft.EntityFrameworkCore.Design.dll
 C:\Users\Bess\Documents\Delpin Project\DelpinSemesterProjekt\DelpinBooking\DelpinAPI\obj\Debug\net5.0\DelpinAPI.MvcApplicationPartsAssemblyInfo.cs
 C:\Users\Bess\Documents\Delpin Project\DelpinSemesterProjekt\DelpinBooking\DelpinAPI\bin\Debug\net5.0\DelpinBooking.StaticWebAssets.xml
+C:\Users\sigur\source\repos\DelpinSemesterProjekt\DelpinBooking\DelpinAPI\bin\Debug\net5.0\Microsoft.EntityFrameworkCore.Design.dll
