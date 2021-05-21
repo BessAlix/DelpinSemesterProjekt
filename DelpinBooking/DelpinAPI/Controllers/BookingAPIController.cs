@@ -57,7 +57,7 @@ namespace DelpinAPI.Controllers
         [Route("[action]")]
         public async Task<IActionResult> Create([FromBody]Booking booking)
         {
-            _context.Add(booking);
+            _context.Update(booking);
             await _context.SaveChangesAsync();
             Console.WriteLine("Is this working?" +booking.Machines[0].Name);
             return CreatedAtAction("GetBooking", new { id = booking.Id }, booking);
