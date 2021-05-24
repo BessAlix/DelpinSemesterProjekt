@@ -39,6 +39,10 @@ namespace DelpinBooking.Controllers
 
         }
         
-
+        [Route("[action]")]
+        public void Clear()
+        {
+            SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", null);
+        }
     }
 }

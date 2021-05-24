@@ -37,8 +37,53 @@ namespace DelpinBooking.Controllers
 
                 }
             }
-                
+
             return View(Machines);
+        }
+
+        public async Task<IActionResult> ChooseMachines()
+        {
+            List<Machine> Machines;
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync(ApiUrl + "GetAvailableMachines"))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    Machines = JsonConvert.DeserializeObject<List<Machine>>(apiResponse);
+
+                }
+            }
+
+            Dictionary<string, int> valuePairs = new Dictionary<string, int>();
+            foreach (Machine machine in Machines)
+            {
+                if (valuePairs.ContainsKey(machine.Name))
+                {
+                    valuePairs[machine.Name]++;
+                }
+                else
+                {
+                    valuePairs.Add(machine.Name, 1);
+                }
+            }
+
+            return View(valuePairs);
+        }
+
+        public async Task<IActionResult> AddToCart(string name)
+        {
+            Console.WriteLine("*******************" + name);
+            Machine machine;
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync(ApiUrl + "GetMachineFromName/" + name))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    machine = JsonConvert.DeserializeObject<Machine>(apiResponse);
+
+                }
+            }
+            return RedirectToAction("Add", "ShoppingCart", machine);
         }
 
         // GET: Machines/Details/5

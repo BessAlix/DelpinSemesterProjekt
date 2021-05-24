@@ -15,6 +15,7 @@ using System.Net.Http;
 using System.Net.Http.Json;
 using System.Text;
 using Machine = DelpinBooking.Models.Machine;
+using DelpinBooking.Helpers;
 
 namespace DelpinBooking.Controllers
 {
@@ -137,7 +138,9 @@ namespace DelpinBooking.Controllers
                 {
                     booking.Machines = Machines;
                     var postTask = await httpClient.PostAsJsonAsync<Booking>(ApiUrl + "Create", booking);
-                    
+                    ShoppingCartController shoppingCartController = new ShoppingCartController { ControllerContext = ControllerContext };
+                    shoppingCartController.Clear();
+
                     return RedirectToAction(nameof(Index));
                 }
             }

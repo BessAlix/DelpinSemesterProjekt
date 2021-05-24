@@ -25,6 +25,19 @@ namespace DelpinAPI.Controllers
             var machines = await _context.Machine
                 .AsNoTracking()
                 .Include(p => p.Warehouse)
+                .ToListAsync();
+
+            return Ok(machines);
+        }
+
+
+        [HttpGet]
+        [Route("[action]")]
+        public async Task<IActionResult> GetAvailableMachines()
+        {
+            var machines = await _context.Machine
+                .AsNoTracking()
+                .Include(p => p.Warehouse)
                 .Include(p => p.Booking)
                 .Where(m => m.Booking == null)
                 .ToListAsync();
@@ -39,6 +52,20 @@ namespace DelpinAPI.Controllers
             var machines = await _context.Machine
                 .AsNoTracking()
                 .Include(p => p.Warehouse)
+                .FirstOrDefaultAsync();
+            return Ok(machines);
+        }
+
+        [HttpGet]
+        [Route("[action]/{name}")]
+        public async Task<IActionResult> GetMachineFromName(string name)
+        {
+            var machines = await _context.Machine
+                .AsNoTracking()
+                .Include(p => p.Warehouse)
+                .Include(p => p.Booking)
+                .Where(m => m.Booking == null)
+                .Where(m => m.Name == name)
                 .FirstOrDefaultAsync();
             return Ok(machines);
         }

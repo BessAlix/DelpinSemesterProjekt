@@ -25,7 +25,7 @@ namespace DelpinAPI.Controllers
         {
             var bookings = await _context.Booking
                 .AsNoTracking()
-                .Include(p => p.Machines)
+                //.Include(p => p.Machines)
                 .ToListAsync();
             return Ok(bookings);
         }
@@ -56,7 +56,7 @@ namespace DelpinAPI.Controllers
         [HttpPost]
         [Route("[action]")]
         public async Task<IActionResult> Create([FromBody]Booking booking)
-        {    // We update within create
+        {   //We update within create
             //For each booking we write a foreign key 
             //Add method will make a new machine with a new ID
             //Update every machines foreign key to booking
@@ -82,11 +82,15 @@ namespace DelpinAPI.Controllers
         {
             var booking = await _context.Booking.FirstOrDefaultAsync(b => b.Id == bookingId);
             booking.SoftDeleted = true;
+
+            //Sql command to clear all foreign keys to the soft-deleted booking
+            string sql = "UPDATE dbo.Machine SET BookingId = null" +
+                          " WHERE BookingId = " + bookingId;
+
+            _context.Database.ExecuteSqlRaw(sql);
             await _context.SaveChangesAsync();
 
             return Ok(booking);
         }
-
-        
     }
 }
