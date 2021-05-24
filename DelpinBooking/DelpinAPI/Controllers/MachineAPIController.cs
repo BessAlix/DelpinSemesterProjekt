@@ -1,4 +1,5 @@
 ﻿using DelpinAPI.APIModels;
+using DelpinAPI.Classes;
 using DelpinAPI.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -33,16 +34,50 @@ namespace DelpinAPI.Controllers
 
         [HttpGet]
         [Route("[action]")]
-        public async Task<IActionResult> GetAvailableMachines()
+        public async Task<IActionResult> GetAvailableMachines([FromQuery] MachineQueryParameters queryParameters)
         {
-            var machines = await _context.Machine
+            IQueryable<Machine> machines = _context.Machine;
+
+            //Filtering Items, specifically Warehouse by City.
+            if (queryParameters.Warehouse != null)
+
+            {
+                machines = machines.Where(
+                m => m.Warehouse.City == queryParameters.Warehouse.City);
+            }
+           
+
+            //Searching items, specifically Name and Type.
+            if (!string.IsNullOrEmpty(queryParameters.Name))
+            {
+                machines = machines.Where (
+                m => m.Name.ToLower().Contains(queryParameters.Name.ToLower()));
+            }
+
+            if (!string.IsNullOrEmpty(queryParameters.Name))
+            {
+                machines = machines.Where(
+                m => m.Type.ToLower().Contains(queryParameters.Type.ToLower()));
+            }
+
+            if (!string.IsNullOrEmpty(queryParameters.SortBy))
+            {
+                if(typeof(Machine).GetProperty(queryParameters.SortBy) != null)
+                {
+                    machines = machines.OrderBy(m => m.Name);
+                }
+            }
+
+            machines = machines
                 .AsNoTracking()
                 .Include(p => p.Warehouse)
                 .Include(p => p.Booking)
                 .Where(m => m.Booking == null)
-                .ToListAsync();
+                .Skip(queryParameters.Size * (queryParameters.Page - 1))
+                .Take(queryParameters.Size);
 
-            return Ok(machines);
+            
+            return Ok(await machines.ToListAsync());
         }
 
         [HttpGet]

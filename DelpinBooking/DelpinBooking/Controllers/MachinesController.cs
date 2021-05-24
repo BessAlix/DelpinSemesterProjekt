@@ -10,6 +10,7 @@ using DelpinBooking.Models;
 using Microsoft.AspNetCore.Authorization;
 using System.Net.Http;
 using Newtonsoft.Json;
+using DelpinBooking.Classes;
 
 namespace DelpinBooking.Controllers
 {
@@ -46,7 +47,10 @@ namespace DelpinBooking.Controllers
             List<Machine> Machines;
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync(ApiUrl + "GetAvailableMachines"))
+                string querystring = "?Size=20&Page=1";
+                
+                using (var response = await httpClient.GetAsync(ApiUrl + "GetAvailableMachines" + querystring ))
+
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     Machines = JsonConvert.DeserializeObject<List<Machine>>(apiResponse);
