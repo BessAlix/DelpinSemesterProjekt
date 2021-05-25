@@ -118,7 +118,7 @@ namespace DelpinBooking.Controllers
             }
 
             
-            return View(booking);
+            return View("Create", booking);
         }
         
 
