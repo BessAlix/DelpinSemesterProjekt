@@ -10,7 +10,6 @@ using DelpinBooking.Models;
 using Microsoft.AspNetCore.Authorization;
 using System.Net.Http;
 using Newtonsoft.Json;
-using DelpinBooking.Classes;
 
 namespace DelpinBooking.Controllers
 {
@@ -26,12 +25,28 @@ namespace DelpinBooking.Controllers
         }
 
         // GET: Machines
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string? queryParameters)
         {
+            if (string.IsNullOrEmpty(queryParameters))
+            {
+                queryParameters = "size=10&page=1";
+                
+            }
+
+            string [] queryParametersArr = queryParameters.Split('&');
+            Dictionary<string, int> queryParametersDictionary = new Dictionary<string, int>();
+            foreach (var s in queryParametersArr)
+            {
+                string[] arr = s.Split('=');
+                queryParametersDictionary.Add(arr[0], int.Parse(arr[1]));
+            }
+
+            ViewBag.QueryParametersDictionary = queryParametersDictionary;
+
             List<Machine> Machines;
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync(ApiUrl + "GetAllMachines"))
+                using (var response = await httpClient.GetAsync(ApiUrl + "GetAllMachines?" + queryParameters))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     Machines = JsonConvert.DeserializeObject<List<Machine>>(apiResponse);
@@ -49,8 +64,7 @@ namespace DelpinBooking.Controllers
             {
                 string querystring = "?Size=20&Page=1";
                 
-                using (var response = await httpClient.GetAsync(ApiUrl + "GetAvailableMachines" + querystring ))
-
+                using (var response = await httpClient.GetAsync(ApiUrl + "GetAvailableMachines" + querystring))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     Machines = JsonConvert.DeserializeObject<List<Machine>>(apiResponse);
@@ -76,7 +90,6 @@ namespace DelpinBooking.Controllers
 
         public async Task<IActionResult> AddToCart(string name)
         {
-            Console.WriteLine("*******************" + name);
             Machine machine;
             using (var httpClient = new HttpClient())
             {
