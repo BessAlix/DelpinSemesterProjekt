@@ -10,16 +10,14 @@ namespace DelpinAPI.Classes
 {
     public class MachineQueryParameters : QueryParameters
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+     
         public int Id { get; set; }
 
         public string Name { get; set; }
 
         public string Type { get; set; }
 
-        public Warehouse Warehouse { get; set; }
+        public string WarehouseCity { get; set; }
 
-        public Booking Booking { get; set; }
     }
 }

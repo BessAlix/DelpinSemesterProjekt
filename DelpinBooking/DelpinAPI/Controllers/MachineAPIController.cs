@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using System;
 
 namespace DelpinAPI.Controllers
 {
@@ -54,9 +55,7 @@ namespace DelpinAPI.Controllers
                 .AsNoTracking()
                 .Include(p => p.Warehouse)
                 .Include(p => p.Booking)
-                .Where(m => m.Booking == null)
-                .Skip(queryParameters.Size * (queryParameters.Page - 1))
-                .Take(queryParameters.Size);
+                .Where(m => m.Booking == null); 
 
             return Ok(await machines.ToListAsync());
         }
@@ -101,10 +100,10 @@ namespace DelpinAPI.Controllers
         {
 
             //Filtering Items, specifically Warehouse by City.
-            if (queryParameters.Warehouse != null)
+            if (!string.IsNullOrEmpty(queryParameters.WarehouseCity))
             {
                 machines = machines.Where(
-                    m => m.Warehouse.City == queryParameters.Warehouse.City);
+                    m => m.Warehouse.City == queryParameters.WarehouseCity);
             }
 
             return machines;

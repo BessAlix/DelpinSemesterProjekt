@@ -57,18 +57,19 @@ namespace DelpinBooking.Controllers
             return View(Machines);
         }
 
-        public async Task<IActionResult> ChooseMachines()
+        public async Task<IActionResult> ChooseMachines(string? queryParameters)
         {
             List<Machine> Machines;
             using (var httpClient = new HttpClient())
             {
-                string querystring = "?Size=20&Page=1";
-                
-                using (var response = await httpClient.GetAsync(ApiUrl + "GetAvailableMachines" + querystring))
+                if (!string.IsNullOrEmpty(queryParameters))
+                {
+                    queryParameters = "warehousecity=" + queryParameters;
+                }
+                using (var response = await httpClient.GetAsync(ApiUrl + "GetAvailableMachines?" + queryParameters))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     Machines = JsonConvert.DeserializeObject<List<Machine>>(apiResponse);
-
                 }
             }
 

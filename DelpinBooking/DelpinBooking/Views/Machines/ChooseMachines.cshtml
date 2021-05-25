@@ -7,6 +7,12 @@
 
 <h1>Maskiner</h1>
 
+@using (Html.BeginForm(FormMethod.Get))
+{
+    <input type="text" name="queryParameters" value="" />
+    <input type="submit" value="Søg"/>
+}
+
 <table class="table">
     <thead>
         <tr>
