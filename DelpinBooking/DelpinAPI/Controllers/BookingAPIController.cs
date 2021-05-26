@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using DelpinAPI.APIModels;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
+using System.Collections.Generic;
 
 namespace DelpinAPI.Controllers
 {
@@ -70,11 +72,50 @@ namespace DelpinAPI.Controllers
         [Route("[action]")]
         public async Task<IActionResult> Update(Booking booking)
         {
-            _context.Update(booking);
-            await _context.SaveChangesAsync();
+            Dictionary<string, string> errors = new Dictionary<string, string>();
+            try 
+            {
+                _context.Update(booking);
+                await _context.SaveChangesAsync();
+            }
+            catch(DbUpdateConcurrencyException ex)
+            {
+                var entry = ex.Entries.Single();
+                errors = DiagnoseConflict(entry);
 
-            return Ok(booking);
+            }
+            
+            return Ok(errors);
         }
+        private Dictionary<string, string> DiagnoseConflict(EntityEntry entry)
+        { 
+            Dictionary<string, string> errors = new Dictionary<string, string>();
+            var booking = entry.Entity as Booking;
+            
+            if(booking == null)
+            {
+                throw new NotSupportedException();
+            }
+
+            var databaseEntry = _context.Booking.AsNoTracking().SingleOrDefault(b => b.Id == booking.Id);
+            if(databaseEntry == null)
+            {
+                errors.Add("Deleted", "bookingen er blevet slettet af en anden bruger");
+                
+            }
+            
+
+            if(databaseEntry.PickUpDate != booking.PickUpDate)
+            {
+                errors.Add("PickUpDate", "Afhentningsdatoen er blevet ændret");
+            }
+            if (databaseEntry.ReturnDate != booking.ReturnDate)
+            {
+                errors.Add("ReturnDate", "Afleveringsdatoen er blevet ændret");
+            }
+            return errors;
+        }   
+
 
         [HttpPost]
         [Route("[action]")]

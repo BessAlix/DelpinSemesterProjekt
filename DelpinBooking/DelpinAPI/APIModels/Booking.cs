@@ -16,5 +16,8 @@ namespace DelpinAPI.APIModels
         public DateTime ReturnDate { get; set; }
         public string Customer { get; set; }
         public bool SoftDeleted { get; set; }
+        
+        [Timestamp]
+        public byte[] RowVersion { get; set; }
     }
 }

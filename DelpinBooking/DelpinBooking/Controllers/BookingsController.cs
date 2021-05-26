@@ -159,19 +159,17 @@ namespace DelpinBooking.Controllers
                 return NotFound();
             }
             Booking booking;
+
             using (var httpClient = new HttpClient())
             {
                 using (var response = await httpClient.GetAsync(ApiUrl + "GetBooking/" + id))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     booking = JsonConvert.DeserializeObject<Booking>(apiResponse);
-
+                   
                 }
             }
-            if (booking == null)
-            {
-                return NotFound();
-            }
+           
             return View(booking);
         }
 
@@ -181,23 +179,53 @@ namespace DelpinBooking.Controllers
         [HttpPost]
         [Route("[action]")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,PickUpDate,ReturnDate,Customer")] Booking booking)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,PickUpDate,ReturnDate,Customer,RowVersion")] Booking booking)
         {
             if (id != booking.Id)
             {
                 return NotFound();
             }
+            
+            Booking bookingToUpdate;
+            using (var httpClient = new HttpClient())
+            {   
+                using (var response = await httpClient.GetAsync(ApiUrl + "GetBooking/" + id))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    bookingToUpdate = JsonConvert.DeserializeObject<Booking>(apiResponse);
 
+                }
+            }
+            if (bookingToUpdate == null)
+            {
+                Booking deletedBooking = new Booking();
+                ModelState.AddModelError(string.Empty,
+                    "Kan ikke gemme ændringerne. Bookingen blev slettet af en anden bruger.");
+                return View(deletedBooking);
+            }
             if (ModelState.IsValid)
             {
+                
                 using (var httpClient = new HttpClient())
                 {
                     var putTask = await httpClient.PutAsJsonAsync<Booking>(ApiUrl + "Update", booking);
                     putTask.EnsureSuccessStatusCode();
-                }
+                    Dictionary<string, string> errors = JsonConvert.DeserializeObject<Dictionary<string, string>>
+                    (await putTask.Content.ReadAsStringAsync());
 
-                return RedirectToAction(nameof(Index));
+                    foreach (string b in errors.Keys)
+                    {   
+                        ModelState.AddModelError(b, errors[b]);
+                        Console.WriteLine("The keys are" + b);
+                    }
+                    if (errors.Count == 0)
+                    {
+                        return RedirectToAction(nameof(Index));
+                    }
+                }
+ 
             }
+
             return View(booking);
         }
 
