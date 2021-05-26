@@ -19,17 +19,17 @@ using Microsoft.Extensions.Logging;
 namespace DelpinBooking.Areas.Identity.Pages.Account
 {
     [AllowAnonymous]
-    public class RegisterCustomerModel : PageModel
+    public class RegisterPrivateModel : PageModel
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly ILogger<RegisterCustomerModel> _logger;
+        private readonly ILogger<RegisterPrivateModel> _logger;
         private readonly IEmailSender _emailSender;
 
-        public RegisterCustomerModel(
+        public RegisterPrivateModel(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
-            ILogger<RegisterCustomerModel> logger,
+            ILogger<RegisterPrivateModel> logger,
             IEmailSender emailSender)
         {
             _userManager = userManager;

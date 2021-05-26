@@ -87,51 +87,52 @@ namespace DelpinAPI.Controllers
             
             return Ok(errors);
         }
+
+        [HttpPost]
+        [Route("[action]")]
+        public async Task<IActionResult> Delete([FromBody]Booking booking)
+        {
+            var bookingToDelete = await _context.Booking.FirstOrDefaultAsync(b => b.Id == booking.Id);
+            bookingToDelete.SoftDeleted = true;
+
+            //Sql command to clear all foreign keys to the soft-deleted booking
+            string sql = "UPDATE dbo.Machine SET BookingId = null" +
+                          " WHERE BookingId = " + bookingToDelete.Id;
+
+            _context.Database.ExecuteSqlRaw(sql);
+
+            await _context.SaveChangesAsync();
+
+            return Ok(bookingToDelete);
+        }
+
         private Dictionary<string, string> DiagnoseConflict(EntityEntry entry)
-        { 
+        {
             Dictionary<string, string> errors = new Dictionary<string, string>();
             var booking = entry.Entity as Booking;
-            
-            if(booking == null)
+
+            if (booking == null)
             {
                 throw new NotSupportedException();
             }
 
             var databaseEntry = _context.Booking.AsNoTracking().SingleOrDefault(b => b.Id == booking.Id);
-            if(databaseEntry == null)
+            if (databaseEntry == null)
             {
                 errors.Add("Deleted", "bookingen er blevet slettet af en anden bruger");
-                
             }
-            
 
-            if(databaseEntry.PickUpDate != booking.PickUpDate)
+            if (databaseEntry.PickUpDate != booking.PickUpDate)
             {
                 errors.Add("PickUpDate", "Nuværende værdi: " + databaseEntry.PickUpDate);
             }
+
             if (databaseEntry.ReturnDate != booking.ReturnDate)
             {
                 errors.Add("ReturnDate", "Nuværende værdi: " + databaseEntry.ReturnDate);
             }
+
             return errors;
-        }   
-
-
-        [HttpPost]
-        [Route("[action]")]
-        public async Task<IActionResult> Delete([FromBody]int bookingId)
-        {
-            var booking = await _context.Booking.FirstOrDefaultAsync(b => b.Id == bookingId);
-            booking.SoftDeleted = true;
-
-            //Sql command to clear all foreign keys to the soft-deleted booking
-            string sql = "UPDATE dbo.Machine SET BookingId = null" +
-                          " WHERE BookingId = " + bookingId;
-
-            _context.Database.ExecuteSqlRaw(sql);
-            await _context.SaveChangesAsync();
-
-            return Ok(booking);
         }
     }
 }

@@ -28,8 +28,11 @@ namespace DelpinBooking.Controllers
         [Route("[action]/{id}")]
         public async Task<IActionResult> GetUser(string id)
         {
-            var users = await _context.Users.Where(u=> u.Id == id).ToListAsync();
-            return Ok(users);
+            var user = await _context.Users
+                .Where(u=> u.Id == id)
+                .FirstOrDefaultAsync();
+
+            return Ok(user);
         }
     }
 }
