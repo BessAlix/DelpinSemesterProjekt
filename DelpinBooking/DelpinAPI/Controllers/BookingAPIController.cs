@@ -107,11 +107,11 @@ namespace DelpinAPI.Controllers
 
             if(databaseEntry.PickUpDate != booking.PickUpDate)
             {
-                errors.Add("PickUpDate", "Afhentningsdatoen er blevet ændret");
+                errors.Add("PickUpDate", "Nuværende værdi: " + databaseEntry.PickUpDate);
             }
             if (databaseEntry.ReturnDate != booking.ReturnDate)
             {
-                errors.Add("ReturnDate", "Afleveringsdatoen er blevet ændret");
+                errors.Add("ReturnDate", "Nuværende værdi: " + databaseEntry.ReturnDate);
             }
             return errors;
         }   
