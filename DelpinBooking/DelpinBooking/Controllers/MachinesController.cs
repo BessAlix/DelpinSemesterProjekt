@@ -261,7 +261,6 @@ namespace DelpinBooking.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            Console.WriteLine(id + "Is this working to delete");
             using (var httpClient = new HttpClient())
             {
                 string method = "Delete/";

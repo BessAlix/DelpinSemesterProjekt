@@ -122,7 +122,6 @@ namespace DelpinAPI.Controllers
 
         [HttpDelete]
         [Route("[action]/{id}")]
-
         public async Task<IActionResult> Delete(int id)
         {
             

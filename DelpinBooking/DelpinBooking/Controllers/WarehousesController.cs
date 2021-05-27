@@ -31,7 +31,7 @@ namespace DelpinBooking.Controllers
 
         // GET: Warehouses
         [Authorize(Roles = "Admin, Employee")]
-        [Route("[controller]/[action]")]
+        [Route("[action]")]
         [HttpGet]
         public async Task<IActionResult> Index()
         {
@@ -48,20 +48,19 @@ namespace DelpinBooking.Controllers
             return View(Warehouses);
         }
         // GET: Warehouses for a customer 
-        [Route("[controller]/[action]")]
+        [Route("[action]")]
         [HttpGet]
-        public async Task<List<string>> GetAllWarehouses()
+        public async Task<List<string>> GetAllWarehouseCities()
         {
             List<string> Warehouses;
             
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync(ApiUrl + "GetWarehouseCities/"))
+                using (var response = await httpClient.GetAsync(ApiUrl + "GetAllWarehouseCities/"))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     Warehouses = JsonConvert.DeserializeObject<List<string>>(
-                        apiResponse); // substring to remove array brackets from response
-
+                        apiResponse);
                 }
             }
             return Warehouses;
@@ -92,65 +91,39 @@ namespace DelpinBooking.Controllers
             {
                 return NotFound();
             }
-
             return View(Warehouse);
         }
 
         // GET: Warehouses/Create
+        [Authorize(Roles ="Admin,Employee")]
         [HttpGet]
-        [Route("[controller]/[action]")]
-        public async Task<IActionResult> CreateAsync()
+        public IActionResult Create()
         {
-            Warehouse Warehouse;
-            var UserID = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            using (var httpClient = new HttpClient())
-            {
-                using (var response = await httpClient.GetAsync("https://localhost:44379/applicationusers/getuser/" + UserID))
-                {
-                    string apiResponse = await response.Content.ReadAsStringAsync();
-                    ApplicationUser user = JsonConvert.DeserializeObject<ApplicationUser>(
-                        apiResponse.Substring(1, apiResponse.Length - 2)); // substring to remove array brackets from response
-                    Warehouse = new Warehouse
-                    {
-                        
-                    };
-                    //warehouse = new Warehouse
-                    //{
-
-                    //}
-                }
-            }
-
-            return View(Warehouse);
+            return View(new Warehouse());
         }
 
         // POST: Warehouses/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [Route("[controller]/[action]")]
+        [Route("[action]")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,PickUpDate,ReturnDate,Customer")][FromForm] Warehouse Warehouse)
+        public async Task<IActionResult> CreateWarehouse([Bind("Id,City,PostCode")][FromForm] Warehouse Warehouse)
         {
             if (ModelState.IsValid)
             {
                 using (var httpClient = new HttpClient())
                 {
-                    var postTask = httpClient.PostAsJsonAsync<Warehouse>(ApiUrl + "Create", Warehouse);
-                    postTask.Wait();
-
-                    var result = postTask.Result;
-                    if (result.IsSuccessStatusCode)
+                    string method = "Create/";
+                    using (var response = await httpClient.PostAsJsonAsync<Warehouse>(ApiUrl + method, Warehouse))
                     {
-                        if (User.IsInRole("Admin") || User.IsInRole("Employee"))
+                        if (response.IsSuccessStatusCode)
                         {
                             return RedirectToAction(nameof(Index));
                         }
-                        
                     }
                 }
             }
-
             return View(Warehouse);
         }
 
@@ -158,7 +131,7 @@ namespace DelpinBooking.Controllers
         [Authorize(Roles = "Admin, Employee")]
         // GET: Warehouses/Edit/5
         [HttpGet]
-        [Route("[controller]/[action]")]
+        [Route("[action]")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -168,7 +141,8 @@ namespace DelpinBooking.Controllers
             Warehouse Warehouse;
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync(ApiUrl + "GetWarehouse/" + id))
+                string method = "GetWarehouse/";
+                using (var response = await httpClient.GetAsync(ApiUrl + method + id))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     Warehouse = JsonConvert.DeserializeObject<Warehouse>(apiResponse);
@@ -186,41 +160,65 @@ namespace DelpinBooking.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [Route("[controller]/[action]")]
+        [Route("[action]")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,PickUpDate,ReturnDate,RentType,DepartmentStore,PricePrDay,CustomerID,PhoneNumber,CustomerName,CompanyName,Address,City")] Warehouse Warehouse)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,City,PostCode,RowVersion")] Warehouse Warehouse)
         {
             if (id != Warehouse.Id)
             {
                 return NotFound();
             }
+            Warehouse warehouseToUpdate;
+            using (var httpClient = new HttpClient())
+            {
+                string method = "GetWarehouse/";
+                using (var response = await httpClient.GetAsync(ApiUrl + method + id))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    warehouseToUpdate = JsonConvert.DeserializeObject<Warehouse>(apiResponse);
+                }
+            }
+
+            if (warehouseToUpdate == null)
+            {
+                Warehouse deletedWarehouse = new Warehouse();
+                ModelState.AddModelError(string.Empty,
+                    "Kan ikke gemme ændringerne. Varehuset er blevet slettet af en anden bruger.");
+
+                return View(deletedWarehouse);
+            }
 
             if (ModelState.IsValid)
             {
-                try
+                using (var httpClient = new HttpClient())
                 {
-                    _context.Update(Warehouse);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!WarehouseExists(Warehouse.Id))
+                    Dictionary<string, string> errors;
+
+                    string method = "Update/";
+                    using (var response = await httpClient.PutAsJsonAsync<Warehouse>(ApiUrl + method, Warehouse))
                     {
-                        return NotFound();
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+                        errors = JsonConvert.DeserializeObject<Dictionary<string, string>>(apiResponse);
                     }
-                    else
+
+                    foreach (string b in errors.Keys)
                     {
-                        throw;
+                        ModelState.AddModelError(b, errors[b]);
+                    }
+
+                    if (errors.Count == 0)
+                    {
+                        return RedirectToAction(nameof(Index));
                     }
                 }
-                return RedirectToAction(nameof(Index));
             }
+
             return View(Warehouse);
         }
 
         // GET: Warehouses/Delete/5
         [HttpGet]
-        [Route("[controller]/[action]")]
+        [Route("[action]")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -228,14 +226,22 @@ namespace DelpinBooking.Controllers
                 return NotFound();
             }
 
-            var Warehouse = await _context.Warehouse
-                .FirstOrDefaultAsync(m => m.Id == id);
+            Warehouse Warehouse;
+            using (var httpClient = new HttpClient())
+            {
+                string method = "GetWarehouse/";
+                using (var response = await httpClient.GetAsync(ApiUrl + method + id))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    Warehouse = JsonConvert.DeserializeObject<Warehouse>(apiResponse);
+                }
+            }
+
             if (Warehouse == null)
             {
                 return NotFound();
             }
 
-            var UserID = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (User.IsInRole("Admin") )
             {
                 return View(Warehouse);
@@ -247,47 +253,22 @@ namespace DelpinBooking.Controllers
         }
 
         // POST: Warehouses/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [Route("[controller]/[action]")]
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
+        [Route("[action]")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int WarehouseId)
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
             using (var httpClient = new HttpClient())
             {
-                var endPoint = $"Delete/";
-                httpClient.BaseAddress = new Uri(ApiUrl);
-
-                var jsonObject = JsonConvert.SerializeObject(WarehouseId);
-                var stringContent = new StringContent(jsonObject.ToString(), System.Text.Encoding.UTF8, "application/json");
-                var respone = await httpClient.PostAsync(endPoint, stringContent);
-                respone.EnsureSuccessStatusCode();
-
-                
-                    return RedirectToAction(nameof(Index));
-               
-            }
-        }
-
-        // Opens new window with Customer information in Warehouses
-        [HttpGet]
-        [Route("[controller]/[action]")]
-        public async Task<IActionResult> GetCustomer(string id)
-        {
-            using (var httpClient = new HttpClient())
-            {
-                using (var response =
-                    await httpClient.GetAsync("https://localhost:44379/applicationusers/getuser/" + id))
+                string method = "Delete/";
+                using (var response = await httpClient.DeleteAsync(ApiUrl + method + id))
                 {
-                    string apiResponse = await response.Content.ReadAsStringAsync();
-                    ApplicationUser user = JsonConvert.DeserializeObject<ApplicationUser>(
-                        apiResponse.Substring(1,
-                            apiResponse.Length - 2)); // substring to remove array brackets from response
-                    return View(user);
+                   
+                    return RedirectToAction(nameof(Index));
                 }
             }
-
         }
-
         private bool WarehouseExists(int id)
         {
             return _context.Warehouse.Any(e => e.Id == id);

@@ -81,8 +81,6 @@ C:\Users\majak\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\obj\Debug\net5.
 C:\Users\majak\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\obj\Debug\net5.0\ref\DelpinBooking.dll
 C:\Users\majak\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\obj\Debug\net5.0\DelpinBooking.pdb
 C:\Users\majak\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\obj\Debug\net5.0\DelpinBooking.genruntimeconfig.cache
-C:\Users\majak\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\obj\Debug\net5.0\Razor\Views\HelloWorld\Index.cshtml.g.cs
-C:\Users\majak\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\obj\Debug\net5.0\Razor\Views\HelloWorld\Welcome.cshtml.g.cs
 C:\Users\majak\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\bin\Debug\net5.0\System.Diagnostics.DiagnosticSource.dll
 C:\Users\majak\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\bin\Debug\net5.0\Microsoft.AspNetCore.Razor.Language.dll
 C:\Users\majak\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\bin\Debug\net5.0\Microsoft.Bcl.AsyncInterfaces.dll
@@ -678,7 +676,6 @@ C:\Users\Bess\Documents\delpin\DelpinSemesterProjekt\DelpinBooking\DelpinBooking
 C:\Users\Bess\Documents\delpin\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\obj\Debug\net5.0\ref\DelpinBooking.dll
 C:\Users\Bess\Documents\delpin\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\obj\Debug\net5.0\DelpinBooking.pdb
 C:\Users\Bess\Documents\delpin\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\obj\Debug\net5.0\DelpinBooking.genruntimeconfig.cache
-C:\Users\majak\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\obj\Debug\net5.0\Razor\Views\Bookings\CurrentCustomerBooking.cshtml.g.cs
 C:\Users\Bess\Documents\delpin\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\bin\Debug\net5.0\Microsoft.OpenApi.dll
 C:\Users\Bess\Documents\delpin\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\bin\Debug\net5.0\Swashbuckle.AspNetCore.Swagger.dll
 C:\Users\Bess\Documents\delpin\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\bin\Debug\net5.0\Swashbuckle.AspNetCore.SwaggerGen.dll
@@ -699,7 +696,6 @@ C:\Users\majak\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\bin\Debug\net5.
 C:\Users\majak\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\bin\Debug\net5.0\Swashbuckle.AspNetCore.SwaggerUI.dll
 C:\Users\sigur\source\repos\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\obj\Debug\net5.0\Razor\Areas\Identity\Pages\Account\RegisterCompany.cshtml.g.cs
 C:\Users\majak\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\obj\Debug\net5.0\Razor\Areas\Identity\Pages\Account\RegisterCompany.cshtml.g.cs
-C:\Users\majak\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\obj\Debug\net5.0\Razor\Areas\Identity\Pages\Account\RegisterCustomer.cshtml.g.cs
 C:\Users\majak\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\obj\Debug\net5.0\Razor\Views\Bookings\GetCustomer.cshtml.g.cs
 C:\Users\sigur\source\repos\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\obj\Debug\net5.0\Razor\Views\Bookings\GetCustomer.cshtml.g.cs
 C:\Users\Bess\Documents\delpin\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\obj\Debug\net5.0\Razor\Areas\Identity\Pages\Account\RegisterCompany.cshtml.g.cs
@@ -917,3 +913,4 @@ C:\Users\Bess\Documents\Delpin Project\DelpinSemesterProjekt\DelpinBooking\Delpi
 C:\Users\Bess\Documents\Delpin Project\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\obj\Debug\net5.0\Razor\Views\Bookings\Create.cshtml.g.cs
 C:\Users\sigur\source\repos\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\obj\Debug\net5.0\Razor\Areas\Identity\Pages\Account\RegisterPrivate.cshtml.g.cs
 C:\Users\Bess\Documents\Delpin Project\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\obj\Debug\net5.0\Razor\Areas\Identity\Pages\Account\RegisterPrivate.cshtml.g.cs
+C:\Users\majak\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\obj\Debug\net5.0\Razor\Areas\Identity\Pages\Account\RegisterPrivate.cshtml.g.cs

@@ -607,7 +607,6 @@ C:\Users\Bess\Documents\Delpin Project\DelpinSemesterProjekt\DelpinBooking\Delpi
 C:\Users\Bess\Documents\Delpin Project\DelpinSemesterProjekt\DelpinBooking\DelpinAPI\obj\Debug\net5.0\DelpinAPI.pdb
 C:\Users\Bess\Documents\Delpin Project\DelpinSemesterProjekt\DelpinBooking\DelpinAPI\obj\Debug\net5.0\DelpinAPI.genruntimeconfig.cache
 C:\Users\majak\DelpinSemesterProjekt\DelpinBooking\DelpinAPI\bin\Debug\net5.0\Microsoft.EntityFrameworkCore.Design.dll
-C:\Users\majak\DelpinSemesterProjekt\DelpinBooking\DelpinAPI\bin\Debug\net5.0\DelpinBooking.StaticWebAssets.xml
 C:\Users\Bess\Documents\Delpin Project\DelpinSemesterProjekt\DelpinBooking\DelpinAPI\bin\Debug\net5.0\Microsoft.EntityFrameworkCore.Design.dll
 C:\Users\Bess\Documents\Delpin Project\DelpinSemesterProjekt\DelpinBooking\DelpinAPI\obj\Debug\net5.0\DelpinAPI.MvcApplicationPartsAssemblyInfo.cs
 C:\Users\sigur\source\repos\DelpinSemesterProjekt\DelpinBooking\DelpinAPI\bin\Debug\net5.0\Microsoft.EntityFrameworkCore.Design.dll
@@ -615,3 +614,4 @@ C:\Users\majak\DelpinSemesterProjekt\DelpinBooking\DelpinAPI\bin\Debug\net5.0\Pa
 C:\Users\sigur\source\repos\DelpinSemesterProjekt\DelpinBooking\DelpinAPI\bin\Debug\net5.0\PagedList.dll
 C:\Users\Bess\Documents\Delpin Project\DelpinSemesterProjekt\DelpinBooking\DelpinAPI\bin\Debug\net5.0\PagedList.dll
 C:\Users\sigur\source\repos\DelpinSemesterProjekt\DelpinBooking\DelpinAPI\bin\Debug\net5.0\DelpinBooking.StaticWebAssets.xml
+C:\Users\majak\DelpinSemesterProjekt\DelpinBooking\DelpinAPI\bin\Debug\net5.0\DelpinBooking.StaticWebAssets.xml
