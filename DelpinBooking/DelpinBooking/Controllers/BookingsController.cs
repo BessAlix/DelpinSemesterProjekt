@@ -21,7 +21,7 @@ namespace DelpinBooking.Controllers
     {
         private readonly DelpinBookingContext _context;
         private readonly string ApiUrl = "https://localhost:5001/api/BookingAPI/";
-        private readonly string UserUrl = "https://localhost:44379/applicationusers/";
+        private readonly string UserUrl = "https://localhost:44379/ApplicationUsers/";
 
         public BookingsController(DelpinBookingContext context)
         {
@@ -220,7 +220,6 @@ namespace DelpinBooking.Controllers
                     foreach (string b in errors.Keys)
                     {   
                         ModelState.AddModelError(b, errors[b]);
-                        Console.WriteLine("The keys are" + b);
                     }
 
                     if (errors.Count == 0)
