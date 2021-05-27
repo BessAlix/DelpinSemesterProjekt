@@ -31,15 +31,45 @@ namespace DelpinBooking.Controllers
         // GET: Bookings
         [Route("[action]")]
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string? queryParameters)
         {
+            if (!string.IsNullOrEmpty(queryParameters))
+            {
+                queryParameters = "searchby=" + queryParameters + "&" ;
+            }
+            
+            
+            if (string.IsNullOrEmpty(queryParameters))
+            {
+                
+            }
+            
+            queryParameters += "size=10&page=1";
+
+
+            
+            string[] queryParametersArr = queryParameters.Split('&');
+            Dictionary<string, int> queryParametersDictionary = new Dictionary<string, int>();
+            foreach (var s in queryParametersArr)
+            {
+                int value;
+                string[] arr = s.Split('=');
+                if(Int32.TryParse(arr[1], out value))
+                {
+                  queryParametersDictionary.Add(arr[0], value);
+                }
+                
+            }
+
+            ViewBag.QueryParametersDictionary = queryParametersDictionary;
+
             List<Booking> Bookings;
             using (var httpClient = new HttpClient())
             {
                 string method = "";
                 if (User.IsInRole("Admin") || User.IsInRole("Employee"))
                 {
-                    method = "GetAllBookings/";
+                    method = "GetAllBookings?";
                 }
 
                 else
@@ -47,8 +77,8 @@ namespace DelpinBooking.Controllers
                     var UserID = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
                     method = "GetBookingsForCustomer/" + UserID;
                 }
-
-                using (var response = await httpClient.GetAsync(ApiUrl + method))
+                Console.WriteLine(method + queryParameters + "What does this send?");
+                using (var response = await httpClient.GetAsync(ApiUrl + method + queryParameters))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     Bookings = JsonConvert.DeserializeObject<List<Booking>>(apiResponse);

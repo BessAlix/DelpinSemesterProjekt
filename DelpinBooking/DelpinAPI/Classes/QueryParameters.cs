@@ -11,6 +11,8 @@ namespace DelpinAPI.Classes
         private int _size = 100;
 
         public int Page { get; set; }
+        public string SortBy { get; set; }
+        public string SearchBy { get; set;}
 
         public int Size
         {
@@ -23,23 +25,7 @@ namespace DelpinAPI.Classes
                 _size = Math.Min(_maxSize, value);
             }
         }
-        public string SortBy { get; set; } = "Name";
-        private string _sortMachine = "Type";
-
-        public string SortOrder
-        {
-            get
-            {
-                return _sortMachine;
-            }
-            set
-            {
-                if(value == "Type" || value == "Name")
-                {
-                    _sortMachine = value;
-                }
-            }
-        }
+        
        
     }
 }

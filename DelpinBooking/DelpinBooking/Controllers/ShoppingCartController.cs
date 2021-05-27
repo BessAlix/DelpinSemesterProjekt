@@ -13,16 +13,19 @@ using Microsoft.AspNetCore.Routing;
 using Newtonsoft.Json;
 
 namespace DelpinBooking.Controllers
-{
+{   
+    
     [Route("[controller]")]
     public class ShoppingCartController : Controller
     {
+        [HttpGet]
+        [Route("[action]")]
         public IActionResult Index()
         {
             var cart = SessionHelper.GetObjectFromJson<List<Machine>>(HttpContext.Session, "cart");
             return View(cart);
         }
-
+        [HttpPost]
         [Route("[action]")]
         public IActionResult Add(Machine machine)
         {
@@ -39,6 +42,7 @@ namespace DelpinBooking.Controllers
 
         }
         
+        [HttpDelete]
         [Route("[action]")]
         public void Clear()
         {

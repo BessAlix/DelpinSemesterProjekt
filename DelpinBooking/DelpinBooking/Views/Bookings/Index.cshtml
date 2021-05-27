@@ -5,19 +5,21 @@
 }
 
 <h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+@{
+    int counter = 0;
+}
+@using (Html.BeginForm(FormMethod.Get))
+{
+    <input type="text" name="queryParameters" value="" />
+    <input type="submit" value="Søg" />
+}
 <table class="table">
     <thead>
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.PickUpDate)
             </th>
-            <td>
-                @Html.DisplayNameFor(model => model.SoftDeleted)
-            </td>
+
             <th>
                 @Html.DisplayNameFor(model => model.ReturnDate)
             </th>
@@ -25,32 +27,45 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.PickUpDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SoftDeleted)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ReturnDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Customer)
-                <a asp-action="GetCustomer" asp-route-id="@item.Customer">Id</a> |
-            </td>
+        @foreach (var item in Model)
+        {
+            counter++;
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PickUpDate)
+                </td>
 
-            <td>
-            <td>
-                @if (User.IsInRole("Admin") || User.IsInRole("Employee"))
-                {
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
-                }
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReturnDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Customer)
+                    <a asp-action="GetCustomer" asp-route-id="@item.Customer">Id</a> |
+                </td>
+
+                <td>
+                <td>
+                    @if (User.IsInRole("Admin") || User.IsInRole("Employee"))
+                    {
+                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                    }
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+@{ int page = ViewBag.QueryParametersDictionary["page"];}
+@{ int size = ViewBag.QueryParametersDictionary["size"];}
+@{ string nextPage = "page=" + (page + 1) + "&size=" + size;}
+@{ string previousPage = "page=" + (page - 1) + "&size=" + size;}
+@if (page > 1)
+{
+    <a asp-action="Index" asp-route-queryParameters="@previousPage">Forrige side</a>
+}
+@if (counter == size)
+{
+    <a asp-action="Index" asp-route-queryParameters="@nextPage">Næste side</a>
+}
+

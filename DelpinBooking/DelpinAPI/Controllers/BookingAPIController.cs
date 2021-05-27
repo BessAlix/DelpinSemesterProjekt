@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using DelpinAPI.APIModels;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System.Collections.Generic;
+using DelpinAPI.Classes;
 
 namespace DelpinAPI.Controllers
 {
@@ -23,13 +24,28 @@ namespace DelpinAPI.Controllers
 
         [HttpGet]
         [Route("[action]")]
-        public async Task<IActionResult> GetAllBookings()
+        public async Task<IActionResult> GetAllBookings([FromQuery] BookingQueryParameters queryParameters)
         {
-            var bookings = await _context.Booking
+            IQueryable<Booking> bookings = _context.Booking;
+
+            bookings = FilterItems(queryParameters, bookings);
+            bookings = SearchItems(queryParameters, bookings);
+            bookings = SortBy(queryParameters, bookings);
+           
+
+
+            bookings = bookings
                 .AsNoTracking()
-                //.Include(p => p.Machines)
-                .ToListAsync();
-            return Ok(bookings);
+                .Include(b => b.Machines);
+            if(bookings.Count() > 0)
+            {
+                bookings = bookings
+               .Skip(queryParameters.Size * (queryParameters.Page - 1))
+               .Take(queryParameters.Size);
+            }
+
+
+            return Ok(await bookings.ToListAsync());
         }
 
         [HttpGet]
@@ -105,7 +121,61 @@ namespace DelpinAPI.Controllers
 
             return Ok(bookingToDelete);
         }
+        private IQueryable<Booking> FilterItems(BookingQueryParameters queryParameters, IQueryable<Booking> bookings)
+        {
 
+            //Filtering Items, specifically Warehouse by City.
+            if (!string.IsNullOrEmpty(queryParameters.Customer))
+            {
+                bookings = bookings.Where(
+                    b => b.Customer == queryParameters.Customer);
+            }
+
+            return bookings;
+        }
+
+        private IQueryable<Booking> SearchItems(BookingQueryParameters queryParameters, IQueryable<Booking> bookings)
+        {
+            //Searching items, specifically Name and Type.
+            if (!string.IsNullOrEmpty(queryParameters.SearchBy))
+            {
+                IQueryable<Booking> bookingsCustomer = bookings.Where(
+                m => m.Customer.Contains(queryParameters.SearchBy));
+                    
+               IQueryable<Booking> bookingsId = bookings.Where(
+               m => m.Id.ToString().Contains(queryParameters.SearchBy));
+
+                bookings= bookingsCustomer.Union(bookingsId);
+            }   
+            return bookings;
+        }
+
+        private IQueryable<Booking> SortBy(BookingQueryParameters queryParameters, IQueryable<Booking> bookings)
+        {
+            if (string.IsNullOrEmpty(queryParameters.SortBy))
+            {
+                queryParameters.SortBy = "Latest";
+            }
+            if(queryParameters.SortBy == "Latest")
+            {
+                bookings = bookings.OrderByDescending(b => b.Id);
+            }
+            
+                if (queryParameters.SortBy == "ReturnDate")
+                {
+                    bookings = bookings.OrderBy(b => b.ReturnDate);
+                }
+                if (queryParameters.SortBy == "PickUpDate")
+                {
+                    bookings = bookings.OrderBy(b => b.PickUpDate);
+                }
+                if (queryParameters.SortBy == "Customer")
+                {
+                    bookings = bookings.OrderBy(b => b.Customer);
+                }
+            
+            return bookings;
+        }
         private Dictionary<string, string> DiagnoseConflict(EntityEntry entry)
         {
             Dictionary<string, string> errors = new Dictionary<string, string>();

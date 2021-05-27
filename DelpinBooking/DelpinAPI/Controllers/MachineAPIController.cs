@@ -168,7 +168,7 @@ namespace DelpinAPI.Controllers
                 machines = machines.Where(
                     m => m.Type.ToLower().Contains(queryParameters.Type.ToLower()));
             }
-
+            
             return machines;
         }
 

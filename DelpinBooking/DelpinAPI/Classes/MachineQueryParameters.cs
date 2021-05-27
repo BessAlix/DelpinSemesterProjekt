@@ -19,5 +19,11 @@ namespace DelpinAPI.Classes
 
         public string WarehouseCity { get; set; }
 
+   
+        
+
+        
     }
+
+
 }
