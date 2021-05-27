@@ -856,19 +856,15 @@ C:\Users\Bess\Documents\Delpin Project\DelpinSemesterProjekt\DelpinBooking\Delpi
 C:\Users\Bess\Documents\Delpin Project\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\obj\Debug\net5.0\DelpinBooking.RazorCoreGenerate.cache
 C:\Users\Bess\Documents\Delpin Project\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\obj\Debug\net5.0\Razor\Areas\Identity\Pages\Account\Login.cshtml.g.cs
 C:\Users\Bess\Documents\Delpin Project\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\obj\Debug\net5.0\Razor\Areas\Identity\Pages\Account\RegisterCompany.cshtml.g.cs
-C:\Users\Bess\Documents\Delpin Project\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\obj\Debug\net5.0\Razor\Areas\Identity\Pages\Account\RegisterCustomer.cshtml.g.cs
 C:\Users\Bess\Documents\Delpin Project\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\obj\Debug\net5.0\Razor\Areas\Identity\Pages\Account\_ViewImports.cshtml.g.cs
 C:\Users\Bess\Documents\Delpin Project\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\obj\Debug\net5.0\Razor\Areas\Identity\Pages\_ValidationScriptsPartial.cshtml.g.cs
 C:\Users\Bess\Documents\Delpin Project\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\obj\Debug\net5.0\Razor\Areas\Identity\Pages\_ViewImports.cshtml.g.cs
 C:\Users\Bess\Documents\Delpin Project\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\obj\Debug\net5.0\Razor\Areas\Identity\Pages\_ViewStart.cshtml.g.cs
-C:\Users\Bess\Documents\Delpin Project\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\obj\Debug\net5.0\Razor\Views\Bookings\CurrentCustomerBooking.cshtml.g.cs
 C:\Users\Bess\Documents\Delpin Project\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\obj\Debug\net5.0\Razor\Views\Bookings\Delete.cshtml.g.cs
 C:\Users\Bess\Documents\Delpin Project\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\obj\Debug\net5.0\Razor\Views\Bookings\Details.cshtml.g.cs
 C:\Users\Bess\Documents\Delpin Project\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\obj\Debug\net5.0\Razor\Views\Bookings\Edit.cshtml.g.cs
 C:\Users\Bess\Documents\Delpin Project\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\obj\Debug\net5.0\Razor\Views\Bookings\GetCustomer.cshtml.g.cs
 C:\Users\Bess\Documents\Delpin Project\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\obj\Debug\net5.0\Razor\Views\Bookings\Index.cshtml.g.cs
-C:\Users\Bess\Documents\Delpin Project\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\obj\Debug\net5.0\Razor\Views\HelloWorld\Index.cshtml.g.cs
-C:\Users\Bess\Documents\Delpin Project\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\obj\Debug\net5.0\Razor\Views\HelloWorld\Welcome.cshtml.g.cs
 C:\Users\Bess\Documents\Delpin Project\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\obj\Debug\net5.0\Razor\Views\Home\Index.cshtml.g.cs
 C:\Users\Bess\Documents\Delpin Project\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\obj\Debug\net5.0\Razor\Views\Home\Privacy.cshtml.g.cs
 C:\Users\Bess\Documents\Delpin Project\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\obj\Debug\net5.0\Razor\Views\Machines\Create.cshtml.g.cs
@@ -920,3 +916,4 @@ C:\Users\sigur\source\repos\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\ob
 C:\Users\Bess\Documents\Delpin Project\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\bin\Debug\net5.0\PagedList.dll
 C:\Users\Bess\Documents\Delpin Project\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\obj\Debug\net5.0\Razor\Views\Bookings\Create.cshtml.g.cs
 C:\Users\sigur\source\repos\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\obj\Debug\net5.0\Razor\Areas\Identity\Pages\Account\RegisterPrivate.cshtml.g.cs
+C:\Users\Bess\Documents\Delpin Project\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\obj\Debug\net5.0\Razor\Areas\Identity\Pages\Account\RegisterPrivate.cshtml.g.cs

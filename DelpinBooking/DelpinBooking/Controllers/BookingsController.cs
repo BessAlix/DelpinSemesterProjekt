@@ -278,14 +278,7 @@ namespace DelpinBooking.Controllers
             var UserID = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (User.IsInRole("Admin") || UserID == booking.Customer)
             {
-                using (var httpClient = new HttpClient())
-                {
-                    string method = "Delete/";
-                    using (var response = await httpClient.PostAsJsonAsync<Booking>(ApiUrl + method, booking))
-                    {
-                        return RedirectToAction(nameof(Index));
-                    }     
-                }
+                
             }
 
             return View("NotAuthorized");

@@ -20,5 +20,8 @@ namespace DelpinBooking.Models
         [Display(Name = "Varehus")]
         public Warehouse Warehouse { get; set; }
         public Booking Booking { get; set; }
+
+        [Timestamp]
+        public byte[] RowVersion { get; set; }
     }
 }

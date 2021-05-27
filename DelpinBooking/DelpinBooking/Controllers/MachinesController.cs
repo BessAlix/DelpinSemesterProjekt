@@ -10,6 +10,7 @@ using DelpinBooking.Models;
 using Microsoft.AspNetCore.Authorization;
 using System.Net.Http;
 using Newtonsoft.Json;
+using System.Net.Http.Json;
 
 namespace DelpinBooking.Controllers
 {
@@ -147,6 +148,7 @@ namespace DelpinBooking.Controllers
 
 
         // GET: Machines/Edit/5
+        [HttpGet]
         [Authorize(Roles = "Admin,Employee")]
         public async Task<IActionResult> Edit(int? id)
         {
@@ -168,37 +170,65 @@ namespace DelpinBooking.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,Name,Type")] Machine machine)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Type,RowVersion")] Machine machine)
         {
             if (id != machine.Id)
             {
                 return NotFound();
             }
 
+            Machine machineToUpdate;
+            using (var httpClient = new HttpClient())
+            {
+                string method = "GetMachine/";
+                using (var response = await httpClient.GetAsync(ApiUrl + method + id))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    machineToUpdate = JsonConvert.DeserializeObject<Machine>(apiResponse);
+                }
+            }
+
+            if (machineToUpdate == null)
+            {
+                Machine deletedMachine = new Machine();
+                ModelState.AddModelError(string.Empty,
+                    "Kan ikke gemme ændringerne. Maskine blev slettet af en anden bruger.");
+
+                return View(deletedMachine);
+            }
+
             if (ModelState.IsValid)
             {
-                try
+                using (var httpClient = new HttpClient())
                 {
-                    _context.Update(machine);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!MachineExists(machine.Id))
+                    Dictionary<string, string> errors;
+
+                    string method = "Update/";
+                    using (var response = await httpClient.PutAsJsonAsync<Machine>(ApiUrl + method, machine))
                     {
-                        return NotFound();
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+                        errors = JsonConvert.DeserializeObject<Dictionary<string, string>>(apiResponse);
                     }
-                    else
+
+                    foreach (string m in errors.Keys)
                     {
-                        throw;
+                        
+                        ModelState.AddModelError(m, errors[m]);
+                    }
+                    
+                    if (errors.Count == 0)
+                    {
+                        return RedirectToAction(nameof(Index));
                     }
                 }
-                return RedirectToAction(nameof(Index));
             }
+
             return View(machine);
         }
 
         // GET: Machines/Delete/5
+        [HttpGet]
+        [Route("[action]")]
         [Authorize(Roles = "Admin,Employee")]
         public async Task<IActionResult> Delete(int? id)
         {
@@ -206,9 +236,18 @@ namespace DelpinBooking.Controllers
             {
                 return NotFound();
             }
+          
+            Machine machine;
+            using (var httpClient = new HttpClient())
+            {
+                string method = "GetMachine/";
+                using (var response = await httpClient.GetAsync(ApiUrl + method + id))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    machine = JsonConvert.DeserializeObject<Machine>(apiResponse);
+                }
+            }
 
-            var machine = await _context.Machine
-                .FirstOrDefaultAsync(m => m.Id == id);
             if (machine == null)
             {
                 return NotFound();
@@ -218,14 +257,19 @@ namespace DelpinBooking.Controllers
         }
 
         // POST: Machines/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var machine = await _context.Machine.FindAsync(id);
-            _context.Machine.Remove(machine);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            Console.WriteLine(id + "Is this working to delete");
+            using (var httpClient = new HttpClient())
+            {
+                string method = "Delete/";
+                using (var response = await httpClient.DeleteAsync(ApiUrl + method + id))
+                {
+                    return RedirectToAction(nameof(Index));
+                }
+            }
         }
 
         private bool MachineExists(int id)

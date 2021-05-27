@@ -14,5 +14,8 @@ namespace DelpinBooking.Models
         [Display(Name = "Postnummer")]
         public int PostCode { get; set; }
 
+        [Timestamp]
+        public byte[] RowVersion { get; set; }
+
     }
 }

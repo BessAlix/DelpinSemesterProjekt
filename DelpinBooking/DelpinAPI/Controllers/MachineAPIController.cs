@@ -7,6 +7,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace DelpinAPI.Controllers
 {
@@ -55,7 +57,7 @@ namespace DelpinAPI.Controllers
                 .AsNoTracking()
                 .Include(p => p.Warehouse)
                 .Include(p => p.Booking)
-                .Where(m => m.Booking == null); 
+                .Where(m => m.Booking == null);
 
             return Ok(await machines.ToListAsync());
         }
@@ -65,8 +67,10 @@ namespace DelpinAPI.Controllers
         [Route("[action]/{id}")]
         public async Task<IActionResult> GetMachine(int id)
         {
+            
             var machines = await _context.Machine
                 .AsNoTracking()
+                .Where(m => m.Id == id)
                 .Include(p => p.Warehouse)
                 .FirstOrDefaultAsync();
             return Ok(machines);
@@ -92,9 +96,50 @@ namespace DelpinAPI.Controllers
         {
             _context.Add(machine);
             await _context.SaveChangesAsync();
-            
+
             return CreatedAtAction("GetMachine", new { id = machine.Id }, machine);
         }
+
+        [HttpPut]
+        [Route("[action]")]
+        public async Task<IActionResult> Update(Machine machine)
+        {
+            Dictionary<string, string> errors = new Dictionary<string, string>();
+            try
+            {
+                _context.Update(machine);
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                var entry = ex.Entries.Single();
+                errors = DiagnoseConflict(entry);
+
+            }
+
+            return Ok(errors);
+        }
+
+        [HttpDelete]
+        [Route("[action]/{id}")]
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            
+            var machine = await _context.Machine
+                .Include(p => p.Warehouse)
+                .Include(b => b.Booking)
+                .Where(m => m.Id == id)
+                .FirstOrDefaultAsync();
+
+            _context.Machine.Remove(machine);
+           
+            await _context.SaveChangesAsync();
+            
+            return Ok(machine);
+            
+        }
+
 
         private IQueryable<Machine> FilterItems(MachineQueryParameters queryParameters, IQueryable<Machine> machines)
         {
@@ -139,6 +184,34 @@ namespace DelpinAPI.Controllers
             }
             return machines;
         }
+        private Dictionary<string, string> DiagnoseConflict(EntityEntry entry)
+        {
+            Dictionary<string, string> errors = new Dictionary<string, string>();
+            var machine = entry.Entity as Machine;
 
+            if (machine == null)
+            {
+                throw new NotSupportedException();
+            }
+
+            var databaseEntry = _context.Machine.AsNoTracking().SingleOrDefault(m => m.Id == machine.Id);
+            if (databaseEntry == null)
+            {
+                errors.Add("Deleted", "Maskine er blevet slettet af en anden bruger");
+            }
+
+            if (databaseEntry.Name != machine.Name)
+            {
+                errors.Add("Name", "Nuværende værdi: " + databaseEntry.Name);
+            }
+
+            if (databaseEntry.Type != machine.Type)
+            {
+                errors.Add("Type", "Nuværende værdi: " + databaseEntry.Type);
+            }
+
+            return errors;
+
+        }
     }
 }
