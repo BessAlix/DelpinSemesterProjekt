@@ -70,7 +70,8 @@ namespace DelpinBooking.Controllers
                 }
             }
 
-            WarehousesController warehouseController = new WarehousesController(_context) { ControllerContext = ControllerContext };
+            WarehousesController warehouseController = 
+                new WarehousesController(_context) { ControllerContext = ControllerContext };
             List<string> WarehouseCities = await warehouseController.GetAllWarehouseCities();
             ViewBag.WarehouseCities = WarehouseCities;
 
@@ -113,8 +114,17 @@ namespace DelpinBooking.Controllers
                 return NotFound();
             }
 
-            var machine = await _context.Machine
-                .FirstOrDefaultAsync(m => m.Id == id);
+            Machine machine;
+            using (var httpClient = new HttpClient())
+            {
+                string method = "GetMachine/";
+                using (var response = await httpClient.GetAsync(ApiUrl + method + id))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    machine = JsonConvert.DeserializeObject<Machine>(apiResponse);
+                }
+            }
+
             if (machine == null)
             {
                 return NotFound();
@@ -125,24 +135,39 @@ namespace DelpinBooking.Controllers
 
         // GET: Machines/Create
         [Authorize(Roles ="Admin,Employee")]
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            return View();
+            WarehousesController warehouseController =
+                new WarehousesController(_context) { ControllerContext = ControllerContext };
+            List<Warehouse> warehouses = await warehouseController.GetAllWarehouses();
+            ViewBag.Warehouses = warehouses;
+
+            return View(new Machine());
         }
 
         // POST: Machines/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,Name,Type")] Machine machine)
+        public async Task<IActionResult> Create([Bind("Id,Name,Type")] Machine machine, int warehouseId)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(machine);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                WarehousesController warehousesController = 
+                    new WarehousesController(_context) { ControllerContext = ControllerContext };
+                machine.Warehouse = await warehousesController.GetWarehouse(warehouseId);
+                using (var httpClient = new HttpClient())
+                {
+                    string method = "Create/";
+                    using (var response = await httpClient.PostAsJsonAsync<Machine>(ApiUrl + method, machine))
+                    {
+                        if (response.IsSuccessStatusCode)
+                        {
+                            return RedirectToAction(nameof(Index));
+                        }
+                    }
+                }
             }
+
             return View(machine);
         }
 

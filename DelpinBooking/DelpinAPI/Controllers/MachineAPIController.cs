@@ -94,7 +94,7 @@ namespace DelpinAPI.Controllers
         [Route("[action]")]
         public async Task<IActionResult> Create(Machine machine)
         {
-            _context.Add(machine);
+            _context.Update(machine);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetMachine", new { id = machine.Id }, machine);

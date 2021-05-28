@@ -38,7 +38,8 @@ namespace DelpinBooking.Controllers
             List<Warehouse> Warehouses;
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync(ApiUrl + "GetAllWarehouses"))
+                string method = "GetAllWarehouses/";
+                using (var response = await httpClient.GetAsync(ApiUrl + method))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     Warehouses = JsonConvert.DeserializeObject<List<Warehouse>>(apiResponse);
@@ -52,21 +53,55 @@ namespace DelpinBooking.Controllers
         [HttpGet]
         public async Task<List<string>> GetAllWarehouseCities()
         {
-            List<string> Warehouses;
-            
+            List<string> warehouseCities;            
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync(ApiUrl + "GetAllWarehouseCities/"))
+                string method = "GetAllWarehouseCities/";
+                using (var response = await httpClient.GetAsync(ApiUrl + method))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
-                    Warehouses = JsonConvert.DeserializeObject<List<string>>(
-                        apiResponse);
+                    warehouseCities = JsonConvert.DeserializeObject<List<string>>(apiResponse);
                 }
             }
 
-            return Warehouses;
+            return warehouseCities;
         }
 
+        [Route("[action]")]
+        [HttpGet]
+        public async Task<List<Warehouse>> GetAllWarehouses()
+        {
+            List<Warehouse> warehouses;
+            using (var httpClient = new HttpClient())
+            {
+                string method = "GetAllWarehouses/";
+                using (var response = await httpClient.GetAsync(ApiUrl + method))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    warehouses = JsonConvert.DeserializeObject<List<Warehouse>>(apiResponse);
+                }
+            }
+
+            return warehouses;
+        }
+
+        [HttpGet]
+        [Route("[action]")]
+        public async Task<Warehouse> GetWarehouse(int id)
+        {
+            Warehouse warehouse;
+            using (HttpClient httpClient = new HttpClient())
+            {
+                string method = "GetWarehouse/";
+                using (var resposne = await httpClient.GetAsync(ApiUrl + method + id))
+                {
+                    string apiResponse = await resposne.Content.ReadAsStringAsync();
+                    warehouse = JsonConvert.DeserializeObject<Warehouse>(apiResponse);
+                }
+            }
+
+            return warehouse;
+        }
 
         // GET: Warehouses/Details/5
         [HttpGet]
@@ -169,6 +204,7 @@ namespace DelpinBooking.Controllers
             {
                 return NotFound();
             }
+
             Warehouse warehouseToUpdate;
             using (var httpClient = new HttpClient())
             {
