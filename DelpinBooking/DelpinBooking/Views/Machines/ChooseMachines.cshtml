@@ -6,11 +6,19 @@
 }
 
 <h1>Maskiner</h1>
+@{ 
+    List<SelectListItem> cities = new List<SelectListItem>();
+    foreach(string s in ViewBag.WarehouseCities)
+    {
+        cities.Add(new SelectListItem() { Text = s, Value = s });
+    }
+
+}
 
 @using (Html.BeginForm(FormMethod.Get))
 {
-    <input type="text" name="queryParameters" value="" />
-    <input type="submit" value="Søg"/>
+    @Html.DropDownList("warehousecity", cities, "-- Vælg et varehus --")
+    <input type="submit" value="Filtrer" />
 }
 
 <table class="table">

@@ -25,7 +25,8 @@ namespace DelpinBooking.Controllers
             var cart = SessionHelper.GetObjectFromJson<List<Machine>>(HttpContext.Session, "cart");
             return View(cart);
         }
-        [HttpPost]
+
+        
         [Route("[action]")]
         public IActionResult Add(Machine machine)
         {

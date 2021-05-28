@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using DelpinBooking.Data;
 using DelpinBooking.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -11,7 +10,7 @@ using System.Security.Claims;
 using Newtonsoft.Json;
 using System.Net.Http;
 using System.Net.Http.Json;
-using System.Text;
+using DelpinBooking.Classes;
 
 namespace DelpinBooking.Controllers
 {
@@ -31,37 +30,17 @@ namespace DelpinBooking.Controllers
         // GET: Bookings
         [Route("[action]")]
         [HttpGet]
-        public async Task<IActionResult> Index(string? queryParameters)
+        public async Task<IActionResult> Index([Bind("Page,Size,SearchBy")]BookingQueryParameters queryParameters)
         {
-            if (!string.IsNullOrEmpty(queryParameters))
-            {
-                queryParameters = "searchby=" + queryParameters + "&" ;
-            }
-            
-            
-            if (string.IsNullOrEmpty(queryParameters))
-            {
-                
-            }
-            
-            queryParameters += "size=10&page=1";
+            string queryString = "page=" + queryParameters.Page +
+                                  "&size=" + queryParameters.Size;
 
-
-            
-            string[] queryParametersArr = queryParameters.Split('&');
-            Dictionary<string, int> queryParametersDictionary = new Dictionary<string, int>();
-            foreach (var s in queryParametersArr)
+            if (queryParameters.SearchBy != null)
             {
-                int value;
-                string[] arr = s.Split('=');
-                if(Int32.TryParse(arr[1], out value))
-                {
-                  queryParametersDictionary.Add(arr[0], value);
-                }
-                
+                queryString += "&searchby=" + queryParameters.SearchBy;
             }
 
-            ViewBag.QueryParametersDictionary = queryParametersDictionary;
+            ViewBag.QueryParameters = queryParameters;
 
             List<Booking> Bookings;
             using (var httpClient = new HttpClient())
@@ -75,10 +54,10 @@ namespace DelpinBooking.Controllers
                 else
                 {
                     var UserID = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-                    method = "GetBookingsForCustomer/" + UserID;
+                    method = "GetBookingsForCustomer?";
                 }
-                Console.WriteLine(method + queryParameters + "What does this send?");
-                using (var response = await httpClient.GetAsync(ApiUrl + method + queryParameters))
+                
+                using (var response = await httpClient.GetAsync(ApiUrl + method + queryString))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     Bookings = JsonConvert.DeserializeObject<List<Booking>>(apiResponse);

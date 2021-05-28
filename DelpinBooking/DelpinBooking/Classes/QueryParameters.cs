@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DelpinAPI.Classes
+namespace DelpinBooking.Classes
 {
     public class QueryParameters
     {
@@ -25,8 +25,9 @@ namespace DelpinAPI.Classes
                 _size = Math.Min(_maxSize, value);
             }
         }
-        public int Page 
-        { 
+
+        public int Page
+        {
             get
             {
                 return _page;
@@ -36,7 +37,5 @@ namespace DelpinAPI.Classes
                 _page = value;
             }
         }
-
-
     }
 }

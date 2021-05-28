@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 using System.Net.Http;
 using Newtonsoft.Json;
 using System.Net.Http.Json;
+using DelpinBooking.Classes;
 
 namespace DelpinBooking.Controllers
 {
@@ -26,28 +27,17 @@ namespace DelpinBooking.Controllers
         }
 
         // GET: Machines
-        public async Task<IActionResult> Index(string? queryParameters)
+        public async Task<IActionResult> Index([Bind("Page,Size")]MachineQueryParameters queryParameters)
         {
-            if (string.IsNullOrEmpty(queryParameters))
-            {
-                queryParameters = "size=10&page=1";
-                
-            }
+            string queryString = "page=" + queryParameters.Page +
+                                 "&size=" + queryParameters.Size;
 
-            string [] queryParametersArr = queryParameters.Split('&');
-            Dictionary<string, int> queryParametersDictionary = new Dictionary<string, int>();
-            foreach (var s in queryParametersArr)
-            {
-                string[] arr = s.Split('=');
-                queryParametersDictionary.Add(arr[0], int.Parse(arr[1]));
-            }
-
-            ViewBag.QueryParametersDictionary = queryParametersDictionary;
+            ViewBag.QueryParameters = queryParameters;
 
             List<Machine> Machines;
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync(ApiUrl + "GetAllMachines?" + queryParameters))
+                using (var response = await httpClient.GetAsync(ApiUrl + "GetAllMachines?" + queryString))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     Machines = JsonConvert.DeserializeObject<List<Machine>>(apiResponse);
@@ -58,21 +48,31 @@ namespace DelpinBooking.Controllers
             return View(Machines);
         }
 
-        public async Task<IActionResult> ChooseMachines(string? queryParameters)
+        public async Task<IActionResult> ChooseMachines([Bind("WarehouseCity")]MachineQueryParameters queryParameters)
         {
+            string queryString = "";
+
+            if (queryParameters.WarehouseCity != null)
+            {
+                queryString += "warehousecity=" + queryParameters.WarehouseCity;
+            }
+
+            ViewBag.QueryParameters = queryParameters;
+
             List<Machine> Machines;
             using (var httpClient = new HttpClient())
             {
-                if (!string.IsNullOrEmpty(queryParameters))
-                {
-                    queryParameters = "warehousecity=" + queryParameters;
-                }
-                using (var response = await httpClient.GetAsync(ApiUrl + "GetAvailableMachines?" + queryParameters))
+                string method = "GetAvailableMachines?";
+                using (var response = await httpClient.GetAsync(ApiUrl + method + queryString))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     Machines = JsonConvert.DeserializeObject<List<Machine>>(apiResponse);
                 }
             }
+
+            WarehousesController warehouseController = new WarehousesController(_context) { ControllerContext = ControllerContext };
+            List<string> WarehouseCities = await warehouseController.GetAllWarehouseCities();
+            ViewBag.WarehouseCities = WarehouseCities;
 
             Dictionary<string, int> valuePairs = new Dictionary<string, int>();
             foreach (Machine machine in Machines)

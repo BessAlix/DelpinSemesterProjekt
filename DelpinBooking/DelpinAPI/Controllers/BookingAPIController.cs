@@ -32,8 +32,6 @@ namespace DelpinAPI.Controllers
             bookings = SearchItems(queryParameters, bookings);
             bookings = SortBy(queryParameters, bookings);
            
-
-
             bookings = bookings
                 .AsNoTracking()
                 .Include(b => b.Machines);
@@ -49,15 +47,17 @@ namespace DelpinAPI.Controllers
         }
 
         [HttpGet]
-        [Route("[action]/{customerId}")]
-        public async Task<IActionResult> GetBookingsForCustomer(string customerId)
+        [Route("[action]")]
+        public async Task<IActionResult> GetBookingsForCustomer([FromQuery]BookingQueryParameters queryParameters)
         {
-            var bookings = await _context.Booking
-                .AsNoTracking()
-                .Where(b => b.Customer == customerId)
-                .ToListAsync();
+            IQueryable<Booking> bookings = _context.Booking;
 
-            return Ok(bookings);
+            bookings = bookings
+                .AsNoTracking()
+                .Include(p => p.Machines)
+                .Where(b => b.Customer == queryParameters.Customer);   
+
+            return Ok(await bookings.ToListAsync());
         }
 
         [HttpGet]
@@ -116,7 +116,6 @@ namespace DelpinAPI.Controllers
                           " WHERE BookingId = " + bookingToDelete.Id;
 
             _context.Database.ExecuteSqlRaw(sql);
-
             await _context.SaveChangesAsync();
 
             return Ok(bookingToDelete);
@@ -176,6 +175,7 @@ namespace DelpinAPI.Controllers
             
             return bookings;
         }
+
         private Dictionary<string, string> DiagnoseConflict(EntityEntry entry)
         {
             Dictionary<string, string> errors = new Dictionary<string, string>();

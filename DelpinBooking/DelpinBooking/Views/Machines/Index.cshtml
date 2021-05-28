@@ -12,7 +12,10 @@
 </p>
 @{
     int counter = 0;
+    int pageValue = ViewBag.QueryParameters.Page;
+    int sizeValue = ViewBag.QueryParameters.Size;
 }
+
 <table class="table">
     <thead>
         <tr>
@@ -51,17 +54,22 @@
     </tbody>
 </table>
 
-
-@{ int page = ViewBag.QueryParametersDictionary["page"];}
-@{ int size = ViewBag.QueryParametersDictionary["size"];}
-@{ string nextPage = "page=" + (page + 1) + "&size=" + size;}
-@{ string previousPage = "page=" + (page - 1) + "&size=" + size;}
-@if (page > 1)
+@if (pageValue > 1)
 {
-    <a asp-action="Index" asp-route-queryParameters="@previousPage">Forrige side</a>
+    @using (Html.BeginForm(FormMethod.Get))
+    {
+        <input type="hidden" name="page" value="@(pageValue-1)" />
+        <input type="hidden" name="size" value="@sizeValue" />
+        <input type="submit" class="floated" value="Forige side" />
+    }
 }
-@if (counter == size)
+@if (counter == sizeValue)
 {
-    <a asp-action="Index" asp-route-queryParameters="@nextPage">Næste side</a>
+    @using (Html.BeginForm(FormMethod.Get))
+    {
+        <input type="hidden" name="page" value="@(pageValue+1)" />
+        <input type="hidden" name="size" value="@sizeValue" />
+        <input type="submit" class="floated" value="Næste side" />
+    }
 }
 

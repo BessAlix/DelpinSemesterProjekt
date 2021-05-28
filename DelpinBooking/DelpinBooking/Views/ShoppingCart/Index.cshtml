@@ -39,10 +39,12 @@
                     }
 
                     <a asp-action="Details" asp-route-id="@item.Id">Details</a>
-                    
-
                 </td>
             </tr>
         }
     </tbody>
 </table>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
