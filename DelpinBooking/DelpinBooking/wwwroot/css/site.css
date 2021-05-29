@@ -5,11 +5,12 @@ a.navbar-brand {
   white-space: normal;
   text-align: center;
   word-break: break-all;
+  color: #000000;
 }
 
 /* Provide sufficient contrast against white background */
 a {
-  color: #0366d6;
+    color: #0f1d0f;
 }
 
 .btn-primary {
@@ -20,9 +21,11 @@ a {
 
 .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
   color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+  background-color: #ff0000;
+  border-color: rgba(127, 63,191);
 }
+
+
 
 /* Sticky footer styles
 -------------------------------------------------- */
@@ -43,7 +46,7 @@ html {
 }
 
 .box-shadow {
-  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+  box-shadow: 0 .25rem .75rem rgba(127, 63,191);
 }
 
 button.accept-policy {

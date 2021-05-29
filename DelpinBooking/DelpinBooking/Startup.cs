@@ -74,6 +74,7 @@ namespace DelpinBooking
             app.UseSession();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            
 
             app.UseRouting();
 
