@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace DelpinAPI.APIModels
@@ -19,6 +20,7 @@ namespace DelpinAPI.APIModels
         
         public Warehouse Warehouse { get; set; }
 
+        [JsonIgnore]
         public Booking Booking { get; set; }
 
         [Timestamp]

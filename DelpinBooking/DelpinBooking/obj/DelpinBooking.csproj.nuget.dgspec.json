@@ -1,25 +1,21 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Bess\\Documents\\Delpin Project\\DelpinSemesterProjekt\\DelpinBooking\\DelpinBooking\\DelpinBooking.csproj": {}
+    "C:\\Users\\sigur\\source\\repos\\DelpinSemesterProjekt\\DelpinBooking\\DelpinBooking\\DelpinBooking.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Bess\\Documents\\Delpin Project\\DelpinSemesterProjekt\\DelpinBooking\\DelpinBooking\\DelpinBooking.csproj": {
+    "C:\\Users\\sigur\\source\\repos\\DelpinSemesterProjekt\\DelpinBooking\\DelpinBooking\\DelpinBooking.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Bess\\Documents\\Delpin Project\\DelpinSemesterProjekt\\DelpinBooking\\DelpinBooking\\DelpinBooking.csproj",
+        "projectUniqueName": "C:\\Users\\sigur\\source\\repos\\DelpinSemesterProjekt\\DelpinBooking\\DelpinBooking\\DelpinBooking.csproj",
         "projectName": "DelpinBooking",
-        "projectPath": "C:\\Users\\Bess\\Documents\\Delpin Project\\DelpinSemesterProjekt\\DelpinBooking\\DelpinBooking\\DelpinBooking.csproj",
-        "packagesPath": "C:\\Users\\Bess\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Bess\\Documents\\Delpin Project\\DelpinSemesterProjekt\\DelpinBooking\\DelpinBooking\\obj\\",
+        "projectPath": "C:\\Users\\sigur\\source\\repos\\DelpinSemesterProjekt\\DelpinBooking\\DelpinBooking\\DelpinBooking.csproj",
+        "packagesPath": "C:\\Users\\sigur\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\sigur\\source\\repos\\DelpinSemesterProjekt\\DelpinBooking\\DelpinBooking\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Bess\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+          "C:\\Users\\sigur\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net5.0"
@@ -115,7 +111,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.203\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.202\\RuntimeIdentifierGraph.json"
         }
       }
     }

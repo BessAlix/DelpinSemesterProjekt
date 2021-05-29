@@ -54,6 +54,7 @@ namespace DelpinBooking.Controllers
                 else
                 {
                     var UserID = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+                    queryString += "&customer=" + UserID;
                     method = "GetBookingsForCustomer?";
                 }
                 
