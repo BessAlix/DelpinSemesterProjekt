@@ -27,14 +27,15 @@ namespace DelpinAPI.Controllers
         public async Task<IActionResult> GetAllBookings([FromQuery] BookingQueryParameters queryParameters)
         {
             IQueryable<Booking> bookings = _context.Booking;
-
-            bookings = FilterItems(queryParameters, bookings);
-            bookings = SearchItems(queryParameters, bookings);
-            bookings = SortBy(queryParameters, bookings);
            
             bookings = bookings
                 .AsNoTracking()
-                .Include(b => b.Machines);
+                .Include(b => b.Machines)
+                .ThenInclude(m => m.Warehouse)
+                .FilterItems(queryParameters)
+                .SearchItems(queryParameters)
+                .SortBy(queryParameters);
+
             if(bookings.Count() > 0)
             {
                 bookings = bookings
@@ -55,6 +56,7 @@ namespace DelpinAPI.Controllers
             bookings = bookings
                 .AsNoTracking()
                 .Include(p => p.Machines)
+                .ThenInclude(m => m.Warehouse)
                 .Where(b => b.Customer == queryParameters.Customer);   
 
             return Ok(await bookings.ToListAsync());
@@ -66,6 +68,8 @@ namespace DelpinAPI.Controllers
         {
             var booking = await _context.Booking
                 .AsNoTracking()
+                .Include(b => b.Machines)
+                .ThenInclude(m => m.Warehouse)
                 .FirstOrDefaultAsync(b => b.Id == bookingId);
 
             return Ok(booking);
@@ -79,9 +83,11 @@ namespace DelpinAPI.Controllers
             //Add method will make a new machine with a new ID
             //Update every machines foreign key to booking
             //Update checks if the machines ID already exists, if not, then create a new.
+
             _context.Update(booking);
             await _context.SaveChangesAsync();
-            return CreatedAtAction("GetBooking", new { id = booking.Id }, booking);
+
+            return Ok(booking);
         }  
 
         [HttpPut]
@@ -111,70 +117,18 @@ namespace DelpinAPI.Controllers
             var bookingToDelete = await _context.Booking.FirstOrDefaultAsync(b => b.Id == booking.Id);
             bookingToDelete.SoftDeleted = true;
 
-            //Sql command to clear all foreign keys to the soft-deleted booking
-            string sql = "UPDATE dbo.Machine SET BookingId = null" +
-                          " WHERE BookingId = " + bookingToDelete.Id;
+            await _context.Machine
+                .Include(p => p.Booking)
+                .Where(m => m.Booking.Id == booking.Id)
+                .ForEachAsync(m => m.Booking = null);
 
-            _context.Database.ExecuteSqlRaw(sql);
             await _context.SaveChangesAsync();
 
             return Ok(bookingToDelete);
         }
-        private IQueryable<Booking> FilterItems(BookingQueryParameters queryParameters, IQueryable<Booking> bookings)
-        {
+        
 
-            //Filtering Items, specifically Warehouse by City.
-            if (!string.IsNullOrEmpty(queryParameters.Customer))
-            {
-                bookings = bookings.Where(
-                    b => b.Customer == queryParameters.Customer);
-            }
-
-            return bookings;
-        }
-
-        private IQueryable<Booking> SearchItems(BookingQueryParameters queryParameters, IQueryable<Booking> bookings)
-        {
-            //Searching items, specifically Name and Type.
-            if (!string.IsNullOrEmpty(queryParameters.SearchBy))
-            {
-                IQueryable<Booking> bookingsCustomer = bookings.Where(
-                m => m.Customer.Contains(queryParameters.SearchBy));
-                    
-               IQueryable<Booking> bookingsId = bookings.Where(
-               m => m.Id.ToString().Contains(queryParameters.SearchBy));
-
-                bookings= bookingsCustomer.Union(bookingsId);
-            }   
-            return bookings;
-        }
-
-        private IQueryable<Booking> SortBy(BookingQueryParameters queryParameters, IQueryable<Booking> bookings)
-        {
-            if (string.IsNullOrEmpty(queryParameters.SortBy))
-            {
-                queryParameters.SortBy = "Latest";
-            }
-            if(queryParameters.SortBy == "Latest")
-            {
-                bookings = bookings.OrderByDescending(b => b.Id);
-            }
-            
-                if (queryParameters.SortBy == "ReturnDate")
-                {
-                    bookings = bookings.OrderBy(b => b.ReturnDate);
-                }
-                if (queryParameters.SortBy == "PickUpDate")
-                {
-                    bookings = bookings.OrderBy(b => b.PickUpDate);
-                }
-                if (queryParameters.SortBy == "Customer")
-                {
-                    bookings = bookings.OrderBy(b => b.Customer);
-                }
-            
-            return bookings;
-        }
+       
 
         private Dictionary<string, string> DiagnoseConflict(EntityEntry entry)
         {
@@ -203,6 +157,65 @@ namespace DelpinAPI.Controllers
             }
 
             return errors;
+        }
+    }
+
+    public static class BookingFilters
+    {
+        public static IQueryable<Booking> FilterItems(this IQueryable<Booking> bookings, BookingQueryParameters queryParameters)
+        {
+
+            //Filtering Items, specifically Warehouse by City.
+            if (!string.IsNullOrEmpty(queryParameters.Customer))
+            {
+                bookings = bookings.Where(
+                    b => b.Customer == queryParameters.Customer);
+            }
+
+            return bookings;
+        }
+
+        public static IQueryable<Booking> SearchItems(this IQueryable<Booking> bookings, BookingQueryParameters queryParameters)
+        {
+            //Searching items, specifically Name and Type.
+            if (!string.IsNullOrEmpty(queryParameters.SearchBy))
+            {
+                IQueryable<Booking> bookingsCustomer = bookings.Where(
+                m => m.Customer.Contains(queryParameters.SearchBy));
+
+                IQueryable<Booking> bookingsId = bookings.Where(
+                m => m.Id.ToString().Contains(queryParameters.SearchBy));
+
+                bookings = bookingsCustomer.Union(bookingsId);
+            }
+            return bookings;
+        }
+
+        public static IQueryable<Booking> SortBy(this IQueryable<Booking> bookings, BookingQueryParameters queryParameters)
+        {
+            if (string.IsNullOrEmpty(queryParameters.SortBy))
+            {
+                queryParameters.SortBy = "Latest";
+            }
+            if (queryParameters.SortBy == "Latest")
+            {
+                bookings = bookings.OrderByDescending(b => b.Id);
+            }
+
+            if (queryParameters.SortBy == "ReturnDate")
+            {
+                bookings = bookings.OrderBy(b => b.ReturnDate);
+            }
+            if (queryParameters.SortBy == "PickUpDate")
+            {
+                bookings = bookings.OrderBy(b => b.PickUpDate);
+            }
+            if (queryParameters.SortBy == "Customer")
+            {
+                bookings = bookings.OrderBy(b => b.Customer);
+            }
+
+            return bookings;
         }
     }
 }

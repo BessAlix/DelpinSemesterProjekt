@@ -13,6 +13,7 @@ using System.Net.Http.Json;
 using System.Text;
 using DelpinBooking.Models;
 using DelpinBooking.Data;
+using DelpinBooking.Classes;
 
 namespace DelpinBooking.Controllers
 {
@@ -33,21 +34,49 @@ namespace DelpinBooking.Controllers
         [Authorize(Roles = "Admin, Employee")]
         [Route("[action]")]
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index([Bind("Page,Size,City")] WarehouseQueryParameters queryParameters)
         {
+            string queryString = "page=" + queryParameters.Page +
+                                  "&size=" + queryParameters.Size;
+
+            if(!string.IsNullOrEmpty(queryParameters.City))
+            {
+                int postCode = 0;
+                if (int.TryParse(queryParameters.City, out postCode))
+                {
+                    queryParameters.PostCode = postCode;
+                }
+                else
+                {
+                    queryString += "&city=" + queryParameters.City;
+                }
+               
+            }
+            if (queryParameters.PostCode != 0)
+            {
+                queryString += "&postcode=" + queryParameters.PostCode;
+            }
+            if (queryParameters.SortBy != null)
+            {
+                queryString += "&sortby=" + queryParameters.SortBy;
+            }
+
+            ViewBag.QueryParameters = queryParameters;
+
             List<Warehouse> Warehouses;
             using (var httpClient = new HttpClient())
             {
-                string method = "GetAllWarehouses/";
-                using (var response = await httpClient.GetAsync(ApiUrl + method))
+                string method = "GetAllWarehouses?";
+                using (var response = await httpClient.GetAsync(ApiUrl + method + queryString))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     Warehouses = JsonConvert.DeserializeObject<List<Warehouse>>(apiResponse);
-
                 }
             }
+
             return View(Warehouses);
         }
+
         // GET: Warehouses for a customer 
         [Route("[action]")]
         [HttpGet]

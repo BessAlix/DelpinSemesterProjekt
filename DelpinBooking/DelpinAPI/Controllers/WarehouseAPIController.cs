@@ -7,6 +7,7 @@ using System.Linq;
 using DelpinAPI.APIModels;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using DelpinAPI.Classes;
 
 namespace DelpinAPI.Controllers
 {
@@ -24,12 +25,18 @@ namespace DelpinAPI.Controllers
         // Der skal laves Pagernating
         [HttpGet]
         [Route("[action]")]
-        public async Task<IActionResult> GetAllWarehouses()
+        public async Task<IActionResult> GetAllWarehouses([FromQuery]WarehouseQueryParameters queryParameters)
         {
-            var warehouses = await _context.Warehouse
+            IQueryable<Warehouse> warehouses = _context.Warehouse;
+            Console.WriteLine("________________" + queryParameters.City);
+            warehouses = warehouses
                 .AsNoTracking()
-                .ToListAsync();
-            return Ok(warehouses);
+                .FilterItems(queryParameters)
+                .SortBy(queryParameters)
+                .Skip(queryParameters.Size * (queryParameters.Page - 1))
+                .Take(queryParameters.Size);
+
+            return Ok(await warehouses.ToListAsync());
         }
         
         [HttpGet]
@@ -40,6 +47,7 @@ namespace DelpinAPI.Controllers
                 .AsNoTracking()
                 .Select(w => w.City)
                 .ToListAsync();
+
             return Ok(warehouses);
         }
 
@@ -52,6 +60,7 @@ namespace DelpinAPI.Controllers
                 .AsNoTracking()
                 .Where(m => m.Id == id)
                 .FirstOrDefaultAsync();
+
             return Ok(Warehouse);
         }
 
@@ -89,7 +98,6 @@ namespace DelpinAPI.Controllers
         [Route("[action]/{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            Console.WriteLine("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" + id);
             var Warehouse = await _context.Warehouse
                 .Where(m => m.Id == id)
                 .FirstOrDefaultAsync();
@@ -129,9 +137,44 @@ namespace DelpinAPI.Controllers
             }
 
             return errors;
+        }
+    }
 
+    public static class WarehouseFilters
+    {
+        public static IQueryable<Warehouse> FilterItems(this IQueryable<Warehouse> warehouses, WarehouseQueryParameters queryParameters)
+        {
+
+            //Filtering Items, specifically Warehouse by City.
+            if (!string.IsNullOrEmpty(queryParameters.City))
+            {
+                warehouses = warehouses.Where(
+                    w => w.City == queryParameters.City);
+            }
+
+            if(queryParameters.PostCode != 0)
+            {
+                warehouses = warehouses.Where(
+                    w => w.PostCode == queryParameters.PostCode);
+            }
+
+            return warehouses;
         }
 
+        public static IQueryable<Warehouse> SortBy(this IQueryable<Warehouse> warehouses, WarehouseQueryParameters queryParameters)
+        {
+            if (string.IsNullOrEmpty(queryParameters.SortBy))
+            {
+                queryParameters.SortBy = "Alphabetic";
+            }
 
+            if (queryParameters.SortBy == "Alphabetic")
+            {
+                warehouses = warehouses.OrderByDescending(w => w.City);
+            }
+            
+
+            return warehouses;
+        }
     }
 }

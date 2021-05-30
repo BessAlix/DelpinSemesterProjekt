@@ -4,11 +4,19 @@
 
 @{
     ViewData["Title"] = "Index";
+    string machinesString = JsonConvert.SerializeObject(Model);
 }
 
 <h1>Dine ønskede maskiner</h1>
 
-<a asp-controller="Bookings" asp-action="CreateBooking" asp-route-machinesstring=@JsonConvert.SerializeObject(Model)>Opret</a>
+<form asp-action="CreateBooking" asp-controller="Bookings" method="get">
+    <div class="form-group">
+        <input type="hidden" name="machinesString" id="machinesString" class="form-control" value="@machinesString" />
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Create" class="btn btn-primary" />
+    </div>
+</form>
 <table class="table">
     <thead>
         <tr>

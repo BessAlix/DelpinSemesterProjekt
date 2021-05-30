@@ -9,8 +9,8 @@ using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using Newtonsoft.Json;
 using System.Net.Http;
-using System.Net.Http.Json;
 using DelpinBooking.Classes;
+using System.Net.Http.Json;
 
 namespace DelpinBooking.Controllers
 {
@@ -68,6 +68,15 @@ namespace DelpinBooking.Controllers
             return View(Bookings);
         }
 
+        [HttpGet]
+        [Route("[action]")]
+        public async Task<IActionResult> MachinesForBooking(string machinesString)
+        {
+            List<Machine> machines = JsonConvert.DeserializeObject<List<Machine>>(machinesString);
+
+            return View(machines);
+        }
+
         // GET: Bookings/Details/5
         [HttpGet]
         [Route("[action]")]
@@ -99,10 +108,10 @@ namespace DelpinBooking.Controllers
 
         // GET: Bookings/Create
         [HttpGet]
-        [Route("[action]/{machinesstring}")]
-        public async Task<IActionResult> CreateBooking(string machinesstring)
+        [Route("[action]")]
+        public async Task<IActionResult> CreateBooking(string machinesString)
         {
-            List<Machine> machines = JsonConvert.DeserializeObject<List<Machine>>(machinesstring);
+            List<Machine> machines = JsonConvert.DeserializeObject<List<Machine>>(machinesString);
             Booking booking;
             var UserID = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             using (var httpClient = new HttpClient())
@@ -146,10 +155,10 @@ namespace DelpinBooking.Controllers
                         {
                             ShoppingCartController shoppingCartController = new ShoppingCartController { ControllerContext = ControllerContext };
                             shoppingCartController.Clear();
-                        }
-                    }
 
-                    return RedirectToAction(nameof(Index));
+                            return RedirectToAction(nameof(Index));
+                        }
+                    }                    
                 }
             }
             

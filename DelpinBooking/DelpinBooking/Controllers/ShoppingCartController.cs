@@ -38,9 +38,8 @@ namespace DelpinBooking.Controllers
             }
             cart.Add(machine);
             SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", cart);
-
+         
             return RedirectToAction("Index");
-
         }
         
         [HttpDelete]

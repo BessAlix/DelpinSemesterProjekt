@@ -1,20 +1,22 @@
 ﻿@model IEnumerable<DelpinBooking.Models.Booking>
+@using Newtonsoft.Json;
 
 @{
     ViewData["Title"] = "Index";
 }
 
 <h1>Index</h1>
+
 @{
     int counter = 0;
     int pageValue = ViewBag.QueryParameters.Page;
     int sizeValue = ViewBag.QueryParameters.Size;
-
 }
+
 @using (Html.BeginForm(FormMethod.Get))
 {
     <input type="text" name="searchby" value="" />
-    <input type="hidden" name="page" value="@pageValue" />
+    <input type="hidden" name="page" value="1" />
     <input type="hidden" name="size" value="@sizeValue" />
     <input type="submit" value="Søg" />
 }
@@ -28,7 +30,12 @@
             <th>
                 @Html.DisplayNameFor(model => model.ReturnDate)
             </th>
-            <th></th>
+            <th>
+                @Html.DisplayNameFor(model => model.Customer)
+            </th>
+            <th>
+                 @Html.DisplayNameFor(model => model.Machines)
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -44,7 +51,11 @@
                     @Html.DisplayFor(modelItem => item.ReturnDate)
                 </td>
                 <td>
-                    <a asp-action="GetCustomer" asp-route-id="@item.Customer">Se brugerdetaljer</a> |
+                    <a asp-action="GetCustomer" asp-route-id="@item.Customer">Se brugerdetaljer</a>
+                </td>
+                <td>
+                    @{string machinesString = JsonConvert.SerializeObject(item.Machines);}
+                    <a asp-action="MachinesForBooking" asp-route-machinesstring="@machinesString">Se maskiner</a>
                 </td>
 
                 <td>

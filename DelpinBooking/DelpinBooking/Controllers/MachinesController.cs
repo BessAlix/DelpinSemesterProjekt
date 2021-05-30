@@ -103,7 +103,11 @@ namespace DelpinBooking.Controllers
 
                 }
             }
-            return RedirectToAction("Add", "ShoppingCart", machine);
+        
+            ShoppingCartController shoppingCartController = new ShoppingCartController { ControllerContext = ControllerContext };
+            shoppingCartController.Add(machine);
+
+            return RedirectToAction("Index", "ShoppingCart");
         }
 
         // GET: Machines/Details/5

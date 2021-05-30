@@ -29,13 +29,12 @@ namespace DelpinAPI.Controllers
         {
             IQueryable<Machine> machines = _context.Machine;
 
-            machines = FilterItems(queryParameters, machines);
-            machines = SearchItems(queryParameters, machines);
-            machines = SortBy(queryParameters, machines);
-
             machines = machines
                 .AsNoTracking()
                 .Include(p => p.Warehouse)
+                .FilterItems(queryParameters)
+                .SearchItems(queryParameters)
+                .SortBy(queryParameters)
                 .Skip(queryParameters.Size * (queryParameters.Page - 1))
                 .Take(queryParameters.Size);
 
@@ -49,15 +48,14 @@ namespace DelpinAPI.Controllers
         {
             IQueryable<Machine> machines = _context.Machine;
 
-            machines = FilterItems(queryParameters, machines);
-            machines = SearchItems(queryParameters, machines);
-            machines = SortBy(queryParameters, machines);
-
             machines = machines
                 .AsNoTracking()
                 .Include(p => p.Warehouse)
                 .Include(p => p.Booking)
-                .Where(m => m.Booking == null);
+                .Where(m => m.Booking == null)
+                .FilterItems(queryParameters)
+                .SearchItems(queryParameters)
+                .SortBy(queryParameters);
 
             return Ok(await machines.ToListAsync());
         }
@@ -140,49 +138,7 @@ namespace DelpinAPI.Controllers
         }
 
 
-        private IQueryable<Machine> FilterItems(MachineQueryParameters queryParameters, IQueryable<Machine> machines)
-        {
-
-            //Filtering Items, specifically Warehouse by City.
-            if (!string.IsNullOrEmpty(queryParameters.WarehouseCity))
-            {
-                machines = machines.Where(
-                    m => m.Warehouse.City == queryParameters.WarehouseCity);
-            }
-
-            return machines;
-        }
-
-        private IQueryable<Machine> SearchItems(MachineQueryParameters queryParameters, IQueryable<Machine> machines)
-        {
-            //Searching items, specifically Name and Type.
-            if (!string.IsNullOrEmpty(queryParameters.Name))
-            {
-                machines = machines.Where(
-                    m => m.Name.ToLower().Contains(queryParameters.Name.ToLower()));
-            }
-
-            if (!string.IsNullOrEmpty(queryParameters.Type))
-            {
-                machines = machines.Where(
-                    m => m.Type.ToLower().Contains(queryParameters.Type.ToLower()));
-            }
-            
-            return machines;
-        }
-
-        private IQueryable<Machine> SortBy(MachineQueryParameters queryParameters, IQueryable<Machine> machines)
-        {
-            // Sorts the item by Name
-            if (!string.IsNullOrEmpty(queryParameters.SortBy))
-            {
-                if (typeof(Machine).GetProperty(queryParameters.SortBy) != null)
-                {
-                    machines = machines.OrderBy(m => m.Name);
-                }
-            }
-            return machines;
-        }
+        
         private Dictionary<string, string> DiagnoseConflict(EntityEntry entry)
         {
             Dictionary<string, string> errors = new Dictionary<string, string>();
@@ -211,6 +167,54 @@ namespace DelpinAPI.Controllers
 
             return errors;
 
+        }
+    }
+
+    public static class MachineFilters
+    {
+        public static IQueryable<Machine> FilterItems(this IQueryable<Machine> machines, MachineQueryParameters queryParameters)
+        {
+
+            //Filtering Items, specifically Warehouse by City.
+            if (!string.IsNullOrEmpty(queryParameters.WarehouseCity))
+            {
+                machines = machines.Where(
+                    m => m.Warehouse.City == queryParameters.WarehouseCity);
+            }
+
+            return machines;
+        }
+
+        public static IQueryable<Machine> SearchItems(this IQueryable<Machine> machines, MachineQueryParameters queryParameters)
+        {
+            //Searching items, specifically Name and Type.
+            if (!string.IsNullOrEmpty(queryParameters.Name))
+            {
+                machines = machines.Where(
+                    m => m.Name.ToLower().Contains(queryParameters.Name.ToLower()));
+            }
+
+            if (!string.IsNullOrEmpty(queryParameters.Type))
+            {
+                machines = machines.Where(
+                    m => m.Type.ToLower().Contains(queryParameters.Type.ToLower()));
+            }
+
+            return machines;
+        }
+
+        public static IQueryable<Machine> SortBy(this IQueryable<Machine> machines, MachineQueryParameters queryParameters)
+        {
+            // Sorts the item by Name
+            if (!string.IsNullOrEmpty(queryParameters.SortBy))
+            {
+                if (typeof(Machine).GetProperty(queryParameters.SortBy) != null)
+                {
+                    machines = machines.OrderBy(m => m.Name);
+                }
+            }
+
+            return machines;
         }
     }
 }

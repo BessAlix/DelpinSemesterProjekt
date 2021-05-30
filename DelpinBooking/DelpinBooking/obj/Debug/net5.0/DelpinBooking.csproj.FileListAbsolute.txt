@@ -926,3 +926,4 @@ C:\Users\sigur\source\repos\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\ob
 C:\Users\sigur\source\repos\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\obj\Debug\net5.0\Razor\Views\Shared\_MachineLayout.cshtml.g.cs
 C:\Users\sigur\source\repos\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\obj\Debug\net5.0\Razor\Views\Shared\_WarehouseLayout.cshtml.g.cs
 C:\Users\sigur\source\repos\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\obj\Debug\net5.0\Razor\Views\Warehouses\_ViewStart.cshtml.g.cs
+C:\Users\sigur\source\repos\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\obj\Debug\net5.0\Razor\Views\Bookings\MachinesForBooking.cshtml.g.cs
