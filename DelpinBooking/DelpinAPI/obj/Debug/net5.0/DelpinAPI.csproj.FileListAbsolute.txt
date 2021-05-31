@@ -150,7 +150,6 @@ C:\Users\Bess\Documents\delpin\DelpinSemesterProjekt\DelpinBooking\DelpinAPI\bin
 C:\Users\Bess\Documents\delpin\DelpinSemesterProjekt\DelpinBooking\DelpinAPI\bin\Debug\net5.0\runtimes\win-arm64\lib\net5.0\dotnet-aspnet-codegenerator-design.exe
 C:\Users\Bess\Documents\delpin\DelpinSemesterProjekt\DelpinBooking\DelpinAPI\bin\Debug\net5.0\DelpinBooking.dll
 C:\Users\Bess\Documents\delpin\DelpinSemesterProjekt\DelpinBooking\DelpinAPI\bin\Debug\net5.0\DelpinBooking.pdb
-C:\Users\Bess\Documents\delpin\DelpinSemesterProjekt\DelpinBooking\DelpinAPI\bin\Debug\net5.0\DelpinBooking.StaticWebAssets.xml
 C:\Users\sigur\source\repos\DelpinSemesterProjekt\DelpinBooking\DelpinAPI\bin\Debug\net5.0\appsettings.Development.json
 C:\Users\sigur\source\repos\DelpinSemesterProjekt\DelpinBooking\DelpinAPI\bin\Debug\net5.0\appsettings.json
 C:\Users\sigur\source\repos\DelpinSemesterProjekt\DelpinBooking\DelpinAPI\bin\Debug\net5.0\DelpinBooking.Views.dll
@@ -616,3 +615,13 @@ C:\Users\Bess\Documents\Delpin Project\DelpinSemesterProjekt\DelpinBooking\Delpi
 C:\Users\majak\DelpinSemesterProjekt\DelpinBooking\DelpinAPI\bin\Debug\net5.0\DelpinBooking.StaticWebAssets.xml
 C:\Users\Bess\Documents\Delpin Project\DelpinSemesterProjekt\DelpinBooking\DelpinAPI\bin\Debug\net5.0\DelpinBooking.StaticWebAssets.xml
 C:\Users\sigur\source\repos\DelpinSemesterProjekt\DelpinBooking\DelpinAPI\bin\Debug\net5.0\DelpinBooking.StaticWebAssets.xml
+C:\Users\Bess\Documents\Delpin\DelpinSemesterProjekt\DelpinBooking\DelpinAPI\bin\Debug\net5.0\Microsoft.EntityFrameworkCore.Design.dll
+C:\Users\Bess\Documents\Delpin\DelpinSemesterProjekt\DelpinBooking\DelpinAPI\bin\Debug\net5.0\PagedList.dll
+C:\Users\Bess\Documents\Delpin\DelpinSemesterProjekt\DelpinBooking\DelpinAPI\bin\Debug\net5.0\NUnit3.TestAdapter.dll
+C:\Users\Bess\Documents\Delpin\DelpinSemesterProjekt\DelpinBooking\DelpinAPI\bin\Debug\net5.0\NUnit3.TestAdapter.pdb
+C:\Users\Bess\Documents\Delpin\DelpinSemesterProjekt\DelpinBooking\DelpinAPI\bin\Debug\net5.0\nunit.engine.dll
+C:\Users\Bess\Documents\Delpin\DelpinSemesterProjekt\DelpinBooking\DelpinAPI\bin\Debug\net5.0\nunit.engine.api.dll
+C:\Users\Bess\Documents\Delpin\DelpinSemesterProjekt\DelpinBooking\DelpinAPI\bin\Debug\net5.0\nunit.engine.core.dll
+C:\Users\Bess\Documents\Delpin\DelpinSemesterProjekt\DelpinBooking\DelpinAPI\bin\Debug\net5.0\Microsoft.DotNet.InternalAbstractions.dll
+C:\Users\Bess\Documents\Delpin\DelpinSemesterProjekt\DelpinBooking\DelpinAPI\bin\Debug\net5.0\System.Xml.XPath.XmlDocument.dll
+C:\Users\Bess\Documents\Delpin\DelpinSemesterProjekt\DelpinBooking\DelpinAPI\bin\Debug\net5.0\DelpinBooking.StaticWebAssets.xml

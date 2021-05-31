@@ -11,6 +11,7 @@ using Newtonsoft.Json;
 using System.Net.Http;
 using DelpinBooking.Classes;
 using System.Net.Http.Json;
+using DelpinBooking.Controllers.Handler;
 
 namespace DelpinBooking.Controllers
 {
@@ -21,10 +22,11 @@ namespace DelpinBooking.Controllers
         private readonly DelpinBookingContext _context;
         private readonly string ApiUrl = "https://localhost:5001/api/BookingAPI/";
         private readonly string UserUrl = "https://localhost:44379/ApplicationUsers/";
+        private HttpClientHandlerBooking _httpClientHandler;
 
-        public BookingsController(DelpinBookingContext context)
+        public BookingsController(HttpClientHandlerBooking httpClientHandler)
         {
-            _context = context; 
+            _httpClientHandler = httpClientHandler; 
         }
 
         // GET: Bookings
@@ -43,26 +45,15 @@ namespace DelpinBooking.Controllers
             ViewBag.QueryParameters = queryParameters;
 
             List<Booking> Bookings;
-            using (var httpClient = new HttpClient())
+            if (User.IsInRole("Admin") || User.IsInRole("Employee"))
             {
-                string method = "";
-                if (User.IsInRole("Admin") || User.IsInRole("Employee"))
-                {
-                    method = "GetAllBookings?";
-                }
-
-                else
-                {
-                    var UserID = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-                    queryString += "&customer=" + UserID;
-                    method = "GetBookingsForCustomer?";
-                }
-                
-                using (var response = await httpClient.GetAsync(ApiUrl + method + queryString))
-                {
-                    string apiResponse = await response.Content.ReadAsStringAsync();
-                    Bookings = JsonConvert.DeserializeObject<List<Booking>>(apiResponse);
-                }
+                Bookings = await _httpClientHandler.GetAll(queryString);
+            }
+            else
+            {
+                var UserID = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+                queryString += "&customer=" + UserID;
+                Bookings = await _httpClientHandler.GetAll(queryString);
             }
 
             return View(Bookings);
@@ -80,23 +71,10 @@ namespace DelpinBooking.Controllers
         // GET: Bookings/Details/5
         [HttpGet]
         [Route("[action]")]
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            Booking booking = await _httpClientHandler.Get(id);
             
-            Booking booking;
-            using (var httpClient = new HttpClient())
-            {
-                string method = "GetBooking/";
-                using (var response = await httpClient.GetAsync(ApiUrl + method + id))
-                {
-                    string apiResponse = await response.Content.ReadAsStringAsync();
-                    booking = JsonConvert.DeserializeObject<Booking>(apiResponse);
-                }
-            }
 
             if (booking == null)
             {
@@ -144,29 +122,24 @@ namespace DelpinBooking.Controllers
             if (ModelState.IsValid)
             {
                 List<Machine> machines = JsonConvert.DeserializeObject<List<Machine>>(machinesstring);
-                using (var httpClient = new HttpClient()) 
+                
+                // Removes warehouse for machines to avoid tracking duplication on Id
+                // (Doesn't remove the foreign key in the machines table)
+                foreach (Machine m in machines)
                 {
-                    booking.Machines = machines;
-
-                    // Removes warehouse for machines to avoid tracking duplication on Id
-                    // (Doesn't remove the foreign key in the machines table)
-                    foreach (Machine m in machines)
-                    {
-                        m.Warehouse = null;
-                    }
-
-                    string method = "Create/";
-                    using (var response = await httpClient.PostAsJsonAsync<Booking>(ApiUrl + method, booking))
-                    {
-                        if (response.IsSuccessStatusCode)
-                        {
-                            ShoppingCartController shoppingCartController = new ShoppingCartController { ControllerContext = ControllerContext };
-                            shoppingCartController.Clear();
-
-                            return RedirectToAction(nameof(Index));
-                        }
-                    }                    
+                    m.Warehouse = null;
                 }
+                booking.Machines = machines;
+                Booking bookingResponse = await _httpClientHandler.Create(booking);
+
+                if(bookingResponse != null)
+                {
+                    ShoppingCartController shoppingcart = new ShoppingCartController {ControllerContext = ControllerContext };
+                    shoppingcart.Clear();
+                    return RedirectToAction("Index");
+                }
+
+                
             }
             
             return View(booking);
@@ -177,24 +150,10 @@ namespace DelpinBooking.Controllers
         [Authorize(Roles = "Admin")]
         [HttpGet]
         [Route("[action]")]
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            Booking booking = await _httpClientHandler.Get(id);
 
-            Booking booking;
-            using (var httpClient = new HttpClient())
-            {
-                string method = "GetBooking/";
-                using (var response = await httpClient.GetAsync(ApiUrl + method + id))
-                {
-                    string apiResponse = await response.Content.ReadAsStringAsync();
-                    booking = JsonConvert.DeserializeObject<Booking>(apiResponse);                   
-                }
-            }
-           
             return View(booking);
         }
 
@@ -210,16 +169,8 @@ namespace DelpinBooking.Controllers
                 return NotFound();
             }
             
-            Booking bookingToUpdate;
-            using (var httpClient = new HttpClient())
-            {
-                string method = "GetBooking/";
-                using (var response = await httpClient.GetAsync(ApiUrl + method + id))
-                {
-                    string apiResponse = await response.Content.ReadAsStringAsync();
-                    bookingToUpdate = JsonConvert.DeserializeObject<Booking>(apiResponse);
-                }
-            }
+            Booking bookingToUpdate = await _httpClientHandler.Get(id);
+            
 
             if (bookingToUpdate == null)
             {
@@ -232,27 +183,20 @@ namespace DelpinBooking.Controllers
 
             if (ModelState.IsValid)
             {                
-                using (var httpClient = new HttpClient())
-                {                 
-                    Dictionary<string, string> errors;
+                
+                                 
+            Dictionary<string, string> errors = await _httpClientHandler.Update(booking);
 
-                    string method = "Update/";
-                    using (var response = await httpClient.PutAsJsonAsync<Booking>(ApiUrl + method, booking))
-                    {
-                        string apiResponse = await response.Content.ReadAsStringAsync();
-                        errors = JsonConvert.DeserializeObject<Dictionary<string, string>>(apiResponse);
-                    }
+            foreach (string e in errors.Keys)
+            {   
+                ModelState.AddModelError(e, errors[e]);
+            }
 
-                    foreach (string e in errors.Keys)
-                    {   
-                        ModelState.AddModelError(e, errors[e]);
-                    }
-
-                    if (errors.Count == 0)
-                    {
-                        return RedirectToAction(nameof(Index));
-                    }
-                }
+            if (errors.Count == 0)
+            {
+               return RedirectToAction(nameof(Index));
+            }
+                
             }
 
             return View(booking);
@@ -261,23 +205,11 @@ namespace DelpinBooking.Controllers
         // GET: Bookings/Delete/5
         [HttpGet]
         [Route("[action]")]
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            Booking booking;
-            using (var httpClient = new HttpClient())
-            {
-                string method = "GetBooking/";
-                using (var response = await httpClient.GetAsync(ApiUrl + method + id))
-                {
-                    string apiResponse = await response.Content.ReadAsStringAsync();
-                    booking = JsonConvert.DeserializeObject<Booking>(apiResponse);
-                }
-            }
+         
+            Booking booking = await _httpClientHandler.Get(id);
+            
 
             if (booking == null)
             {
@@ -302,17 +234,20 @@ namespace DelpinBooking.Controllers
         public async Task<IActionResult> DeleteConfirmed([Bind("Id,Customer")] Booking booking)
         {
             var UserID = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
             if (User.IsInRole("Admin") || UserID == booking.Customer)
             {
-                using (var httpClient = new HttpClient())
+                Booking bookingDelete = await _httpClientHandler.Delete(booking.Id);
+
+                Console.WriteLine("MVC Booking ID" + bookingDelete.Id);
+                if(bookingDelete != null)
                 {
-                    string method = "Delete/";
-                    using (var response = await httpClient.PostAsJsonAsync<Booking>(ApiUrl + method, booking))
-                    {
-                        return RedirectToAction(nameof(Index));
-                    }
+                 
+                   return RedirectToAction("Index");
                 }
+             
             }
+            
             return View("NotAuthorized");
         }
 

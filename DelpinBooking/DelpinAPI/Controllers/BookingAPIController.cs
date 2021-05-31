@@ -113,7 +113,7 @@ namespace DelpinAPI.Controllers
 
         [HttpPost]
         [Route("[action]")]
-        public async Task<IActionResult> Delete([FromBody]Booking booking)
+        public async Task<IActionResult> Delete(Booking booking)
         {
             var bookingToDelete = await _context.Booking.FirstOrDefaultAsync(b => b.Id == booking.Id);
             bookingToDelete.SoftDeleted = true;
@@ -122,7 +122,7 @@ namespace DelpinAPI.Controllers
                 .Include(p => p.Booking)
                 .Where(m => m.Booking.Id == booking.Id)
                 .ForEachAsync(m => m.Booking = null);
-
+            Console.WriteLine("booking ID" + bookingToDelete.Id);
             await _context.SaveChangesAsync();
 
             return Ok(bookingToDelete);

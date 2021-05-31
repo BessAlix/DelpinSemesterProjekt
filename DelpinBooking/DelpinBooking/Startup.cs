@@ -9,6 +9,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using DelpinBooking.Models;
 using Microsoft.AspNetCore.Mvc;
+using DelpinBooking.Controllers.Handler;
+using DelpinBooking.Models.Interfaces;
 
 namespace DelpinBooking
 {
@@ -28,7 +30,7 @@ namespace DelpinBooking
                 options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute()));
 
             services.AddControllersWithViews();
-            services.AddControllers();
+            services.AddControllers().AddControllersAsServices();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "DelpinBooking", Version = "v1" });
@@ -53,6 +55,9 @@ namespace DelpinBooking
             services.AddDistributedMemoryCache();
 
             services.AddSession();
+            services.AddScoped<HttpClientHandlerBooking>();
+            services.AddScoped<HttpClientHandlerMachine>();
+            services.AddScoped<HttpClientHandlerWarehouse>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

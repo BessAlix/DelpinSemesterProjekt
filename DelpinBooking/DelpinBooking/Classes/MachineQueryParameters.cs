@@ -19,6 +19,8 @@ namespace DelpinBooking.Classes
 
         public string WarehouseCity { get; set; }
 
+        public bool Available { get; set; }
+
    
         
 

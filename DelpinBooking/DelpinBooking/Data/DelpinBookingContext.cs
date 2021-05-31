@@ -9,7 +9,7 @@ namespace DelpinBooking.Data
 {
     public class DelpinBookingContext : DbContext
     {
-        public DelpinBookingContext (DbContextOptions<DelpinBookingContext > options)
+        public DelpinBookingContext (DbContextOptions<DelpinBookingContext> options)
             : base(options)
         {
         }

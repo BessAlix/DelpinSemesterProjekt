@@ -14,6 +14,7 @@ using System.Text;
 using DelpinBooking.Models;
 using DelpinBooking.Data;
 using DelpinBooking.Classes;
+using DelpinBooking.Controllers.Handler;
 
 namespace DelpinBooking.Controllers
 {
@@ -22,12 +23,12 @@ namespace DelpinBooking.Controllers
     public class WarehousesController : Controller
     {
 
-        private readonly DelpinBookingContext _context;
-        private readonly string ApiUrl = "https://localhost:5001/api/WarehouseAPI/";
+        private HttpClientHandlerWarehouse _httpClientHandler;
+        
 
-        public WarehousesController(DelpinBookingContext context)
+        public WarehousesController(HttpClientHandlerWarehouse httpClientHandler)
         {
-            _context = context;
+            _httpClientHandler = httpClientHandler;
         }
 
         // GET: Warehouses
@@ -39,7 +40,7 @@ namespace DelpinBooking.Controllers
             string queryString = "page=" + queryParameters.Page +
                                   "&size=" + queryParameters.Size;
 
-            if(!string.IsNullOrEmpty(queryParameters.City))
+            if (!string.IsNullOrEmpty(queryParameters.City))
             {
                 int postCode = 0;
                 if (int.TryParse(queryParameters.City, out postCode))
@@ -50,7 +51,7 @@ namespace DelpinBooking.Controllers
                 {
                     queryString += "&city=" + queryParameters.City;
                 }
-               
+
             }
             if (queryParameters.PostCode != 0)
             {
@@ -63,18 +64,10 @@ namespace DelpinBooking.Controllers
 
             ViewBag.QueryParameters = queryParameters;
 
-            List<Warehouse> Warehouses;
-            using (var httpClient = new HttpClient())
-            {
-                string method = "GetAllWarehouses?";
-                using (var response = await httpClient.GetAsync(ApiUrl + method + queryString))
-                {
-                    string apiResponse = await response.Content.ReadAsStringAsync();
-                    Warehouses = JsonConvert.DeserializeObject<List<Warehouse>>(apiResponse);
-                }
-            }
+            List<Warehouse> Warehouses = await _httpClientHandler.GetAll(queryString);
 
-            return View(Warehouses);
+
+            return View("Index", Warehouses);
         }
 
         // GET: Warehouses for a customer 
@@ -82,17 +75,12 @@ namespace DelpinBooking.Controllers
         [HttpGet]
         public async Task<List<string>> GetAllWarehouseCities()
         {
-            List<string> warehouseCities;            
-            using (var httpClient = new HttpClient())
+            List<string> warehouseCities = new List<string>();
+            List<Warehouse> warehouseList = await _httpClientHandler.GetAll("");
+            foreach (Warehouse w in warehouseList)
             {
-                string method = "GetAllWarehouseCities/";
-                using (var response = await httpClient.GetAsync(ApiUrl + method))
-                {
-                    string apiResponse = await response.Content.ReadAsStringAsync();
-                    warehouseCities = JsonConvert.DeserializeObject<List<string>>(apiResponse);
-                }
+                warehouseCities.Add(w.City);
             }
-
             return warehouseCities;
         }
 
@@ -100,17 +88,9 @@ namespace DelpinBooking.Controllers
         [HttpGet]
         public async Task<List<Warehouse>> GetAllWarehouses()
         {
-            List<Warehouse> warehouses;
-            using (var httpClient = new HttpClient())
-            {
-                string method = "GetAllWarehouses/";
-                using (var response = await httpClient.GetAsync(ApiUrl + method))
-                {
-                    string apiResponse = await response.Content.ReadAsStringAsync();
-                    warehouses = JsonConvert.DeserializeObject<List<Warehouse>>(apiResponse);
-                }
-            }
-
+            
+           List <Warehouse> warehouses = await _httpClientHandler.GetAll("");
+      
             return warehouses;
         }
 
@@ -118,16 +98,8 @@ namespace DelpinBooking.Controllers
         [Route("[action]")]
         public async Task<Warehouse> GetWarehouse(int id)
         {
-            Warehouse warehouse;
-            using (HttpClient httpClient = new HttpClient())
-            {
-                string method = "GetWarehouse/";
-                using (var resposne = await httpClient.GetAsync(ApiUrl + method + id))
-                {
-                    string apiResponse = await resposne.Content.ReadAsStringAsync();
-                    warehouse = JsonConvert.DeserializeObject<Warehouse>(apiResponse);
-                }
-            }
+            Warehouse warehouse = await _httpClientHandler.Get(id);
+            
 
             return warehouse;
         }
@@ -135,22 +107,14 @@ namespace DelpinBooking.Controllers
         // GET: Warehouses/Details/5
         [HttpGet]
         [Route("[action]")]
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int id)
         {
             if (id == null)
             {
                 return NotFound();
             }
-            Warehouse Warehouse;
-            using (var httpClient = new HttpClient())
-            {
-                using (var response = await httpClient.GetAsync(ApiUrl + "GetWarehouse/" + id))
-                {
-                    string apiResponse = await response.Content.ReadAsStringAsync();
-                    Warehouse = JsonConvert.DeserializeObject<Warehouse>(apiResponse);
-
-                }
-            }
+            Warehouse Warehouse = await _httpClientHandler.Get(id);
+           
 
             if (Warehouse == null)
             {
@@ -160,7 +124,7 @@ namespace DelpinBooking.Controllers
         }
 
         // GET: Warehouses/Create
-        [Authorize(Roles ="Admin,Employee")]
+        [Authorize(Roles = "Admin,Employee")]
         [HttpGet]
         public IActionResult Create()
         {
@@ -177,17 +141,7 @@ namespace DelpinBooking.Controllers
         {
             if (ModelState.IsValid)
             {
-                using (var httpClient = new HttpClient())
-                {
-                    string method = "Create/";
-                    using (var response = await httpClient.PostAsJsonAsync<Warehouse>(ApiUrl + method, Warehouse))
-                    {
-                        if (response.IsSuccessStatusCode)
-                        {
-                            return RedirectToAction(nameof(Index));
-                        }
-                    }
-                }
+                Warehouse warehouseCreate = await _httpClientHandler.Create(Warehouse);
             }
             return View(Warehouse);
         }
@@ -197,23 +151,10 @@ namespace DelpinBooking.Controllers
         // GET: Warehouses/Edit/5
         [HttpGet]
         [Route("[action]")]
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-            Warehouse Warehouse;
-            using (var httpClient = new HttpClient())
-            {
-                string method = "GetWarehouse/";
-                using (var response = await httpClient.GetAsync(ApiUrl + method + id))
-                {
-                    string apiResponse = await response.Content.ReadAsStringAsync();
-                    Warehouse = JsonConvert.DeserializeObject<Warehouse>(apiResponse);
-
-                }
-            }
+            Warehouse Warehouse = await _httpClientHandler.Get(id);
+           
             if (Warehouse == null)
             {
                 return NotFound();
@@ -229,21 +170,7 @@ namespace DelpinBooking.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,City,PostCode,RowVersion")] Warehouse Warehouse)
         {
-            if (id != Warehouse.Id)
-            {
-                return NotFound();
-            }
-
-            Warehouse warehouseToUpdate;
-            using (var httpClient = new HttpClient())
-            {
-                string method = "GetWarehouse/";
-                using (var response = await httpClient.GetAsync(ApiUrl + method + id))
-                {
-                    string apiResponse = await response.Content.ReadAsStringAsync();
-                    warehouseToUpdate = JsonConvert.DeserializeObject<Warehouse>(apiResponse);
-                }
-            }
+            Warehouse warehouseToUpdate = await _httpClientHandler.Get(id);
 
             if (warehouseToUpdate == null)
             {
@@ -256,16 +183,7 @@ namespace DelpinBooking.Controllers
 
             if (ModelState.IsValid)
             {
-                using (var httpClient = new HttpClient())
-                {
-                    Dictionary<string, string> errors;
-
-                    string method = "Update/";
-                    using (var response = await httpClient.PutAsJsonAsync<Warehouse>(ApiUrl + method, Warehouse))
-                    {
-                        string apiResponse = await response.Content.ReadAsStringAsync();
-                        errors = JsonConvert.DeserializeObject<Dictionary<string, string>>(apiResponse);
-                    }
+                    Dictionary<string, string> errors = await _httpClientHandler.Update(Warehouse);
 
                     foreach (string b in errors.Keys)
                     {
@@ -277,38 +195,26 @@ namespace DelpinBooking.Controllers
                         return RedirectToAction(nameof(Index));
                     }
                 }
-            }
-
             return View(Warehouse);
         }
+
+          
+        
 
         // GET: Warehouses/Delete/5
         [HttpGet]
         [Route("[action]")]
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            Warehouse Warehouse = await _httpClientHandler.Get(id);
 
-            Warehouse Warehouse;
-            using (var httpClient = new HttpClient())
-            {
-                string method = "GetWarehouse/";
-                using (var response = await httpClient.GetAsync(ApiUrl + method + id))
-                {
-                    string apiResponse = await response.Content.ReadAsStringAsync();
-                    Warehouse = JsonConvert.DeserializeObject<Warehouse>(apiResponse);
-                }
-            }
 
             if (Warehouse == null)
             {
                 return NotFound();
             }
 
-            if (User.IsInRole("Admin") )
+            if (User.IsInRole("Admin"))
             {
                 return View(Warehouse);
             }
@@ -325,19 +231,13 @@ namespace DelpinBooking.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            using (var httpClient = new HttpClient())
+            Warehouse warehouseDelete = await _httpClientHandler.Delete(id);
+
+            if (warehouseDelete != null)
             {
-                string method = "Delete/";
-                using (var response = await httpClient.DeleteAsync(ApiUrl + method + id))
-                {
-                   
-                    return RedirectToAction(nameof(Index));
-                }
+                return RedirectToAction("Index");
             }
-        }
-        private bool WarehouseExists(int id)
-        {
-            return _context.Warehouse.Any(e => e.Id == id);
+            return View("Index");
         }
     }
 }

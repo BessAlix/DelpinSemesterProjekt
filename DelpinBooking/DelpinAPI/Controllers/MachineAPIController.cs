@@ -190,6 +190,11 @@ namespace DelpinAPI.Controllers
                     m => m.Warehouse.City == queryParameters.WarehouseCity);
             }
 
+            if (queryParameters.Available)
+            {
+                machines = machines.Where(m => m.Booking == null);
+            }
+
             return machines;
         }
 
