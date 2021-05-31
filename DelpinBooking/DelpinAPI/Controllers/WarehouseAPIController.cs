@@ -27,10 +27,10 @@ namespace DelpinAPI.Controllers
         [Route("[action]")]
         public async Task<IActionResult> GetAllWarehouses([FromQuery]WarehouseQueryParameters queryParameters)
         {
-            IQueryable<Warehouse> warehouses = _context.Warehouse;
-            Console.WriteLine("________________" + queryParameters.City);
+            IQueryable<Warehouse> warehouses = _context.Warehouse.AsNoTracking();
+
             warehouses = warehouses
-                .AsNoTracking()
+                //.AsNoTracking()
                 .FilterItems(queryParameters)
                 .SortBy(queryParameters)
                 .Skip(queryParameters.Size * (queryParameters.Page - 1))
@@ -120,7 +120,10 @@ namespace DelpinAPI.Controllers
                 throw new NotSupportedException();
             }
 
-            var databaseEntry = _context.Warehouse.AsNoTracking().SingleOrDefault(m => m.Id == warehouse.Id);
+            var databaseEntry = _context.Warehouse
+                .AsNoTracking()
+                .SingleOrDefault(m => m.Id == warehouse.Id);
+
             if (databaseEntry == null)
             {
                 errors.Add("Deleted", "Varehuset er blevet slettet af en anden bruger");
@@ -170,9 +173,8 @@ namespace DelpinAPI.Controllers
 
             if (queryParameters.SortBy == "Alphabetic")
             {
-                warehouses = warehouses.OrderByDescending(w => w.City);
-            }
-            
+                warehouses = warehouses.OrderBy(w => w.City);
+            }            
 
             return warehouses;
         }

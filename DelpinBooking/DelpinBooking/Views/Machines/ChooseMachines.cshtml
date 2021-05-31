@@ -1,5 +1,5 @@
 ﻿@using DelpinBooking.Controllers
-@model Dictionary<string, int>
+@model IEnumerable<Machine>
 
 @{
     ViewData["Title"] = "Vælg maskiner";
@@ -25,27 +25,34 @@
     <thead>
         <tr>
             <th>
-                Navn
+                @Html.DisplayNameFor(model => model.Name)
             </th>
             <th>
-                Antal
+                @Html.DisplayNameFor(model => model.Type)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Warehouse.City)
+            </th>
+
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Key)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Value)
-                </td>
-                <td>
-                    <a asp-action="AddToCart" asp-route-name="@item.Key">Add to cart</a>
-                </td>
-            </tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Type)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Warehouse.City)
+            </td>
+            <td>
+                <a asp-action="AddToCart" asp-route-id="@item.Id">Add to cart</a>
+            </td>
+        </tr>
         }
     </tbody>
 </table>

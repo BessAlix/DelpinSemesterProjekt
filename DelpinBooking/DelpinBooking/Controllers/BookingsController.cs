@@ -143,10 +143,17 @@ namespace DelpinBooking.Controllers
         {
             if (ModelState.IsValid)
             {
-                List<Machine> Machines = JsonConvert.DeserializeObject<List<Machine>>(machinesstring);
+                List<Machine> machines = JsonConvert.DeserializeObject<List<Machine>>(machinesstring);
                 using (var httpClient = new HttpClient()) 
                 {
-                    booking.Machines = Machines;
+                    booking.Machines = machines;
+
+                    // Removes warehouse for machines to avoid tracking duplication on Id
+                    // (Doesn't remove the foreign key in the machines table)
+                    foreach (Machine m in machines)
+                    {
+                        m.Warehouse = null;
+                    }
 
                     string method = "Create/";
                     using (var response = await httpClient.PostAsJsonAsync<Booking>(ApiUrl + method, booking))
@@ -236,9 +243,9 @@ namespace DelpinBooking.Controllers
                         errors = JsonConvert.DeserializeObject<Dictionary<string, string>>(apiResponse);
                     }
 
-                    foreach (string b in errors.Keys)
+                    foreach (string e in errors.Keys)
                     {   
-                        ModelState.AddModelError(b, errors[b]);
+                        ModelState.AddModelError(e, errors[e]);
                     }
 
                     if (errors.Count == 0)

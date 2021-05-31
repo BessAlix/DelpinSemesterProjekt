@@ -18,20 +18,20 @@ namespace DelpinAPI.Controllers
         private readonly DelpinContext _context;
         public BookingAPIController(DelpinContext context)
         {
-            _context = context;
-          
+            _context = context;          
         }
 
         [HttpGet]
         [Route("[action]")]
         public async Task<IActionResult> GetAllBookings([FromQuery] BookingQueryParameters queryParameters)
         {
-            IQueryable<Booking> bookings = _context.Booking;
+            IQueryable<Booking> bookings = _context.Booking.AsNoTracking();
            
             bookings = bookings
-                .AsNoTracking()
+               // .AsNoTracking()
                 .Include(b => b.Machines)
                 .ThenInclude(m => m.Warehouse)
+                .AsNoTracking()
                 .FilterItems(queryParameters)
                 .SearchItems(queryParameters)
                 .SortBy(queryParameters);
@@ -51,12 +51,13 @@ namespace DelpinAPI.Controllers
         [Route("[action]")]
         public async Task<IActionResult> GetBookingsForCustomer([FromQuery]BookingQueryParameters queryParameters)
         {
-            IQueryable<Booking> bookings = _context.Booking;
+            IQueryable<Booking> bookings = _context.Booking.AsNoTracking();
 
             bookings = bookings
-                .AsNoTracking()
+                //.AsNoTracking()
                 .Include(p => p.Machines)
                 .ThenInclude(m => m.Warehouse)
+                .AsNoTracking()
                 .Where(b => b.Customer == queryParameters.Customer);   
 
             return Ok(await bookings.ToListAsync());
@@ -66,10 +67,11 @@ namespace DelpinAPI.Controllers
         [Route("[action]/{bookingId}")]
         public async Task<IActionResult> GetBooking(int bookingId)
         {
-            var booking = await _context.Booking
-                .AsNoTracking()
+            var booking = await _context.Booking.AsNoTracking()
+                //.AsNoTracking()
                 .Include(b => b.Machines)
                 .ThenInclude(m => m.Warehouse)
+                .AsNoTracking()
                 .FirstOrDefaultAsync(b => b.Id == bookingId);
 
             return Ok(booking);
@@ -104,7 +106,6 @@ namespace DelpinAPI.Controllers
             {
                 var entry = ex.Entries.Single();
                 errors = DiagnoseConflict(entry);
-
             }
             
             return Ok(errors);
@@ -126,10 +127,7 @@ namespace DelpinAPI.Controllers
 
             return Ok(bookingToDelete);
         }
-        
-
        
-
         private Dictionary<string, string> DiagnoseConflict(EntityEntry entry)
         {
             Dictionary<string, string> errors = new Dictionary<string, string>();
@@ -181,13 +179,14 @@ namespace DelpinAPI.Controllers
             if (!string.IsNullOrEmpty(queryParameters.SearchBy))
             {
                 IQueryable<Booking> bookingsCustomer = bookings.Where(
-                m => m.Customer.Contains(queryParameters.SearchBy));
+                    b => b.Customer.Contains(queryParameters.SearchBy));
 
                 IQueryable<Booking> bookingsId = bookings.Where(
-                m => m.Id.ToString().Contains(queryParameters.SearchBy));
+                    b => b.Id.ToString().Contains(queryParameters.SearchBy));
 
                 bookings = bookingsCustomer.Union(bookingsId);
             }
+
             return bookings;
         }
 

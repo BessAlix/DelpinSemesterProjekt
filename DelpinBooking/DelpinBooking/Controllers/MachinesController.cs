@@ -59,14 +59,14 @@ namespace DelpinBooking.Controllers
 
             ViewBag.QueryParameters = queryParameters;
 
-            List<Machine> Machines;
+            List<Machine> machines;
             using (var httpClient = new HttpClient())
             {
                 string method = "GetAvailableMachines?";
                 using (var response = await httpClient.GetAsync(ApiUrl + method + queryString))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
-                    Machines = JsonConvert.DeserializeObject<List<Machine>>(apiResponse);
+                    machines = JsonConvert.DeserializeObject<List<Machine>>(apiResponse);
                 }
             }
 
@@ -75,39 +75,38 @@ namespace DelpinBooking.Controllers
             List<string> WarehouseCities = await warehouseController.GetAllWarehouseCities();
             ViewBag.WarehouseCities = WarehouseCities;
 
-            Dictionary<string, int> valuePairs = new Dictionary<string, int>();
-            foreach (Machine machine in Machines)
-            {
-                if (valuePairs.ContainsKey(machine.Name))
-                {
-                    valuePairs[machine.Name]++;
-                }
-                else
-                {
-                    valuePairs.Add(machine.Name, 1);
-                }
-            }
+            //Dictionary<string, int> valuePairs = new Dictionary<string, int>();
+            //foreach (Machine machine in Machines)
+            //{
+            //    if (valuePairs.ContainsKey(machine.Name))
+            //    {
+            //        valuePairs[machine.Name]++;
+            //    }
+            //    else
+            //    {
+            //        valuePairs.Add(machine.Name, 1);
+            //    }
+            //}
 
-            return View(valuePairs);
+            return View(machines);
         }
 
-        public async Task<IActionResult> AddToCart(string name)
+        public async Task<IActionResult> AddToCart(int id)
         {
             Machine machine;
             using (var httpClient = new HttpClient())
             {
-                using (var response = await httpClient.GetAsync(ApiUrl + "GetMachineFromName/" + name))
+                using (var response = await httpClient.GetAsync(ApiUrl + "GetMachine/" + id))
                 {
                     string apiResponse = await response.Content.ReadAsStringAsync();
                     machine = JsonConvert.DeserializeObject<Machine>(apiResponse);
-
                 }
             }
         
             ShoppingCartController shoppingCartController = new ShoppingCartController { ControllerContext = ControllerContext };
             shoppingCartController.Add(machine);
 
-            return RedirectToAction("Index", "ShoppingCart");
+            return RedirectToAction("ChooseMachines");
         }
 
         // GET: Machines/Details/5
@@ -175,7 +174,6 @@ namespace DelpinBooking.Controllers
             return View(machine);
         }
 
-
         // GET: Machines/Edit/5
         [HttpGet]
         [Authorize(Roles = "Admin,Employee")]
@@ -191,6 +189,7 @@ namespace DelpinBooking.Controllers
             {
                 return NotFound();
             }
+
             return View(machine);
         }
 

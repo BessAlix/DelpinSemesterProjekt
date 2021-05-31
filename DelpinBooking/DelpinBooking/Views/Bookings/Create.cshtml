@@ -8,15 +8,19 @@
 
 <h4>Booking</h4>
 
-@foreach (var item in @Model.Machines)
+@if (Model.Machines != null)
 {
-    <li>@item.Name</li>
+    foreach (var item in @Model.Machines)
+    {
+        <li>@item.Name</li>
+    }
 }
+
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-             @Html.Hidden("machinesString", JsonConvert.SerializeObject(Model.Machines)) 
+            @Html.Hidden("machinesString", JsonConvert.SerializeObject(Model.Machines))
             <div class="form-group">
                 <label asp-for="PickUpDate" class="control-label"></label>
                 <input asp-for="PickUpDate" class="form-control" />

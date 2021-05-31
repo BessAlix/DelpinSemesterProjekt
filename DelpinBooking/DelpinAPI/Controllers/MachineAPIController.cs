@@ -27,11 +27,12 @@ namespace DelpinAPI.Controllers
         [Route("[action]")]
         public async Task<IActionResult> GetAllMachines([FromQuery] MachineQueryParameters queryParameters)
         {
-            IQueryable<Machine> machines = _context.Machine;
+            IQueryable<Machine> machines = _context.Machine.AsNoTracking();
 
             machines = machines
-                .AsNoTracking()
+                //.AsNoTracking()
                 .Include(p => p.Warehouse)
+                .AsNoTracking()
                 .FilterItems(queryParameters)
                 .SearchItems(queryParameters)
                 .SortBy(queryParameters)
@@ -46,12 +47,14 @@ namespace DelpinAPI.Controllers
         [Route("[action]")]
         public async Task<IActionResult> GetAvailableMachines([FromQuery] MachineQueryParameters queryParameters)
         {
-            IQueryable<Machine> machines = _context.Machine;
+            IQueryable<Machine> machines = _context.Machine.AsNoTracking();
 
             machines = machines
-                .AsNoTracking()
+                //.AsNoTracking()
                 .Include(p => p.Warehouse)
+                .AsNoTracking()
                 .Include(p => p.Booking)
+                .AsNoTracking()
                 .Where(m => m.Booking == null)
                 .FilterItems(queryParameters)
                 .SearchItems(queryParameters)
@@ -70,7 +73,9 @@ namespace DelpinAPI.Controllers
                 .AsNoTracking()
                 .Where(m => m.Id == id)
                 .Include(p => p.Warehouse)
+                .AsNoTracking()
                 .FirstOrDefaultAsync();
+
             return Ok(machines);
         }
 
@@ -81,10 +86,13 @@ namespace DelpinAPI.Controllers
             var machines = await _context.Machine
                 .AsNoTracking()
                 .Include(p => p.Warehouse)
+                .AsNoTracking()
                 .Include(p => p.Booking)
+                .AsNoTracking()
                 .Where(m => m.Booking == null)
                 .Where(m => m.Name == name)
                 .FirstOrDefaultAsync();
+
             return Ok(machines);
         }
 

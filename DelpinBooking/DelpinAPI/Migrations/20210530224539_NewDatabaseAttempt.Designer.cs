@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DelpinAPI.Migrations
 {
     [DbContext(typeof(DelpinContext))]
-    [Migration("20210520145829_MaskineNÅRH")]
-    partial class MaskineNÅRH
+    [Migration("20210530224539_NewDatabaseAttempt")]
+    partial class NewDatabaseAttempt
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -37,6 +37,11 @@ namespace DelpinAPI.Migrations
                     b.Property<DateTime>("ReturnDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
+
                     b.Property<bool>("SoftDeleted")
                         .HasColumnType("bit");
 
@@ -57,6 +62,11 @@ namespace DelpinAPI.Migrations
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
 
                     b.Property<string>("Type")
                         .HasColumnType("nvarchar(max)");
@@ -86,6 +96,11 @@ namespace DelpinAPI.Migrations
                     b.Property<int>("PostCode")
                         .HasColumnType("int");
 
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
+
                     b.HasKey("Id");
 
                     b.ToTable("Warehouse");
@@ -93,13 +108,15 @@ namespace DelpinAPI.Migrations
 
             modelBuilder.Entity("DelpinAPI.APIModels.Machine", b =>
                 {
-                    b.HasOne("DelpinAPI.APIModels.Booking", null)
+                    b.HasOne("DelpinAPI.APIModels.Booking", "Booking")
                         .WithMany("Machines")
                         .HasForeignKey("BookingId");
 
                     b.HasOne("DelpinAPI.APIModels.Warehouse", "Warehouse")
                         .WithMany()
                         .HasForeignKey("WarehouseId");
+
+                    b.Navigation("Booking");
 
                     b.Navigation("Warehouse");
                 });
