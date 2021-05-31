@@ -918,9 +918,6 @@ C:\Users\Bess\Documents\Delpin Project\DelpinSemesterProjekt\DelpinBooking\Delpi
 C:\Users\Bess\Documents\Delpin Project\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\obj\Debug\net5.0\Razor\Views\Shared\_MachineLayout.cshtml.g.cs
 C:\Users\sigur\source\repos\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\obj\Debug\net5.0\Razor\Views\Bookings\_ViewStart.cshtml.g.cs
 C:\Users\sigur\source\repos\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\obj\Debug\net5.0\Razor\Views\Machines\_ViewStart.cshtml.g.cs
-C:\Users\sigur\source\repos\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\obj\Debug\net5.0\Razor\Views\Shared\_BookingLayout.cshtml.g.cs
-C:\Users\sigur\source\repos\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\obj\Debug\net5.0\Razor\Views\Shared\_MachineLayout.cshtml.g.cs
-C:\Users\sigur\source\repos\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\obj\Debug\net5.0\Razor\Views\Shared\_WarehouseLayout.cshtml.g.cs
 C:\Users\sigur\source\repos\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\obj\Debug\net5.0\Razor\Views\Warehouses\_ViewStart.cshtml.g.cs
 C:\Users\sigur\source\repos\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\obj\Debug\net5.0\Razor\Views\Bookings\MachinesForBooking.cshtml.g.cs
 C:\Users\Bess\Documents\Delpin\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\bin\Debug\net5.0\PagedList.dll
@@ -955,3 +952,10 @@ C:\Users\majak\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\obj\Debug\net5.
 C:\Users\majak\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\obj\Debug\net5.0\Razor\Views\Bookings\_ViewStart.cshtml.g.cs
 C:\Users\majak\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\obj\Debug\net5.0\Razor\Views\Machines\_ViewStart.cshtml.g.cs
 C:\Users\majak\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\obj\Debug\net5.0\Razor\Views\Warehouses\_ViewStart.cshtml.g.cs
+C:\Users\sigur\source\repos\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\bin\Debug\net5.0\NUnit3.TestAdapter.dll
+C:\Users\sigur\source\repos\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\bin\Debug\net5.0\NUnit3.TestAdapter.pdb
+C:\Users\sigur\source\repos\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\bin\Debug\net5.0\nunit.engine.dll
+C:\Users\sigur\source\repos\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\bin\Debug\net5.0\nunit.engine.api.dll
+C:\Users\sigur\source\repos\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\bin\Debug\net5.0\nunit.engine.core.dll
+C:\Users\sigur\source\repos\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\bin\Debug\net5.0\Microsoft.DotNet.InternalAbstractions.dll
+C:\Users\sigur\source\repos\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\bin\Debug\net5.0\System.Xml.XPath.XmlDocument.dll

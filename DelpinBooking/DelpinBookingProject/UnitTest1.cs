@@ -42,7 +42,8 @@ namespace DelpinBookingProject
             {
                 new Machine
                 {
-                    Id = 1, Name = "Spanskrør", 
+                    Id = 1,
+                    Name = "Spanskrør", 
                     Warehouse = new Warehouse
                     {
                         City = "Vejle",
@@ -51,7 +52,8 @@ namespace DelpinBookingProject
                 }, 
                 new Machine
                 {
-                    Id = 2, Name = "Sømpistol",
+                    Id = 2, 
+                    Name = "Sømpistol",
                     Warehouse = new Warehouse
                     {
                         City = "Fredericia",
@@ -59,21 +61,24 @@ namespace DelpinBookingProject
                     }
                 }
             };
+
             var WarehouseMock = new Mock<IHttpClientHandler<Warehouse>>();
             WarehousesController warehouseController = new WarehousesController(WarehouseMock.Object);
+
             var MachineMock = new Mock<IHttpClientHandler<Machine>>();
-            MachineMock.Setup(m => m.GetAll("").Result).Returns(machines);
+            MachineMock.Setup(m => m.GetAll("page=1&size=10").Result).Returns(machines);
+
             MachinesController machinescontroller = new MachinesController(MachineMock.Object, warehouseController);
             // Act
             var actionResultTask = await machinescontroller.Index(new MachineQueryParameters());
             var viewResult = actionResultTask as ViewResult;
-            //var resultList = viewResult.Model as List<Machine>;
+            var resultList = viewResult.Model as List<Machine>;
             // Assert
             //Assert.IsNotNull(viewResult);
             //Assert.IsNotNull(resultList);
-            Assert.IsNotNull(viewResult.ViewData.Model);
+            Assert.IsNotNull(viewResult.Model);
             Assert.AreEqual("Index", viewResult.ViewName);
-            //Assert.AreEqual("Sømpistol" , resultList[1].Name);
+            Assert.AreEqual("Sømpistol" , resultList[1].Name);
         }
 
         //[TestMethod]
