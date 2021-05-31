@@ -9,19 +9,20 @@ using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
+using DelpinBooking.Models.Interfaces;
 
 namespace DelpinBooking.Controllers
 {
     [Authorize]
     public class MachinesController : Controller
     {
-        private HttpClientHandlerMachine _httpClientHandler;
+        private IHttpClientHandler<Machine> _httpClientHandler;
         private WarehousesController _warehouseController;
 
         private string ApiUrl = "https://localhost:5001/api/MachineAPI/";
 
 
-        public MachinesController(HttpClientHandlerMachine httpClientHandler, WarehousesController warehouseController)
+        public MachinesController(IHttpClientHandler<Machine> httpClientHandler, WarehousesController warehouseController)
         {
             _httpClientHandler = httpClientHandler;
             _warehouseController = warehouseController;

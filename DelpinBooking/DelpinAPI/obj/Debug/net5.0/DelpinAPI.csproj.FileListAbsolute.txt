@@ -625,3 +625,10 @@ C:\Users\Bess\Documents\Delpin\DelpinSemesterProjekt\DelpinBooking\DelpinAPI\bin
 C:\Users\Bess\Documents\Delpin\DelpinSemesterProjekt\DelpinBooking\DelpinAPI\bin\Debug\net5.0\Microsoft.DotNet.InternalAbstractions.dll
 C:\Users\Bess\Documents\Delpin\DelpinSemesterProjekt\DelpinBooking\DelpinAPI\bin\Debug\net5.0\System.Xml.XPath.XmlDocument.dll
 C:\Users\Bess\Documents\Delpin\DelpinSemesterProjekt\DelpinBooking\DelpinAPI\bin\Debug\net5.0\DelpinBooking.StaticWebAssets.xml
+C:\Users\majak\DelpinSemesterProjekt\DelpinBooking\DelpinAPI\bin\Debug\net5.0\NUnit3.TestAdapter.dll
+C:\Users\majak\DelpinSemesterProjekt\DelpinBooking\DelpinAPI\bin\Debug\net5.0\NUnit3.TestAdapter.pdb
+C:\Users\majak\DelpinSemesterProjekt\DelpinBooking\DelpinAPI\bin\Debug\net5.0\nunit.engine.dll
+C:\Users\majak\DelpinSemesterProjekt\DelpinBooking\DelpinAPI\bin\Debug\net5.0\nunit.engine.api.dll
+C:\Users\majak\DelpinSemesterProjekt\DelpinBooking\DelpinAPI\bin\Debug\net5.0\nunit.engine.core.dll
+C:\Users\majak\DelpinSemesterProjekt\DelpinBooking\DelpinAPI\bin\Debug\net5.0\Microsoft.DotNet.InternalAbstractions.dll
+C:\Users\majak\DelpinSemesterProjekt\DelpinBooking\DelpinAPI\bin\Debug\net5.0\System.Xml.XPath.XmlDocument.dll

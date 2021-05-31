@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace DelpinBooking.Models.Interfaces
 {
-    interface IHttpClientHandler<T>
+    public interface IHttpClientHandler<T>
     {
         Task <List<T>> GetAll(string queryString);
        

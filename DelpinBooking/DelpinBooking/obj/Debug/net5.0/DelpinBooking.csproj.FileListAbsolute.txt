@@ -944,3 +944,14 @@ C:\Users\Bess\Documents\Delpin\DelpinSemesterProjekt\DelpinBooking\DelpinBooking
 C:\Users\Bess\Documents\Delpin\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\bin\Debug\net5.0\nunit.engine.core.dll
 C:\Users\Bess\Documents\Delpin\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\bin\Debug\net5.0\Microsoft.DotNet.InternalAbstractions.dll
 C:\Users\Bess\Documents\Delpin\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\bin\Debug\net5.0\System.Xml.XPath.XmlDocument.dll
+C:\Users\majak\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\bin\Debug\net5.0\NUnit3.TestAdapter.dll
+C:\Users\majak\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\bin\Debug\net5.0\NUnit3.TestAdapter.pdb
+C:\Users\majak\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\bin\Debug\net5.0\nunit.engine.dll
+C:\Users\majak\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\bin\Debug\net5.0\nunit.engine.api.dll
+C:\Users\majak\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\bin\Debug\net5.0\nunit.engine.core.dll
+C:\Users\majak\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\bin\Debug\net5.0\Microsoft.DotNet.InternalAbstractions.dll
+C:\Users\majak\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\bin\Debug\net5.0\System.Xml.XPath.XmlDocument.dll
+C:\Users\majak\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\obj\Debug\net5.0\Razor\Views\Bookings\MachinesForBooking.cshtml.g.cs
+C:\Users\majak\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\obj\Debug\net5.0\Razor\Views\Bookings\_ViewStart.cshtml.g.cs
+C:\Users\majak\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\obj\Debug\net5.0\Razor\Views\Machines\_ViewStart.cshtml.g.cs
+C:\Users\majak\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\obj\Debug\net5.0\Razor\Views\Warehouses\_ViewStart.cshtml.g.cs

@@ -12,6 +12,7 @@ using System.Net.Http;
 using DelpinBooking.Classes;
 using System.Net.Http.Json;
 using DelpinBooking.Controllers.Handler;
+using DelpinBooking.Models.Interfaces;
 
 namespace DelpinBooking.Controllers
 {
@@ -22,9 +23,9 @@ namespace DelpinBooking.Controllers
         private readonly DelpinBookingContext _context;
         private readonly string ApiUrl = "https://localhost:5001/api/BookingAPI/";
         private readonly string UserUrl = "https://localhost:44379/ApplicationUsers/";
-        private HttpClientHandlerBooking _httpClientHandler;
+        private IHttpClientHandler<Booking> _httpClientHandler;
 
-        public BookingsController(HttpClientHandlerBooking httpClientHandler)
+        public BookingsController(IHttpClientHandler<Booking> httpClientHandler)
         {
             _httpClientHandler = httpClientHandler; 
         }

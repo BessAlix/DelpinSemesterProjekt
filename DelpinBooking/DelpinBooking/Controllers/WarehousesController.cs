@@ -15,6 +15,7 @@ using DelpinBooking.Models;
 using DelpinBooking.Data;
 using DelpinBooking.Classes;
 using DelpinBooking.Controllers.Handler;
+using DelpinBooking.Models.Interfaces;
 
 namespace DelpinBooking.Controllers
 {
@@ -23,10 +24,10 @@ namespace DelpinBooking.Controllers
     public class WarehousesController : Controller
     {
 
-        private HttpClientHandlerWarehouse _httpClientHandler;
+        private IHttpClientHandler<Warehouse> _httpClientHandler;
         
 
-        public WarehousesController(HttpClientHandlerWarehouse httpClientHandler)
+        public WarehousesController(IHttpClientHandler<Warehouse> httpClientHandler)
         {
             _httpClientHandler = httpClientHandler;
         }

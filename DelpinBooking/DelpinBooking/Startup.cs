@@ -1,3 +1,4 @@
+using System.Net.Http;
 using DelpinBooking.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -55,9 +56,9 @@ namespace DelpinBooking
             services.AddDistributedMemoryCache();
 
             services.AddSession();
-            services.AddScoped<HttpClientHandlerBooking>();
-            services.AddScoped<HttpClientHandlerMachine>();
-            services.AddScoped<HttpClientHandlerWarehouse>();
+            services.AddScoped<IHttpClientHandler<Booking>, HttpClientHandlerBooking>();
+            services.AddScoped<IHttpClientHandler<Machine>, HttpClientHandlerMachine>();
+            services.AddScoped<IHttpClientHandler<Warehouse>, HttpClientHandlerWarehouse>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
