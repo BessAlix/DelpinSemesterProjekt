@@ -1,22 +1,15 @@
-using System;
 using DelpinBooking.Classes;
 using DelpinBooking.Controllers;
-using DelpinBooking.Data;
 using DelpinBooking.Models;
+using DelpinBooking.Models.Interfaces;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Mvc.Controllers;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System.Collections.Generic;
-using System.Net.Http;
-using System.Security.Principal;
 using System.Threading.Tasks;
-using DelpinBooking.Controllers.Handler;
-using Xunit;
-using DelpinBooking.Models.Interfaces;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc.Controllers;
-using Microsoft.AspNetCore.Routing;
 
 namespace DelpinBookingProject
 {
@@ -33,10 +26,10 @@ namespace DelpinBookingProject
                 {
                     Id = 1,
                     Name = "Spanskrør",
-                }, 
+                },
                 new Machine
                 {
-                    Id = 2, 
+                    Id = 2,
                     Name = "Sømpistol",
                 }
             };
@@ -57,7 +50,7 @@ namespace DelpinBookingProject
             MachinesController machinescontroller = new MachinesController(MachineMock.Object, warehousescontroller);
 
             machinescontroller.ControllerContext = Controllercontext;
-            
+
             // Act
             var actionResultTask = await machinescontroller.Index(new MachineQueryParameters());
             var viewResult = actionResultTask as ViewResult;
@@ -66,7 +59,7 @@ namespace DelpinBookingProject
             // Assert
             Assert.IsNotNull(viewResult);
             Assert.IsNotNull(viewResult.Model);
-            Assert.AreEqual("Sømpistol" , resultList[1].Name);
+            Assert.AreEqual("Sømpistol", resultList[1].Name);
             Assert.AreEqual("Spanskrør", resultList[0].Name);
         }
 
@@ -128,67 +121,65 @@ namespace DelpinBookingProject
             Assert.IsNotNull(viewResult);
             Assert.AreEqual("ChooseMachines", viewResult.ViewName);
         }
-
-
-
-        [TestClass]
-        public class MachineDelete
-        {
-            [TestMethod]
-            public async Task MachineDeleteConfirmed_returnDeletedMachine()
-            {
-                // Arrange
-                var MachineMock = new Mock<IHttpClientHandler<Machine>>();
-                var WarehouseMock = new Mock<IHttpClientHandler<Warehouse>>();
-                var httpContext = new Mock<HttpContext>();
-                var context = new ControllerContext(new ActionContext(httpContext.Object, new RouteData(),
-                    new ControllerActionDescriptor()));
-                var fakemachine = new Machine()
-                {
-                    Id = 1
-                };
-
-                // Act
-                httpContext.Setup(m => m.User.IsInRole("Admin")).Returns(true);
-                MachinesController machinescontroller = new MachinesController(MachineMock.Object, null);
-                MachineMock.Setup(m => m.Delete(1).Result).Returns(fakemachine);
-                machinescontroller.ControllerContext = context;
-                var actionResultTask = await machinescontroller.DeleteConfirmed(1);
-                var viewResult = actionResultTask as ViewResult;
-
-                // Assert
-                Assert.IsNotNull(viewResult);
-                Assert.AreEqual("DeleteCompleted", viewResult.ViewName);
-                Assert.AreEqual(fakemachine, viewResult.Model);
-            }
-
-            [TestMethod]
-            public async Task MachineDelete_ReturnIndexView()
-            {
-                // Arrange
-                var MachineMock = new Mock<IHttpClientHandler<Machine>>();
-                var WarehouseMock = new Mock<IHttpClientHandler<Warehouse>>();
-                var httpContext = new Mock<HttpContext>();
-                var context = new ControllerContext(new ActionContext(httpContext.Object, new RouteData(),
-                    new ControllerActionDescriptor()));
-                var fakemachine = new Machine()
-                {
-                    Id = 1
-                };
-
-                // Act
-                httpContext.Setup(m => m.User.IsInRole("Admin")).Returns(true);
-                MachinesController machinescontroller = new MachinesController(MachineMock.Object, null);
-                MachineMock.Setup(m => m.Get(1).Result).Returns(fakemachine);
-                machinescontroller.ControllerContext = context;
-                var actionResultTask = await machinescontroller.Delete(1);
-                var viewResult = actionResultTask as ViewResult;
-
-                // Assert
-                Assert.IsNotNull(viewResult);
-                Assert.AreEqual("Delete", viewResult.ViewName);
-            }
-        }
     }
-    
+
+    [TestClass]
+    public class MachineDelete
+    {
+        [TestMethod]
+        public async Task MachineDeleteConfirmed_returnDeletedMachine()
+        {
+            // Arrange
+            var MachineMock = new Mock<IHttpClientHandler<Machine>>();
+            var WarehouseMock = new Mock<IHttpClientHandler<Warehouse>>();
+            var httpContext = new Mock<HttpContext>();
+            var context = new ControllerContext(new ActionContext(httpContext.Object, new RouteData(),
+                new ControllerActionDescriptor()));
+            var fakemachine = new Machine()
+            {
+                Id = 1
+            };
+
+            // Act
+            httpContext.Setup(m => m.User.IsInRole("Admin")).Returns(true);
+            MachinesController machinescontroller = new MachinesController(MachineMock.Object, null);
+            MachineMock.Setup(m => m.Delete(1).Result).Returns(fakemachine);
+            machinescontroller.ControllerContext = context;
+            var actionResultTask = await machinescontroller.DeleteConfirmed(1);
+            var viewResult = actionResultTask as ViewResult;
+
+            // Assert
+            Assert.IsNotNull(viewResult);
+            Assert.AreEqual("DeleteCompleted", viewResult.ViewName);
+            Assert.AreEqual(fakemachine, viewResult.Model);
+        }
+
+        [TestMethod]
+        public async Task MachineDelete_ReturnIndexView()
+        {
+            // Arrange
+            var MachineMock = new Mock<IHttpClientHandler<Machine>>();
+            var WarehouseMock = new Mock<IHttpClientHandler<Warehouse>>();
+            var httpContext = new Mock<HttpContext>();
+            var context = new ControllerContext(new ActionContext(httpContext.Object, new RouteData(),
+                new ControllerActionDescriptor()));
+            var fakemachine = new Machine()
+            {
+                Id = 1
+            };
+
+            // Act
+            httpContext.Setup(m => m.User.IsInRole("Admin")).Returns(true);
+            MachinesController machinescontroller = new MachinesController(MachineMock.Object, null);
+            MachineMock.Setup(m => m.Get(1).Result).Returns(fakemachine);
+            machinescontroller.ControllerContext = context;
+            var actionResultTask = await machinescontroller.Delete(1);
+            var viewResult = actionResultTask as ViewResult;
+
+            // Assert
+            Assert.IsNotNull(viewResult);
+            Assert.AreEqual("Delete", viewResult.ViewName);
+        }
+
+    }
 }

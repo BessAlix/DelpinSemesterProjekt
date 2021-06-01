@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DelpinBookingProject
+namespace DelpinBookingProject.BookingController
 {
-    class BookingUnitTest
+    class TestTestTest
     {
     }
 }

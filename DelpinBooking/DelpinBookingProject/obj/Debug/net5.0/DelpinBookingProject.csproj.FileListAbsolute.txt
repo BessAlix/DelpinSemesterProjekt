@@ -727,3 +727,5 @@ C:\Users\sigur\source\repos\DelpinSemesterProjekt\DelpinBooking\DelpinBookingPro
 C:\Users\sigur\source\repos\DelpinSemesterProjekt\DelpinBooking\DelpinBookingProject\obj\Debug\net5.0\ref\DelpinBookingProject.dll
 C:\Users\sigur\source\repos\DelpinSemesterProjekt\DelpinBooking\DelpinBookingProject\obj\Debug\net5.0\DelpinBookingProject.pdb
 C:\Users\sigur\source\repos\DelpinSemesterProjekt\DelpinBooking\DelpinBookingProject\obj\Debug\net5.0\DelpinBookingProject.genruntimeconfig.cache
+C:\Users\majak\DelpinSemesterProjekt\DelpinBooking\DelpinBookingProject\bin\Debug\net5.0\CoverletSourceRootsMapping
+C:\Users\majak\DelpinSemesterProjekt\DelpinBooking\DelpinBookingProject\bin\Debug\net5.0\Microsoft.TestPlatform.AdapterUtilities.dll

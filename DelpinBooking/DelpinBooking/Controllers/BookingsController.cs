@@ -57,7 +57,7 @@ namespace DelpinBooking.Controllers
                 Bookings = await _httpClientHandler.GetAll(queryString);
             }
 
-            return View(Bookings);
+            return View("Index", Bookings);
         }
 
         [HttpGet]
@@ -220,7 +220,7 @@ namespace DelpinBooking.Controllers
             var UserID = User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (User.IsInRole("Admin") || UserID == booking.Customer)
             {
-                return View(booking);
+                return View("Delete", booking);
             }
             else
             {
@@ -244,7 +244,7 @@ namespace DelpinBooking.Controllers
                 if(bookingDelete != null)
                 {
                  
-                   return RedirectToAction("Index");
+                   return View("DeleteCompleted", bookingDelete);
                 }
              
             }

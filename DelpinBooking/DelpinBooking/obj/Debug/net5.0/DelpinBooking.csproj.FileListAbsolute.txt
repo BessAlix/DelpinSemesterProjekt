@@ -959,4 +959,4 @@ C:\Users\sigur\source\repos\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\bi
 C:\Users\sigur\source\repos\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\bin\Debug\net5.0\nunit.engine.core.dll
 C:\Users\sigur\source\repos\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\bin\Debug\net5.0\Microsoft.DotNet.InternalAbstractions.dll
 C:\Users\sigur\source\repos\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\bin\Debug\net5.0\System.Xml.XPath.XmlDocument.dll
-C:\Users\majak\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\obj\Debug\net5.0\Razor\Views\Machines\DeleteCompleted.cshtml.g.cs
+C:\Users\majak\DelpinSemesterProjekt\DelpinBooking\DelpinBooking\obj\Debug\net5.0\Razor\Views\Shared\DeleteCompleted.cshtml.g.cs
