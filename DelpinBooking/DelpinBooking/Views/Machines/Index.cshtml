@@ -16,6 +16,23 @@
     int sizeValue = ViewBag.QueryParameters.Size;
 }
 
+@{
+    List<SelectListItem> cities = new List<SelectListItem>();
+    foreach (string s in ViewBag.WarehouseCities)
+    {
+        cities.Add(new SelectListItem() { Text = s, Value = s });
+    }
+
+}
+
+@using (Html.BeginForm(FormMethod.Get))
+{
+    @Html.DropDownList("warehousecity", cities, "-- Vælg et varehus --")
+    <input type="hidden" name="page" value="1" />
+    <input type="hidden" name="size" value="@sizeValue" />
+    <input type="submit" value="Søg" />
+}
+
 <table class="table">
     <thead>
         <tr>

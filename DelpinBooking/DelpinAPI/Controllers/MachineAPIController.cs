@@ -42,33 +42,11 @@ namespace DelpinAPI.Controllers
             return Ok(await machines.ToListAsync());
         }
 
-
-        [HttpGet]
-        [Route("[action]")]
-        public async Task<IActionResult> GetAvailableMachines([FromQuery] MachineQueryParameters queryParameters)
-        {
-            IQueryable<Machine> machines = _context.Machine.AsNoTracking();
-
-            machines = machines
-                //.AsNoTracking()
-                .Include(p => p.Warehouse)
-                .AsNoTracking()
-                .Include(p => p.Booking)
-                .AsNoTracking()
-                .Where(m => m.Booking == null)
-                .FilterItems(queryParameters)
-                .SearchItems(queryParameters)
-                .SortBy(queryParameters);
-
-            return Ok(await machines.ToListAsync());
-        }
-
-
         [HttpGet]
         [Route("[action]/{id}")]
         public async Task<IActionResult> GetMachine(int id)
         {
-            
+
             var machines = await _context.Machine
                 .AsNoTracking()
                 .Where(m => m.Id == id)
@@ -130,7 +108,7 @@ namespace DelpinAPI.Controllers
         [Route("[action]/{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            
+
             var machine = await _context.Machine
                 .Include(p => p.Warehouse)
                 .Include(b => b.Booking)
@@ -138,15 +116,15 @@ namespace DelpinAPI.Controllers
                 .FirstOrDefaultAsync();
 
             _context.Machine.Remove(machine);
-           
+
             await _context.SaveChangesAsync();
-            
+
             return Ok(machine);
-            
+
         }
 
 
-        
+
         private Dictionary<string, string> DiagnoseConflict(EntityEntry entry)
         {
             Dictionary<string, string> errors = new Dictionary<string, string>();

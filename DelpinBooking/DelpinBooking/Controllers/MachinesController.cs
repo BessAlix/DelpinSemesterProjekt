@@ -10,6 +10,7 @@ using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 using DelpinBooking.Models.Interfaces;
+using System;
 
 namespace DelpinBooking.Controllers
 {
@@ -28,42 +29,37 @@ namespace DelpinBooking.Controllers
             _warehouseController = warehouseController;
         }
 
-        
+
 
         // GET: Machines
-        public async Task<IActionResult> Index([Bind("Page,Size")] MachineQueryParameters queryParameters)
+        [HttpGet]
+        public async Task<IActionResult> Index([Bind("Page,Size,WarehouseCity")] MachineQueryParameters queryParameters)
         {
+            string viewToReturn = "Index";
+
             string queryString = "page=" + queryParameters.Page +
                                  "&size=" + queryParameters.Size;
 
+            if (queryParameters.WarehouseCity != null)
+            {
+                queryString += "&warehousecity=" + queryParameters.WarehouseCity;
+            }
+
+            if (!(User.IsInRole("Admin") || User.IsInRole("Employee")))
+            {
+                queryString += "&available=" + true;
+                viewToReturn = "ChooseMachines";
+            }
+
+
+            List<string> WarehouseCities = await _warehouseController.GetAllWarehouseCities();
+            ViewBag.WarehouseCities = WarehouseCities;
             ViewBag.QueryParameters = queryParameters;
 
             List<Machine> Machines = await _httpClientHandler.GetAll(queryString);
 
-            return View("Index", Machines);
-        }
 
-        public async Task<IActionResult> ChooseMachines([Bind("WarehouseCity")] MachineQueryParameters queryParameters)
-        {
-            string queryString = "page=" + queryParameters.Page +
-                                 "&size=" + queryParameters.Size+
-                                  "&available=" + true;
-
-            if (queryParameters.WarehouseCity != null)
-            {
-                queryString += "warehousecity=" + queryParameters.WarehouseCity;
-            }
-
-            ViewBag.QueryParameters = queryParameters;
-
-            List<Machine> machines = await _httpClientHandler.GetAll(queryString);
-            
-            
-            List<string> WarehouseCities = await _warehouseController.GetAllWarehouseCities();
-            ViewBag.WarehouseCities = WarehouseCities;
-
-
-            return View(machines);
+            return View(viewToReturn, Machines);
         }
 
         public async Task<IActionResult> AddToCart(int id)
@@ -71,10 +67,10 @@ namespace DelpinBooking.Controllers
             Machine machine = await _httpClientHandler.Get(id);
 
 
-            ShoppingCartController shoppingCartController = new ShoppingCartController {ControllerContext = ControllerContext };
+            ShoppingCartController shoppingCartController = new ShoppingCartController { ControllerContext = ControllerContext };
             shoppingCartController.Add(machine);
 
-            return RedirectToAction("ChooseMachines");
+            return RedirectToAction("Index");
         }
 
         // GET: Machines/Details/5
@@ -96,7 +92,7 @@ namespace DelpinBooking.Controllers
         [Authorize(Roles = "Admin,Employee")]
         public async Task<IActionResult> Create()
         {
-           
+
             List<Warehouse> warehouses = await _warehouseController.GetAllWarehouses();
             ViewBag.Warehouses = warehouses;
 
@@ -107,10 +103,10 @@ namespace DelpinBooking.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name,Type")] Machine machine, int warehouseId)
-        {   
+        {
             if (ModelState.IsValid)
             {
-             
+
                 machine.Warehouse = await _warehouseController.GetWarehouse(warehouseId);
                 Machine machineCreate = await _httpClientHandler.Create(machine);
 
@@ -127,7 +123,7 @@ namespace DelpinBooking.Controllers
         [Authorize(Roles = "Admin,Employee")]
         public async Task<IActionResult> Edit(int id)
         {
-            
+
 
             var machine = await _httpClientHandler.Get(id);
             if (machine == null)
@@ -209,7 +205,7 @@ namespace DelpinBooking.Controllers
 
             if (machineDelete != null)
             {
-                return RedirectToAction("Index");
+                return View("DeleteCompleted", machineDelete);
             }
             return View("Index");
         }

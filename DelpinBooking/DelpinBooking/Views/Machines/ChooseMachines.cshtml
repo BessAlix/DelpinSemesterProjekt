@@ -6,9 +6,16 @@
 }
 
 <h1>Maskiner</h1>
-@{ 
+
+@{
+    int counter = 0;
+    int pageValue = ViewBag.QueryParameters.Page;
+    int sizeValue = ViewBag.QueryParameters.Size;
+}
+
+@{
     List<SelectListItem> cities = new List<SelectListItem>();
-    foreach(string s in ViewBag.WarehouseCities)
+    foreach (string s in ViewBag.WarehouseCities)
     {
         cities.Add(new SelectListItem() { Text = s, Value = s });
     }
@@ -18,7 +25,9 @@
 @using (Html.BeginForm(FormMethod.Get))
 {
     @Html.DropDownList("warehousecity", cities, "-- Vælg et varehus --")
-    <input type="submit" value="Filtrer" />
+    <input type="hidden" name="page" value="1" />
+    <input type="hidden" name="size" value="@sizeValue" />
+    <input type="submit" value="Søg" />
 }
 
 <table class="table">
@@ -39,20 +48,39 @@
     <tbody>
         @foreach (var item in Model)
         {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Type)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Warehouse.City)
-            </td>
-            <td>
-                <a asp-action="AddToCart" asp-route-id="@item.Id">Add to cart</a>
-            </td>
-        </tr>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Type)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Warehouse.City)
+                </td>
+                <td>
+                    <a asp-action="AddToCart" asp-route-id="@item.Id">Add to cart</a>
+                </td>
+            </tr>
         }
     </tbody>
 </table>
+
+@if (pageValue > 1)
+{
+    @using (Html.BeginForm(FormMethod.Get))
+    {
+        <input type="hidden" name="page" value="@(pageValue-1)" />
+        <input type="hidden" name="size" value="@sizeValue" />
+        <input type="submit" class="floated" value="Forige side" />
+    }
+}
+@if (counter == sizeValue)
+{
+    @using (Html.BeginForm(FormMethod.Get))
+    {
+        <input type="hidden" name="page" value="@(pageValue+1)" />
+        <input type="hidden" name="size" value="@sizeValue" />
+        <input type="submit" class="floated" value="Næste side" />
+    }
+}
