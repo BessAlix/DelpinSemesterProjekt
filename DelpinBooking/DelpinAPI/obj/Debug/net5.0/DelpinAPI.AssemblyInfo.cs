@@ -11,7 +11,6 @@
 using System;
 using System.Reflection;
 
-[assembly: Microsoft.AspNetCore.Identity.UI.UIFrameworkAttribute("Bootstrap4")]
 [assembly: Microsoft.Extensions.Configuration.UserSecrets.UserSecretsIdAttribute("9bc83efe-6044-4f36-8d4a-8ca7dfaa805b")]
 [assembly: System.Reflection.AssemblyCompanyAttribute("DelpinAPI")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]

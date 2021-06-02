@@ -21,7 +21,6 @@ namespace DelpinBooking.Controllers
     public class BookingsController : Controller
     {
         private readonly DelpinBookingContext _context;
-        private readonly string ApiUrl = "https://localhost:5001/api/BookingAPI/";
         private readonly string UserUrl = "https://localhost:44379/ApplicationUsers/";
         private IHttpClientHandler<Booking> _httpClientHandler;
 

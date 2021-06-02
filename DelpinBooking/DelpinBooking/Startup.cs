@@ -7,7 +7,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.OpenApi.Models;
 using DelpinBooking.Models;
 using Microsoft.AspNetCore.Mvc;
 using DelpinBooking.Controllers.Handler;
@@ -32,10 +31,6 @@ namespace DelpinBooking
 
             services.AddControllersWithViews();
             services.AddControllers().AddControllersAsServices();
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "DelpinBooking", Version = "v1" });
-            });
 
             services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddRoles<IdentityRole>()
@@ -48,10 +43,6 @@ namespace DelpinBooking
                 options.UseSqlServer(Configuration.GetConnectionString("DelpinBookingContext")));
             services.AddRazorPages();
 
-            services.AddSwaggerGen(options =>
-            {
-                options.CustomSchemaIds(type => type.ToString());
-            });
 
             services.AddDistributedMemoryCache();
 
@@ -68,8 +59,6 @@ namespace DelpinBooking
             {
                 app.UseDeveloperExceptionPage();
                 app.UseMigrationsEndPoint();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "DelpinBooking v1"));
             }
             else
             {

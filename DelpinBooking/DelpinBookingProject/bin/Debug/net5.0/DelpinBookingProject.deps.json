@@ -2420,7 +2420,6 @@
       },
       "DelpinAPI/1.0.0": {
         "dependencies": {
-          "DelpinBooking": "1.0.0",
           "Microsoft.AspNetCore.Session": "2.2.0",
           "Microsoft.EntityFrameworkCore": "5.0.6",
           "Microsoft.EntityFrameworkCore.SqlServer": "5.0.6",
@@ -2444,8 +2443,7 @@
           "Microsoft.VisualStudio.Azure.Containers.Tools.Targets": "1.10.13",
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": "5.0.2",
           "NUnit3TestAdapter": "3.17.0",
-          "PagedList": "1.17.0",
-          "Swashbuckle.AspNetCore": "6.1.4"
+          "PagedList": "1.17.0"
         },
         "runtime": {
           "DelpinBooking.dll": {}
