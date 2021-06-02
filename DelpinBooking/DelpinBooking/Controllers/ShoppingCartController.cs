@@ -26,7 +26,7 @@ namespace DelpinBooking.Controllers
             return View(cart);
         }
 
-        
+        [HttpGet]
         [Route("[action]")]
         public IActionResult Add(Machine machine)
         {
