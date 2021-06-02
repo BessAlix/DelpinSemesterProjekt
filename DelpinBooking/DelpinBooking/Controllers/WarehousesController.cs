@@ -199,8 +199,8 @@ namespace DelpinBooking.Controllers
             return View(Warehouse);
         }
 
-          
-        
+
+
 
         // GET: Warehouses/Delete/5
         [HttpGet]
@@ -217,7 +217,7 @@ namespace DelpinBooking.Controllers
 
             if (User.IsInRole("Admin"))
             {
-                return View(Warehouse);
+                return View("Delete", Warehouse);
             }
             else
             {
@@ -236,7 +236,7 @@ namespace DelpinBooking.Controllers
 
             if (warehouseDelete != null)
             {
-                return RedirectToAction("Index");
+                return View("DeleteCompleted", warehouseDelete);
             }
             return View("Index");
         }
