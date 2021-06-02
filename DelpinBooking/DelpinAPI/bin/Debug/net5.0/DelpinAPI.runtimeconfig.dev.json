@@ -1,8 +1,0 @@
-{
-  "runtimeOptions": {
-    "additionalProbingPaths": [
-      "C:\\Users\\majak\\.dotnet\\store\\|arch|\\|tfm|",
-      "C:\\Users\\majak\\.nuget\\packages"
-    ]
-  }
-}
