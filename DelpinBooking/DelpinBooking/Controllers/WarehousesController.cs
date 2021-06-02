@@ -144,7 +144,7 @@ namespace DelpinBooking.Controllers
             {
                 Warehouse warehouseCreate = await _httpClientHandler.Create(Warehouse);
             }
-            return View(Warehouse);
+            return RedirectToAction(nameof(Index));
         }
 
 
