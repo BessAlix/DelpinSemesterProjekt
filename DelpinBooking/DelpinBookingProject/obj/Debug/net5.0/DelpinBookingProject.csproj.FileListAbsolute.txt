@@ -731,3 +731,5 @@ C:\Users\majak\DelpinSemesterProjekt\DelpinBooking\DelpinBookingProject\bin\Debu
 C:\Users\majak\DelpinSemesterProjekt\DelpinBooking\DelpinBookingProject\bin\Debug\net5.0\Microsoft.TestPlatform.AdapterUtilities.dll
 C:\Users\Bess\Documents\delpin\DelpinSemesterProjekt\DelpinBooking\DelpinBookingProject\bin\Debug\net5.0\CoverletSourceRootsMapping
 C:\Users\Bess\Documents\delpin\DelpinSemesterProjekt\DelpinBooking\DelpinBookingProject\bin\Debug\net5.0\Microsoft.TestPlatform.AdapterUtilities.dll
+C:\Users\sigur\source\repos\DelpinSemesterProjekt\DelpinBooking\DelpinBookingProject\bin\Debug\net5.0\CoverletSourceRootsMapping
+C:\Users\sigur\source\repos\DelpinSemesterProjekt\DelpinBooking\DelpinBookingProject\bin\Debug\net5.0\Microsoft.TestPlatform.AdapterUtilities.dll

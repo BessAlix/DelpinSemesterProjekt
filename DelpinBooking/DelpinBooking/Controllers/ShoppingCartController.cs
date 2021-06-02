@@ -23,6 +23,7 @@ namespace DelpinBooking.Controllers
         public IActionResult Index()
         {
             var cart = SessionHelper.GetObjectFromJson<List<Machine>>(HttpContext.Session, "cart");
+
             return View(cart);
         }
 
@@ -36,10 +37,39 @@ namespace DelpinBooking.Controllers
             {
                 cart = new List<Machine>();
             }
-            cart.Add(machine);
+
+            if (!IsInCart(machine.Id, cart))
+            {
+                cart.Add(machine);
+            }
+            
             SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", cart);
-         
-            return RedirectToAction("Index");
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        public IActionResult Remove(int id)
+        {
+            var cart = SessionHelper.GetObjectFromJson<List<Machine>>(HttpContext.Session, "cart");
+
+            if (cart == null)
+            {
+                cart = new List<Machine>();
+            }
+
+            Machine machineToRemove = new Machine();
+            foreach (Machine m in cart)
+            {
+                if (m.Id == id)
+                {
+                    machineToRemove = m;
+                }
+            }
+            cart.Remove(machineToRemove);
+
+            SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", cart);
+
+            return RedirectToAction(nameof(Index));
         }
         
         [HttpDelete]
@@ -47,6 +77,19 @@ namespace DelpinBooking.Controllers
         public void Clear()
         {
             SessionHelper.SetObjectAsJson(HttpContext.Session, "cart", null);
+        }
+
+        private bool IsInCart(int machineId, List<Machine> cart)
+        {
+            foreach (Machine m in cart)
+            {
+                if (machineId == m.Id)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

@@ -27,7 +27,9 @@
             <th>
                 @Html.DisplayNameFor(model => model[0].Type)
             </th>
-            <th></th>
+            <th>
+                @Html.DisplayNameFor(model => model[0].Warehouse)
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -43,13 +45,10 @@
                         @Html.DisplayFor(modelItem => item.Type)
                     </td>
                     <td>
-                        @if (User.IsInRole("Admin") || User.IsInRole("Employee"))
-                        {
-                            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
-                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                        }
-
-                        <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                        @Html.DisplayFor(modelItem => item.Warehouse.City)
+                    </td>
+                    <td>
+                        <a asp-action="Remove" asp-controller="ShoppingCart" asp-route-id="@item.Id">Fjern</a>  
                     </td>
                 </tr>
             }
