@@ -27,7 +27,7 @@
     @Html.DropDownList("warehousecity", cities, "-- Vælg et varehus --")
     <input type="hidden" name="page" value="1" />
     <input type="hidden" name="size" value="@sizeValue" />
-    <input type="submit" value="Søg" />
+    <input type="submit" value="Filtrer" />
 }
 
 <table class="table">
@@ -59,7 +59,7 @@
                     @Html.DisplayFor(modelItem => item.Warehouse.City)
                 </td>
                 <td>
-                    <a asp-action="AddToCart" asp-route-id="@item.Id">Add to cart</a>
+                    <a asp-action="AddToCart" asp-route-id="@item.Id">Tilføj til kurv</a>
                 </td>
             </tr>
         }
